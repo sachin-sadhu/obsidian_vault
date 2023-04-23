@@ -1,0 +1,26 @@
+##Testing using Bash Script
+	Inside Testing folder, should have a Build.sh file, this file compiles all the .java files and places .class files in a folder called classes
+	Then given a list of scripts, iterates through each one and runs the respective run.sh file
+
+##Build.sh
+	#!/bin/bash
+	javac -d classes ../*.java
+	directoryPath="$HOME/Desktop/Testing/Tests"
+	SCRIPTS="$directoryPath/goodbyeTest/run.sh $directoryPath/helloTest/run.sh 
+		 $directoryPath/swearTest/run.sh";
+	for script in $SCRIPTS
+	do
+	    /bin/bash $script;
+	done
+
+##Individual Test
+	#!/bin/bash
+	java -cp ~/Desktop/Testing/Tests/classes Print "Goodbye" > ~/Desktop/Testing/Tests/goodbyeTest/submission.txt
+	directoryPath=$(pwd)
+	goodbyeTestCheck="$(diff $directoryPath/goodbyeTest/expected.txt $directoryPath/goodbyeTest/submission.txt)"
+	if [ -z "$goodbyeTestCheck"]; then
+		echo "Test passed"
+	else
+		echo "Test failed : $goodbyeTestCheck"
+	fi
+
