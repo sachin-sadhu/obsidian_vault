@@ -36,3 +36,23 @@
 		
 		## P Vs NP
 			Polynomial problems vs Non-Polynomial problems. Non-polynomials are problems that take a infeasible amount of time to solve, but when given a solution, it is very fast to verify whether that solution is correct or not
+
+	## Intepreters
+		Used to translate a high level language into machine code that a CPU can execute. Intepreters do this by going through the high level program, translating the next high level statement, and then executing it 
+	
+	eg. while (not end of high level program) {
+		find next high level statement
+		translate high level statement
+		execute translated high level statement
+	  }
+
+	## Compilation
+		Also used to translate a high level language into machine code that a CPU can execute. Unlike Intepreters, compilers will first translate the entire high level source program into machine code that the CPU can execute (object program). It will then arrange for this object program to be executed. 
+
+	eg. (while not end of high level program) {
+		find next high level statement
+		translate high level statement
+	 }
+	execute translated object program 
+		
+		Compiled programs only need to be compiled once and can then be executed an abritary amount of times. 
