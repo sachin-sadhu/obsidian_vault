@@ -56,3 +56,12 @@
 	execute translated object program 
 		
 		Compiled programs only need to be compiled once and can then be executed an abritary amount of times. 
+	
+	## Data Models
+		*Is structured, model must provide a means of representing entities, attributes & relationsships.
+		*Must be able to manipulate the data, for example by adding a new entr, or by changin existing attributes
+		*Integrity - Numerous constraints which are applied to relationsships, entities, atrributes etc. eg. Every bank account must have an ownder, an airplane cannot be allocated to 2 flights simultaneously
+
+	##Relational model
+		Rows represent entities, columns represent attributes
+		Every relation must have a key, each each tuple in a relation must have a key value which is unique and not null.	
