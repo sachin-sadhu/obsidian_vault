@@ -29,3 +29,15 @@ Different for arrays, as value passed is the address of the array in memory
 Left shifting shift bits by a certain position. eg x << 2, shofts value of x left by 2 positions, equaivalent to multiplying by 4
 
 Left shifting shift bits by a certain position. eg x << 2, shifts value of x left by 2 positions, equaivalent to multiplying x by 4. x >> 2, shifts value of x right by 2 positions equivalent to dividing by 4.
+
+## Looping
+	Has normal for loops, while , do - while loops
+
+	goto command allows you to exit a loop and go to a certain label
+	
+	eg. for (...) {
+		for (...) {
+			if (number found) {
+				goto found
+	    found:	
+		printf("Number has been found");
