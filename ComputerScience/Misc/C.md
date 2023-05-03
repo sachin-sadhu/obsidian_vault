@@ -41,3 +41,24 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 				goto found
 	    found:	
 		printf("Number has been found");
+
+## Static-Variables
+	Static declaration applied to an external variable/routine mean that they can only be called, referenced from within the same source file
+	Static declaration applied to an internal variable means that instead of coming in and out of existence, it is stored permamantly.
+
+## Macros-Subsititution
+	Replaces certain tokens with replacement text by preprocceser. This occurs prior to compilation.
+	eg. #define name replacement text : replaces all subsequent occurences of 'name' with 'replacement text'
+
+	Can also include arguments
+	eg. #define add(a,b) (a+b)
+
+	If an argument is preceeded by a # in replacement text, will be expanded into a quoted string with parameter replaced by actual argumet
+	eg. #define nameprint(name) printf("hello" " #name)
+
+	## Advantages	
+		Could just use normal function, however macros are usually faster	
+		Allow you to use different types, eg in the add macros, could pass in int or double as argument type
+	
+	##Disadvantages
+		No type checking
