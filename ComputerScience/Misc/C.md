@@ -62,3 +62,18 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	
 	##Disadvantages
 		No type checking
+
+## Pointers
+	Pointers are variables that contain the address of a variable.
+	Unary operator '&' gives the address of an object
+	p = &c ; assigns address of c to variable p.
+	Unary operator '*' is the dereference operator; when applied to a pointer, it accesses the object the pointer points to.
+
+	eg.
+	int x = 1, y = 2, z[10];
+	int *ip; //ip is now a pointer to int
+	
+	ip = &x; //ip now points to x variable
+	y = *ip; //y is now equal to 1
+	*ip = 0; //x is now equal to 0
+	ip = &z[0]; //ip now points to first element in z array
