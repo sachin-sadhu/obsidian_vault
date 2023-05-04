@@ -67,6 +67,7 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	Pointers are variables that contain the address of a variable.
 	Unary operator '&' gives the address of an object
 	p = &c ; assigns address of c to variable p.
+	&a is a pointer to a
 	Unary operator '*' is the dereference operator; when applied to a pointer, it accesses the object the pointer points to.
 
 	eg.
@@ -77,3 +78,24 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	y = *ip; //y is now equal to 1
 	*ip = 0; //x is now equal to 0
 	ip = &z[0]; //ip now points to first element in z array
+
+## Arrays
+	Strong relationship between pointers and arrays. If a is an array of size 10. Then int *p = &a[0]; causes the pointer p to point to the first element a. For any abritary array, p+i will point to the i'th element in the array a. *(p+i) accesses the content of the i'th element in a. 
+
+	Name of an array is a synonym for location of initial element. 
+	Hence, p = a is the same as p = &a[0]
+	
+	Reference to a[i] can also be written as *(a+i)
+
+	When an array name is passed to a function as an arugment, what is passed is the location of the initial element. Hence this argument name is actually a pointer
+	
+	eg. Method to calculate length of string
+	```c
+	int strlen(char *s) {
+		int n;
+		for (n = 0; *s != '\0'; s++) {
+			n++;
+		}
+	}
+	```
+		
