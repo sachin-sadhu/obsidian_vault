@@ -91,7 +91,7 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	
 	eg. Method to calculate length of string
 
-	```c
+	```cpp
 	int strlen(char *s) {
 		int n;
 		for (n = 0; *s != '\0'; s++) {
