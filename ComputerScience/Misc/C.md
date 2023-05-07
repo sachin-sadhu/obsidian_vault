@@ -79,6 +79,14 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	*ip = 0; //x is now equal to 0
 	ip = &z[0]; //ip now points to first element in z array
 
+	##Functions that return pointers
+	Functions can also return pointers 
+	eg.
+	```c
+	int * matchingArray(int *arrayOne, int *arrayTwo) {
+		return *arrayOne == 0 ? arrayOne : arrayTwo;
+	}
+	```
 ## Arrays
 	Strong relationship between pointers and arrays. If a is an array of size 10. Then int *p = &a[0]; causes the pointer p to point to the first element a. For any abritary array, p+i will point to the i'th element in the array a. *(p+i) accesses the content of the i'th element in a. 
 
@@ -91,7 +99,7 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	
 	eg. Method to calculate length of string
 
-	```cpp
+	```c
 	int strlen(char *s) {
 		int n;
 		for (n = 0; *s != '\0'; s++) {
@@ -99,4 +107,39 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 		}
 	}
 	```
+
+## Structs
+	Collection of one or more variables (can be different types), grouped together under a single name. Names of variables in a struct are called **members**. 
+	eg. 
+	```c
+	struct point {
+		int x; 
+		int y;
+	};
+	```
+	Struct declaration defines a type. 
+
+	Initialising a struct variable can be done as follows :
+	```c
+	struct point pointOne = {0,0};
+	```
+	Accesing a member of a struct can be done as follows :
+	struct-name.member
+	
+	Only legal operations on structures are copying it, assignement, taking its address using &, or accessing its members.
+	
+	Pointers can also be used with structures (generally more efficient to use pointers if struct is large)
+	
+	eg.
+	```c
+	struct point origin, *p;
+	*p = &origin;
+	
+	//*p is actual structure, (*p).x accesses x member of *p point
+	//short can version of (*p).x is p->x
+	```
+
+## TypeDef
+	Used to create new data type names eg. typedef char[] int
 		
+## Input/Output
