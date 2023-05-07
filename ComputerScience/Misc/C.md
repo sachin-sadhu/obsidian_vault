@@ -90,6 +90,7 @@ Left shifting shift bits by a certain position. eg x << 2, shifts value of x lef
 	When an array name is passed to a function as an arugment, what is passed is the location of the initial element. Hence this argument name is actually a pointer
 	
 	eg. Method to calculate length of string
+
 	```c
 	int strlen(char *s) {
 		int n;
