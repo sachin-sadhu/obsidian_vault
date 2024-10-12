@@ -99,7 +99,38 @@ Cons : More performance overheads due to communication between services. More ex
 ### Modular Kernels
 Uses an OOP approach. Dynamically loads in additional functionality via modules which the kernel can load in. Similar to microkernel in that most functionality is outside the core kernel, but can still run in kernel mode. Results in no overhead message passing.
 
+## Devices
 
+A device is a piece of **hardware** that performs a particular function in a computer, can be external/internal.
+* Keyboard
+* Mouse
+* Timer
+* Interrupt controller
+* RAM
+
+A **device driver** is a piece of software that can speak the language of the device, known how to program/operate/read from it etc. Usually implements some API for the rest of the OS to use.
+![[Pasted image 20241012230632.png]]
+Devices are usually connected to upstream controllers, which are also devices. 
+![[Pasted image 20241012230821.png]]
+
+### Bus
+Method of communication that allows multiple components to speak to each other. 
+Some features of different buses are :
+* Discover - Seeing connected devices
+* DMA
+* Packet/stream based I/O
+
+## Peripheral Component Interface (PCI)
+PCI is the main hardware bus / way different devices are connected. 
+![[Pasted image 20241012233304.png]]
+Every device will have a configuration space that contains hardware IDs and resource requirements. Firmware then allocates memory address ranges to each device. The device will respond to any memory request by CPU to an address in those ranges. 
+
+PCI devices can also send interrupts.
+* Legacy Interrupts : physical pins that go high to signal an interrupt
+* Message signalled interrupts : Writes to a particular location in memory to signal an interrupt
+
+## Universal Serial Bus (USB)
+Supports hot plugging and automatic device discovery. Unlike PCI, no raw memory access, no direct interrupts. Transfers are packet/stream based. Devices expose endpoints which packets are addressed to. Basically no memory address to write to that will speak to the USB
 ## C++ Tips
 
 __attribute(packed)__ forces compiler to not align fields in structs and therefore use the minimum amount of bytes.

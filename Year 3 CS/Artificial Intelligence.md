@@ -66,8 +66,15 @@ The decision boundary refers to the line separating the different regions.
 ### Loss function
 $Loss(x,y,w)$ quantifies how unhappy you would be if $w$ was used to make a prediction on $x$ when the correct output is $y$. Therefore, we want to find $w$ such that $Loss(x,y,w)$ is minimised.
 ### Squared Loss
-
 Calculated by subtracting difference between actual value and predicted value and squaring that difference.
+
+## Gradient Descent
+Method for finding minimums/maximums of a curve. In machine learning case, can be used to find where $Loss(x,y,w)$ is minimised. Basically we plot $w$ on x-axis and $Loss(x,y,w)$ on y-axis.
+![[1_EZiBCBstS5malFC38HGKig.jpg]]
+We start with an initial random value and compute the gradient at that point, if the gradient is negative, it means the curve is sloping downwards, therefore we want to move right. If the gradient is positive, it means the curve is sloping upwards, therefore we want to move left. 
+
+#### Learning Rate
+Need to make sure that the steps we take are appropriate, if we are very far from 0, should take a larger step, if we are very close to 0, should take a smaller step to avoid overshooting. The step we take is called the **learning rate**.  $$w_{new}=w_{old} - \alpha\frac{dL(w)}{dw}$$ where $\alpha$ is the learning rate.
 
 ### Precision / Sensitivity
 

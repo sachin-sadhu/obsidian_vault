@@ -45,6 +45,27 @@ If our logic is both sound and complete, it means that semantic and syntactic en
 
 Is there are algorithm which takes in a first order language and some formulae and outputs true if $$\phi_1,...,\phi_n\vdash \omega$$ and false otherwise? Propositional logic is decidable, predicate logic is not.
 
+## Models
+Allows us to evaluate the semantics of a Predicate formula to evaluate if a certain WFF is true. i.e Seeing what the truth value of $\forall x.\exists y.R(x,y)$ requires us to know what $R(x,y)$ means.
+
+A model M of a first order language consists of:
+* A set $D$, the domain of concrete values.
+* For every constant $c\in C$, a concrete element $c_m\in D$ .
+* For every predicate $P\in P$ with arity $n$, a subset $P_m\subset D^n$ of n-tuples for which P evaluates to be true
+* For every function $f\in F$ with arity n, a concrete function $f_m:D^n\rightarrow D$   
+![[Pasted image 20241012165925.png]]
+This means that under $M_1$, R evaluates to true for all the enclosed 2-tuples.
+## Ex Falso Quodlibet
+
+Stands for proof by explosion. 
+Basic idea of this is as follows :
+* $P\land ¬P$  
+* P
+* $P\lor Q$ 
+* Q (as ¬P is also true)
+Basically, we are taking advantage of when we use P and when we use $¬P$. Allows us to prove anything following a contradiction.
+
+
 ## Question
 if there are some true statements that cannot be proved, how do we know they are true?
 
@@ -56,6 +77,7 @@ are there more unprovably true statements than provably true statements
 
 if we know there are unprovably true statements, why bother finding a proof to show somethat is true
 
+for models, if we have an infirnite domain, how can we evaluate whether WFF is true/false if intepreter of predicate also provides an infinite set
 
 
 ***
