@@ -121,7 +121,7 @@ Some features of different buses are :
 * Packet/stream based I/O
 
 ## Peripheral Component Interface (PCI)
-PCI is the main hardware bus / way different devices are connected. 
+PCI is the main hardware bus / way different devices are connected. Allows data transfer between peripheral devices and motherboard.
 ![[Pasted image 20241012233304.png]]
 Every device will have a configuration space that contains hardware IDs and resource requirements. Firmware then allocates memory address ranges to each device. The device will respond to any memory request by CPU to an address in those ranges. 
 

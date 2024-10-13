@@ -63,19 +63,41 @@ Here, $w^T$ is the weight vector and $X$ is the feature vector. Training our mod
 ![[Pasted image 20241011203619.png]]
 The decision boundary refers to the line separating the different regions.
 
-### Loss function
+### Logistic Function
+
+Instead of outputting different numbers to give a value of what class it belongs to. We might use a logistic function which will then output the probability of $x$ belonging to that class. Logistic function : $$g(z)=\frac{1}{1+e^{-z}}$$
+$g$ is is now a soft threshold function that is
+* continuous and differentiable
+* always in the range $[0,1]$ 
+
+Our model is now : $$f_w(x)=g(w^Tx)=\frac{1}{1+e^{-w^Tx}}$$
+So $f_w(x)=0.7$ might mean x has a 70% chance of belonging to class 1. $f_w(x)=0.3$ might mean x has a 30% chance of belonging to class 0.
+## Loss function
+View this video for recap : https://www.youtube.com/watch?v=SmZmBKc7Lrs
+
 $Loss(x,y,w)$ quantifies how unhappy you would be if $w$ was used to make a prediction on $x$ when the correct output is $y$. Therefore, we want to find $w$ such that $Loss(x,y,w)$ is minimised.
 ### Squared Loss
 Calculated by subtracting difference between actual value and predicted value and squaring that difference.
+### Cross-Entropy Loss Function
+View this video for recap : https://www.youtube.com/watch?v=KHVR587oW8I
 
+Intuition is that we have an expectation for the probability distribution of a good model, and if view that the probability distribution is much different to what we expect, we will get a high entropy value. Measures surprise between the probability distribution of 2 different models.
+
+Different formula for quantifying how good/bad or prediction model is. Formula is given as $$L(w)=-ylog_2f_w(x)-(1-y)log_2(1-f_w(x))$$
+So if y = 1, meaning the point is actually belonging to class 1, and we get $f_w(x)=0.7$, we get $L(w)=0.51$. If y = 1, and $f_w(x)=0.4$, we get $L(w)=1.32$. Better predictions result in smaller cross-entropy loss values.
+![[Pasted image 20241013162513.png]]
+As you can see, cross-entropy loss function punishes bad predictions much heavier, therefore we are more likely to get a good solution quicker. 
 ## Gradient Descent
 Method for finding minimums/maximums of a curve. In machine learning case, can be used to find where $Loss(x,y,w)$ is minimised. Basically we plot $w$ on x-axis and $Loss(x,y,w)$ on y-axis.
 ![[1_EZiBCBstS5malFC38HGKig.jpg]]
 We start with an initial random value and compute the gradient at that point, if the gradient is negative, it means the curve is sloping downwards, therefore we want to move right. If the gradient is positive, it means the curve is sloping upwards, therefore we want to move left. 
 
-#### Learning Rate
-Need to make sure that the steps we take are appropriate, if we are very far from 0, should take a larger step, if we are very close to 0, should take a smaller step to avoid overshooting. The step we take is called the **learning rate**.  $$w_{new}=w_{old} - \alpha\frac{dL(w)}{dw}$$ where $\alpha$ is the learning rate.
+### Intuition
+Image we have a plot of points and we want to draw a curve to classify these points. Imagine the curve is a quintic function of degree $x^5$. This means the resulting curve is a linear combination of the terms $1,x,x^2,x^3,x^4,x^5$. Therefore curve can be expressed as $$f(x)=\alpha+\alpha_1x+\alpha_2x^2+\alpha_3x^3+\alpha_4x^4+\alpha_5x^5$$
+The problem then becomes trying to find those parameters $[\alpha,\alpha_1,\alpha_2,\alpha_3,\alpha_4,\alpha_5]$ that results in the Loss function being minimised.
+ 
 
+#### Learning Rate
 ### Precision / Sensitivity
 
 Precision for a class is the number of true positives divided by the total number of elements labelled as belonging to the positive class. i.e true_positives / (true_postives + false_positives). If there are 8 images selected as being dogs but also 5 of the 8 are actually dogs. Then the precision is 5/8.
