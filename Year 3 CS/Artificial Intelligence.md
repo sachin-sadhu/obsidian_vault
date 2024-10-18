@@ -114,6 +114,9 @@ Choose random points as centre of cluster. Group points to that cluster, slowly 
 
 Mix of exploring vs exploiting. It periodically searches new strategies while also exploiting the best strategies found so far.
 
+does every hiddeen layer use same activation function or is it different for each
+why cant we use cross entropy for regressions
+
 
 
 
