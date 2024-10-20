@@ -95,8 +95,6 @@ We start with an initial random value and compute the gradient at that point, if
 ### Intuition
 Image we have a plot of points and we want to draw a curve to classify these points. Imagine the curve is a quintic function of degree $x^5$. This means the resulting curve is a linear combination of the terms $1,x,x^2,x^3,x^4,x^5$. Therefore curve can be expressed as $$f(x)=\alpha+\alpha_1x+\alpha_2x^2+\alpha_3x^3+\alpha_4x^4+\alpha_5x^5$$
 The problem then becomes trying to find those parameters $[\alpha,\alpha_1,\alpha_2,\alpha_3,\alpha_4,\alpha_5]$ that results in the Loss function being minimised.
- 
-
 #### Learning Rate
 ### Precision / Sensitivity
 
@@ -104,10 +102,30 @@ Precision for a class is the number of true positives divided by the total numbe
 
 The sensitivity (recall) of a class is the fraction of relevant instances that were retrieved. i.e relevant retrieved instances / all relevant instances. If there are 12 images of dogs and only 5 get identified as dogs, the sensitivity is 5/12.
 
+## Neural Networks
+
+### Intuition
+Thing of each neuron as a number. Have each layer do some sort of abstraction. For example for recognising hand-written digits, have the first layer be the inputs of the gray-scale of each pixel. Have the next layer recognise some sort of patterns of loops/lines. Maybe second to last layer can recognise having a big circle at the top followed by a straight line. Basically, we need to learn what patterns of nodes lighting up at the previous layer should cause which nodes to light up at the next layer. 
+### Layers
+Each node is connected to every other node in the next layer. This connection has a **weight** which is just a real number. The value at each node will be calculated by a linear combination of all the previous layer's node values multiplied by the weights. Then this number will be fed into some function, for example the sigmoid function which will output a value between $[0,1]$.
+
+### Backpropagation
+
+Technique for adjusting weights/biases to reduce cost function. Basically, we have 2 things we can adjust, the weights of a connection and the biases. For example, image we have a image 2, but the NN is only predicting a 0.2 probability that the image is a 2.  We obviously will want to increase this probability its being given by a lot. Similarly, if it gives a 0.1 probability that the image is a 8, we also will want to decrease that probability its being assigned but not at such a great rate.
+
+We can increase the probability that the 2 node is being assigned by going to the previous layer, obviously we want to increase weights of connections from bright neurons more, as they overall product is greater.  Or we can also increase/decrease the value at each node, for example, for nodes with a positive weight, we would want to increase them, whilst for nodes with a negative weight, we would want to decrease them. However, we can not directly change the value at each node, only the weights/biases that connect to them.
+
+We should not only consider what the 2 node wants, we only need to consider what should happen to every other digit node, therefore we sum up the desires of each node and work from there.
+
+
 
 ## Look Up
 * feature engineering
 * g-means clustering
+
+## Questions
+
+with gradient descent, how do you know you don't get stuck at local minimum instead of global minimum
 
 ## K-clustering
 Choose random points as centre of cluster. Group points to that cluster, slowly centre of k-points to improve clustering. 
