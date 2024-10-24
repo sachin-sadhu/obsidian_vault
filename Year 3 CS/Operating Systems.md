@@ -30,7 +30,7 @@ Actual transfer of data involves following steps:
 ## Interrupts
 Interrupts cause the CPU to pause current execution and transfer control to an **Interrupt Service Routine (ISR)**. Hardware/software can both send interrupts to the CPU. Hardware sending interrupts is an asynchronous event. Software sending interrupts is a synchronous event.
 
-An interrupt is a signal from a device that an event has occured.
+An interrupt is a signal from a device that an event has occured. When an interrupt occurs, the CPU first pushes all the register values of the interrupted process to the stack, handles the interrupt, and then pops the values back off the stack. This allows the processor to resume execution of the interrupted process. $iretq$ is the instruction that causes the processor to return to interrupted process.
 
 ### Interrupt controllers
 Device responsible for reporting an interrupt to the CPU. CPU might have to figure out exactly which device caused the interrupt, this is usually done by asking all the devices that could have produced the interrupt if that actually produced it.
@@ -143,6 +143,11 @@ A **device driver** is a piece of software that can speak the language of the de
 Devices are usually connected to upstream controllers, which are also devices. 
 ![[Pasted image 20241012230821.png]]
 
+### Device Controllers
+Intermediate electronic device that is able to communicate between the OS and the actual hardware device. Controller communicates between device and OS using system bus. Some IO devices will have DMA via their controllers.
+
+Controllers can usually control more than 1 IO device but common to only control 1. Some devices have controllers embedded inside them while some are on motherboard.
+
 ### Bus
 Method of communication that allows multiple components to speak to each other. 
 Some features of different buses are :
@@ -160,10 +165,25 @@ PCI devices can also send interrupts.
 * Message signalled interrupts : Writes to a particular location in memory to signal an interrupt
 
 ## Universal Serial Bus (USB)
-Supports hot plugging and automatic device discovery. Unlike PCI, no raw memory access, no direct interrupts. Transfers are packet/stream based. Devices expose endpoints which packets are addressed to. Basically no memory address to write to that will speak to the USB
+Industry standard protocol for connecting peripheral devices to computer. Supports hot plugging and automatic device discovery. Unlike PCI, no raw memory access, no direct interrupts. Transfers are packet/stream based. Devices expose endpoints which packets are addressed to. Basically no memory address to write to that will speak to the USB
+
+Hot swapping basically means you can plug out and device and plug in a new one without shutting down host system.
+
+Old devices had to be manually confiugured, configuration is done automatically with USB
+
+## PCIe Vs USB
+PCIe is generally used to connect internal high speed componenents such as GPU, SSD etc. USB is mainly used to connect external peripherals such as keyboard, monitor etc. Designed for hot swapping.
+
+PCIe uses internal slots located on the motherboard, USB uses external ports on motherboard/front of computer to easily connect/disconnect devices.  PCIe has lower latency than USB
+
+## Questions
+
+* How do peripherals that connect via bluetooth differ?
+
 ## C++ Tips
 
 __attribute(packed)__ forces compiler to not align fields in structs and therefore use the minimum amount of bytes.
+
 
 
 
