@@ -176,6 +176,32 @@ PCIe is generally used to connect internal high speed componenents such as GPU, 
 
 PCIe uses internal slots located on the motherboard, USB uses external ports on motherboard/front of computer to easily connect/disconnect devices.  PCIe has lower latency than USB
 
+## Physical Interfaces
+
+Ways of enabling transfer of data to/from storage devices. Need to be high-speed, low latency links to cope with high transfer speeds of modern storage.
+### Integrated Drive Electronics (IDE)
+IDE interface is a **parallel bus-style** interface, for internal connection of storage devices. IDE refers to the fact that the drive controller exists on the actual drive itself.
+
+### Industry Standard Architecture (ISA) bus
+Original internal bus of PC architecture. 16 bit parallel bus, predecessor of PCI bus.
+
+### NVME
+Logical standard for high-performance storage devices such as SSDs. Devices are connected directly to PCIe bus. 
+
+## Logical Data Storage
+
+Data accesses are often abstracted to logical blocks. Logical blocks are sector sizes of underlying storage devices.
+### Reliability/Redundancy
+Reliability refers to even if some disc is corrupted we can still access it. Usually done through redundancy. i.e If we have a logical disk, we can store the data on 2 seperate physical disks. That way, even if 1 physical disk is corrupted, we can still access the data from the other disk done through redundancy, i.e. i.e if If we have 2 physical a logical disk, we can store the 2data on s2 seperate physical disks . That way, even if 1 physical disk is corrupted, we can still access the data from the other disk. 
+![[Pasted image 20241028214331.png]]
+### Performance
+
+We can also take advantage of **parrellism** here, we can read different blocks from different disks at the same time.
+
+We can also increase logical disk by combining multiple physical disks.
+![[Pasted image 20241028214539.png]]
+
+Striping is the idea of splitting up data between different disks, to take advantage of both paralleism and increasing storage. i.e store even blocks on physical disk 1, odd blocks on physical disk 2.
 ## Questions
 
 * How do peripherals that connect via bluetooth differ?

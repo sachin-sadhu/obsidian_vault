@@ -116,6 +116,8 @@ Technique for adjusting weights/biases to reduce cost function. Basically, we ha
 We can increase the probability that the 2 node is being assigned by going to the previous layer, obviously we want to increase weights of connections from bright neurons more, as they overall product is greater.  Or we can also increase/decrease the value at each node, for example, for nodes with a positive weight, we would want to increase them, whilst for nodes with a negative weight, we would want to decrease them. However, we can not directly change the value at each node, only the weights/biases that connect to them.
 
 We should not only consider what the 2 node wants, we only need to consider what should happen to every other digit node, therefore we sum up the desires of each node and work from there.
+### SoftMax Function
+Function for generating probability distribution of all the output nodes. Sum of probability of all output nodes should equal to 1.
 
 
 
