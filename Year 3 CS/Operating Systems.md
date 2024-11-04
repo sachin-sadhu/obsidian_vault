@@ -202,6 +202,19 @@ We can also increase logical disk by combining multiple physical disks.
 ![[Pasted image 20241028214539.png]]
 
 Striping is the idea of splitting up data between different disks, to take advantage of both paralleism and increasing storage. i.e store even blocks on physical disk 1, odd blocks on physical disk 2.
+
+## File Systems
+
+Mechanism for organising and storing data and programs.
+### Files
+**Named** sequence of bits, bytes etc. Usually have a format, although including extension after file name is pure convention and offers no actual use. Have metadata such as unique identifer, size, protection etc.
+### Directories
+Hierarchical organisation of the file system. Contains **pointers** to files and other directories. 
+![[Pasted image 20241104204608.png]]
+
+### File Tables / File Descriptor
+OS keeps track of open files in the "open file table". File descriptor is the index used to refer to the relevant entry in the file.
+
 ## Questions
 
 * How do peripherals that connect via bluetooth differ?
