@@ -119,7 +119,15 @@ We should not only consider what the 2 node wants, we only need to consider what
 ### SoftMax Function
 Function for generating probability distribution of all the output nodes. Sum of probability of all output nodes should equal to 1.
 
+## Stochastic Gradient Descent (SGD)
 
+Gradient's descent problem is that it requires us to calculate all the elements partial derivatives for all weights across all training examples. This takes a long time. 
+
+SGD splits training samples into batches. Calculates the weight gradient vector on the first batch and the updates all the weights in W using the calculated gradients. Repeat for all batches. Shuffles the whole training set again. Idea is that while it might be a bit less accurate for each mini-batch, we can do a lot more descent steps over the same period of time. 
+
+An epoch refers to 1 pass of the entire dataset.
+![[Pasted image 20241103210010.png]]
+![[Pasted image 20241103210023.png]]
 
 ## Look Up
 * feature engineering
