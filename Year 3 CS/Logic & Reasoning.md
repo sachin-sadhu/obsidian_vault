@@ -65,6 +65,12 @@ Basic idea of this is as follows :
 * Q (as ¬P is also true)
 Basically, we are taking advantage of when we use P and when we use $¬P$. Allows us to prove anything following a contradiction.
 
+## Proof of Euler's formula
+
+$$v-e+f=2$$
+Start with a tree, in this case $v=e+1$, $f=1$, $\therefore v-e+f=2$ . If we add a single vertex, and graph is still a tree, f stays the same, $v$ and $e$ both increase by 1, $\therefore$ no overall change. 
+
+If we add a vertex and graph is now no longer a tree, $f$ increases by 1, $v$ increase by 1, and $e$ will increase by 2. $\therefore$ again there is no overall change. 
 
 ## Question
 if there are some true statements that cannot be proved, how do we know they are true?

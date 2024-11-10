@@ -129,7 +129,40 @@ An epoch refers to 1 pass of the entire dataset.
 ![[Pasted image 20241103210010.png]]
 ![[Pasted image 20241103210023.png]]
 
+## Testing Algorithms
+
+Overfitting : Model that fits training data very well, but performs poorly on test set.
+Underfitting : Model that poorly fits training data. 
+![[Pasted image 20241109160423.png]]
+If 2 models have same predictive power, we pick the simpler one, as it is more likely to generalise better to unseen data. 
+
+### K-fold cross validation
+
+Splitting data into k different segments. Use 1 of those segments as testing data and $k-1$ segments as training data. Record how well algorithm performs. Repeat this using every individual segment as the testing data. 
+![[Pasted image 20241109160644.png]]
+
+## Regularisation
+
+Method for preventing models from overfitting to training data. Models with many weights set to 0 will be preferred. 
+
+### L1-regularisation
+Do this by adding $\lambda\sum|w|$ to the loss function. Therefore the formula for the loss function if we are using least squared is $$(y-y_1)^2+\lambda\sum|w|$$ Therefore models that fit the training data perfectly but have a lot of high weight values might end up having a higher cost function that models that fit training data less well but have fewer high weight values.  
+### L2-regularisation
+Very similar to L1, except now we add $\lambda\sum w^2$ to the loss function . Therefore the formula for the loss function if we are using least squared is $$(y-y_1)^2+\lambda\sum w^2$$ Now models with many weights close to 0 will be preferred.
+
+## Early stopping
+
+Used to stop training the model when it start to show signs of overfitting
+![[Pasted image 20241109163152.png]]
+If nPatience is too low, then we might stop training the model at points when we can still minimise the loss function further. However, if nPatience is too high, increases time taken to train models with no benefit. 
+### Differences
+
+L1 is useful when a model might have many parameters that are completely useless to the prediction as L1 prefers models with weights set to 0. Such as using height to predict how fast someone types. 
+
+L2 is useful when a model might have many parameters that are useful to the prediction as L2 prefers models with weights closely set to 0.
+
 ## Look Up
+
 * feature engineering
 * g-means clustering
 
