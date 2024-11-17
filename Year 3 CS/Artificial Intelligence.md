@@ -49,6 +49,9 @@ Split into 4 stages :
  * Regression classification - Trying to give a numerical output. eg. height, cost etc
  * Multiclass classification - Many possible classes. eg dogs/cats/horse etc
 
+## Linear Regression
+
+Trying to predict a certain value $y$ based on a certain number of inputs. eg. Relationship between weight and height. $y$ can depend on more than 1 input variable. Since it is linear, means relationship is usually a straight line. Linear regressions usually uses mean square error as it's loss function
 ## Feature Extraction
 
 Idea of what features should be used in the prediction model.  A feature extractor is a function that takes in an input $x$ and outputs a set of (features name, feature values). For example for an email address hello@gmail.com. Some possible features are (length > 10 : true, contains_@ : true).
@@ -63,7 +66,7 @@ Here, $w^T$ is the weight vector and $X$ is the feature vector. Training our mod
 ![[Pasted image 20241011203619.png]]
 The decision boundary refers to the line separating the different regions.
 
-### Logistic Function
+### Logistic Regression
 
 Instead of outputting different numbers to give a value of what class it belongs to. We might use a logistic function which will then output the probability of $x$ belonging to that class. Logistic function : $$g(z)=\frac{1}{1+e^{-z}}$$
 $g$ is is now a soft threshold function that is
@@ -160,6 +163,33 @@ If nPatience is too low, then we might stop training the model at points when we
 L1 is useful when a model might have many parameters that are completely useless to the prediction as L1 prefers models with weights set to 0. Such as using height to predict how fast someone types. 
 
 L2 is useful when a model might have many parameters that are useful to the prediction as L2 prefers models with weights closely set to 0.
+
+## Probability
+
+### Conditional Probability
+
+If A and B are 2 random variables, the conditional probability of A happening given B has happened is represented by the notation $$P(A|B)$$
+$$P(A|B) = \frac{P(A\cap B)}{P(B)}$$ 
+![[Pasted image 20241116225113.png]]
+
+If $P(A|B)=P(A)$, then B happening does not affect the probability of A happening. And therefore, they are independent variables. 
+
+If A and B are dependant variables, the formula for calculating the probability that they both occur is as follows $$P(A,B)=P(B)\times P(A|B)$$
+This makes sense as it is saying what is the probability of B happening, times the probability that A happens given B has happened. 
+
+### Conditional Independence
+
+2 random variables X & Y are dependant on each other. However, when we introduce a third variable Z, we gain no extra information about X by observing Y. This means X & Y are now independent of each other. 
+
+Example. Let A be the ethnicity of a brother, and B be the ethnicity of a sister. Clearly, knowing A affect knowing B, therefore A and B are dependant on each other. However, if we introduce a third variable C, where C is the ethnicity of the parents. Now that we know C, knowing B will give no extra information on A. And therefore, A and B are independent on the condition of C. 
+
+
+### Bayes' Rule
+
+Concept of how you should update your initial beliefs given some evidence. For example, if the change someone has cancer is 0.1%, and you receive a positive cancer test where the test is 99% accurate. The probability of you having cancer is not now 99%, it should just update your belief of the probability that you have cancer given this new evidence. 
+
+$$P(H|D)=\frac{P(H)P(D|H)}{P(D)}$$
+Here, H is called the $hypothesis$ and is your initial belief. D is the observation or evidence you recieve 
 
 ## Look Up
 

@@ -72,6 +72,76 @@ Start with a tree, in this case $v=e+1$, $f=1$, $\therefore v-e+f=2$ . If we add
 
 If we add a vertex and graph is now no longer a tree, $f$ increases by 1, $v$ increase by 1, and $e$ will increase by 2. $\therefore$ again there is no overall change. 
 
+## Substitution 
+
+Definition : 
+
+Unification takes 2 formula $f$ & $g$ and returns a substitution $\theta$ which is the most general unifier. 
+$Unify[f,g]=\theta$ such that $Subst[\theta,f]=Subst[\theta,g]$  or "fail" if no such $\theta$ exists. 
+
+Replacing a variable in a formula with a term. A term can be a constant, another variable or a function. 
+
+Example, a substitution of the formula $$f(x)\implies f(Alice)$$
+would be $[x / alice]$ , where we are replacing all occurences of the variable x with the term alice.
+
+## Unification
+
+Process of trying to find a valid substitutions that makes 2 formulas equivalent.
+
+Example, a substitution of the 2 formulas $$Knows(alice, arithmetic), Knows(x, arithmetic)$$ would be $\{x/alice\}$  
+
+Another example would be $$Knows(alice, y), Knows(x, F(x))$$
+would be $\{x/alice, y/F(x)\}$ .
+
+Now, that we have unification, we can apply modus ponens to first-order logic. 
+![[Pasted image 20241116130742.png]]
+
+## Robinson's Unification Algorithm
+
+```
+function Unify(t_1, t_2)
+	# Checking if one of the terms (either t_1 or t_2 is a variable x)
+	# And t_j is another term
+	if t_i = x, t_j = t (where {i,j} in {1,2} and i != j) then 
+		# If the variable is the same as the other term, no work needed
+		if (x == t) then return {}
+		# Cannot substitution if x is part of t eg f(x)
+		else if x is_subexpression of t then return False
+		else return {x -> t}
+	else Let t_1 = f(t_11, ...,t_1n), t_2 = g(t_21,..,t_2m)
+		# If different function names cannot unify
+		if f != g then return False
+		else
+			* <- {}
+			# Interate through each function argument pair
+			foreach i in {1,m} do
+				# Make sure to apply unification rule to arguments beofre calling 
+				Unify function
+				** <- Unify(t_1i*, t_2i*)
+				if ** == False then return False
+				# Apply new subsitutitions to set
+				else * <- * **
+			return *
+```
+
+
+
+
+
+## Resolution
+
+Rule of inference in propositional and predicate logic. Used in automated theorem/reasoning systems. In essence, if you are trying to prove $$KB\models F$$ you can add  $\lnot F$  to the knowledge base and show this formula is unsatisfiable. 
+
+### Horn Clauses
+
+Clauses are a series of literals being disjuncted together eg. $$(A\lor B\lor C)$$
+A horn clause is a clause with at most 1 positive literal.
+
+### Skolemization
+
+Used to get rid of existential quantifiers. For example in the formula $\forall x\exists y$  means that for all $x$ there exists some $y$. $y$ is dependant on $x$, therefore we should replace all occurences of $y$ with some formula $f(x)$ that captures this relationship
+
+If $y$ does not depend on any variable $x$, we can just replace all occurences with $y$ with a contant $k$. For example in the formula $\exists x \forall y$.
 ## Question
 if there are some true statements that cannot be proved, how do we know they are true?
 
