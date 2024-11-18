@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "eb9a0250885164f9",
+        "id": "0cc3aca29bd00c74",
         "type": "tabs",
         "children": [
           {
-            "id": "9e38d9d73bc1737e",
+            "id": "0974589f31004340",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -158,9 +158,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "9e38d9d73bc1737e",
+  "active": "0974589f31004340",
   "lastOpenFiles": [
     "Year 3 CS/Artificial Intelligence.md",
+    "images/Pasted image 20241118220237.png",
     "images/Pasted image 20241116225113.png",
     "Year 3 CS/Logic & Reasoning.md",
     "Year 3 CS/Operating Systems.md",
@@ -172,7 +173,6 @@
     "images/Pasted image 20241104204608.png",
     "images/Pasted image 20241103210023.png",
     "images/Pasted image 20241103210010.png",
-    "images/Pasted image 20241103205957.png",
     "Year 3 CS/Software Engineering Principles.md",
     "Quotes.md",
     "things to do.md",

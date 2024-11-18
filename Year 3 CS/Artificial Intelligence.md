@@ -75,6 +75,8 @@ $g$ is is now a soft threshold function that is
 
 Our model is now : $$f_w(x)=g(w^Tx)=\frac{1}{1+e^{-w^Tx}}$$
 So $f_w(x)=0.7$ might mean x has a 70% chance of belonging to class 1. $f_w(x)=0.3$ might mean x has a 30% chance of belonging to class 0.
+
+Logistic regression had an advantage over linear classification in that values close to the boundary will be reflected in their P(X) values. 
 ## Loss function
 View this video for recap : https://www.youtube.com/watch?v=SmZmBKc7Lrs
 
@@ -98,13 +100,16 @@ We start with an initial random value and compute the gradient at that point, if
 ### Intuition
 Image we have a plot of points and we want to draw a curve to classify these points. Imagine the curve is a quintic function of degree $x^5$. This means the resulting curve is a linear combination of the terms $1,x,x^2,x^3,x^4,x^5$. Therefore curve can be expressed as $$f(x)=\alpha+\alpha_1x+\alpha_2x^2+\alpha_3x^3+\alpha_4x^4+\alpha_5x^5$$
 The problem then becomes trying to find those parameters $[\alpha,\alpha_1,\alpha_2,\alpha_3,\alpha_4,\alpha_5]$ that results in the Loss function being minimised.
-#### Learning Rate
-### Precision / Sensitivity
 
-Precision for a class is the number of true positives divided by the total number of elements labelled as belonging to the positive class. i.e true_positives / (true_postives + false_positives). If there are 8 images selected as being dogs but also 5 of the 8 are actually dogs. Then the precision is 5/8.
+## Accuracy
 
-The sensitivity (recall) of a class is the fraction of relevant instances that were retrieved. i.e relevant retrieved instances / all relevant instances. If there are 12 images of dogs and only 5 get identified as dogs, the sensitivity is 5/12.
+The proportion of correctly identified elements. $$\frac{TP+TN}{TP+TN+FP+FN}$$
+## Precision
 
+Of elements identified as positive, what elements were true positives. $$\frac{TP}{TP+FP}$$
+## Recall
+
+Of all elements that are actually positive, what elements were correctly identified as positive. $$\frac{TP}{TP+FN}$$
 ## Neural Networks
 
 ### Intuition
@@ -141,12 +146,18 @@ If 2 models have same predictive power, we pick the simpler one, as it is more l
 
 ### K-fold cross validation
 
-Splitting data into k different segments. Use 1 of those segments as testing data and $k-1$ segments as training data. Record how well algorithm performs. Repeat this using every individual segment as the testing data. 
+Splitting data into k different segments. Use 1 of those segments as testing data and $k-1$ segments as training data. Record how well algorithm performs. Repeat this using every individual segment as the testing data. Pick model with the best overall performance. Retrain the selected model on the entire training set and then report model's performance on test set. 
 ![[Pasted image 20241109160644.png]]
 
 ## Regularisation
 
 Method for preventing models from overfitting to training data. Models with many weights set to 0 will be preferred. 
+
+L1 regularization leads to weight sparsity. This comes from the shape
+of the L1 loss. Since even small weights are penalised the same amount as large
+weights, more weight values will tend closer to 0.
+L2 on the other hand penalizes smaller weights less, which leads to smaller weights
+but does not ensure sparsity.
 
 ### L1-regularisation
 Do this by adding $\lambda\sum|w|$ to the loss function. Therefore the formula for the loss function if we are using least squared is $$(y-y_1)^2+\lambda\sum|w|$$ Therefore models that fit the training data perfectly but have a lot of high weight values might end up having a higher cost function that models that fit training data less well but have fewer high weight values.  
@@ -164,6 +175,19 @@ L1 is useful when a model might have many parameters that are completely useless
 
 L2 is useful when a model might have many parameters that are useful to the prediction as L2 prefers models with weights closely set to 0.
 
+## Decision Trees
+
+Takes an input vector of attributes, outputs a value. Can be a continuous number or a binary value. The decision is reached by performing a sequence of tests on the features. 
+
+### Entropy
+
+Expected amount of surprise. Surprise is how surprised you would be to observe a certain outcome of a random variable. For example, if a bias coin had a 99% chance of turning heads, you would be super surprised to roll a tails. This surprised is quantified as $$\frac{1}{log(P(x))}$$
+The total entropy of a system is the sum of all the probabilities of each outcome time the respective surprised per outcome.
+
+A fair coin has an expected entropy of 1. A coin that always turns heads has an expected entropy of 0. 
+
+When choosing which attributes to test in our decision trees, we want to choose attributes that lead to the greatest decrease in entropy. 
+![[Pasted image 20241118220237.png]]
 ## Probability
 
 ### Conditional Probability
