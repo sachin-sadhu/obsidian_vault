@@ -124,24 +124,48 @@ function Unify(t_1, t_2)
 			return *
 ```
 
-
-
-
-
 ## Resolution
 
-Rule of inference in propositional and predicate logic. Used in automated theorem/reasoning systems. In essence, if you are trying to prove $$KB\models F$$ you can add  $\lnot F$  to the knowledge base and show this formula is unsatisfiable. 
-
-### Horn Clauses
-
-Clauses are a series of literals being disjuncted together eg. $$(A\lor B\lor C)$$
-A horn clause is a clause with at most 1 positive literal.
-
-### Skolemization
-
+Method of simplifying a list of clauses. If clause A contains a positive literal, and clause 2 contains the complement of that literal, you can combine the 2 clauses and remove both literals $$(P\lor R)\land (\lnot P\lor Q)\implies (R\lor Q))$$  
+## Skolemization
 Used to get rid of existential quantifiers. For example in the formula $\forall x\exists y$  means that for all $x$ there exists some $y$. $y$ is dependant on $x$, therefore we should replace all occurences of $y$ with some formula $f(x)$ that captures this relationship
 
 If $y$ does not depend on any variable $x$, we can just replace all occurences with $y$ with a contant $k$. For example in the formula $\exists x \forall y$.
+
+# Induction
+
+Used to prove all elements of a domain have a certain property. $$\forall xP(x)$$
+## Ordinary Induction
+
+Show P(x) is true for base case, then show that $P(k)\rightarrow P(k+1)$ . Formally $$P(basecase)\land P(k)\rightarrow P(k+1)$$
+## Strong Induction
+
+What is P(k+1) does not rely solely on P(k), might also rely on P(k-1). For strong induction, instead of just assuming P(k) is true, we assume P(k), P(k-1)...P(base_case) are all true. Then we use this to prove P(k+1) is true. 
+
+## Structural Induction
+
+Used to prove properties about recursively defined structures. Steps are prove property holds for base case, assume P holds for sub-structures used in recursive definition, show that P holds for recursively constructed structure. 
+
+* Show that P holds for elements in base case. 
+* Assume P is true for ever existing element in recursive rule
+* Prove P for every new element of S created in recursive step
+
+Basically, show predicate satisfies base case. Assume predicate satisfies elements in recursive rule. Then generate a new element from recursive rule and show that it also satisfies predicate. 
+
+# Analytical Tableuax
+
+Technique for automated reasoning. Basically, search through different branches in the search tree, if there is a contradiction in a particular branch i.e $P\land \lnot P$, close off that branch. If all branches are closed, means that the set of formulas is unsatisfiable. 
+
+### How to check if a set of premises entails a conclusion? 
+* Add negation of conclusion to list of formulas
+* Search through proof tree
+* If tree is closed, means negation of that conclusion is unsatisfiable, therefore original conclusion is valid
+#### Tips
+* Tick off lines in search tree when we have fully explored them
+* For existential quantifiers, make sure to introduce a fresh variable
+
+
+
 ## Question
 if there are some true statements that cannot be proved, how do we know they are true?
 
