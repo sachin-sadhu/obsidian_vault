@@ -164,8 +164,11 @@ Technique for automated reasoning. Basically, search through different branches 
 * Tick off lines in search tree when we have fully explored them
 * For existential quantifiers, make sure to introduce a fresh variable
 
+# Boolean Algebra
 
+In boolean algebra, the '+' operator can be thought of as equivalent to the $\lor$ operator. This is because, $a+b=1$ when either a or b = 1.
 
+Similarly, the '$\times$' operator can be thought of as equivalent to the $\land$ operator. This is because $a\times b=1$ is only true when both a & b = 1.
 ## Question
 if there are some true statements that cannot be proved, how do we know they are true?
 
