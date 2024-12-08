@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 3 CS/Logic & Reasoning.md",
+                "file": "Year 3 CS/Operating Systems.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Logic & Reasoning"
+              "title": "Operating Systems"
             }
           }
         ]
@@ -164,8 +164,8 @@
   },
   "active": "0974589f31004340",
   "lastOpenFiles": [
-    "Year 3 CS/Logic & Reasoning.md",
     "Year 3 CS/Artificial Intelligence.md",
+    "Year 3 CS/Logic & Reasoning.md",
     "images/Pasted image 20241118220237.png",
     "images/Pasted image 20241116225113.png",
     "Year 3 CS/Operating Systems.md",
