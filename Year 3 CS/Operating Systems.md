@@ -333,16 +333,42 @@ These are threads created and managed by the OS. User threads are threads create
 
 ## Critical Sections
 A process is in a **critical section** when it is accessing shared data. Our goal is to ensure only 1 process can access shared data at a time.  
-
 ## Semaphores
 
 Prevents threads that cannot continue from consuming CPU cycles. 
 
 Non Busy Waiting prevents spin locks by putting a thread to sleep if it cannot continue. CPU will add this thread to a queue and wake up 1 or more threads from this queue when the semphore signals there is resources. 
 
+## Test and Set
+Test and Set function is an atomic function that tests that value of a sempahore and then sets it to a value. 
+
+### Deadlock
+Occurs when a process can no longer make progress.
+
+Conditions for a deadlock:
+* At least 1 non-shareable resource
+* Hold and wait (locking a resource and then waiting for another one)
+* No premption (OS cannot force a process to give up a locked resource)
+* Circular waiting (chain of reliance on locked resource)
+
+These 4 conditions must be present in order for a deadlock to occur. 
 ### Monitor 
 
 Provide the user with an Abstract Data Type (ADT) to interact with the shared critical section. This ADT should have functions for interacting with the variables in a thread-safe manner by using techniques such as mutexes and semaphores. 
+
+## Scheduling
+
+Process of determining which process the CPU should run next. Dispatcher is the function in charge of preparing the state of the CPU so that the next process can run on it. Involves context switch, going from kernel mode to user mode. 
+
+### FCFS
+First come first served, processes are getting to a FIFO queue and served in that order. 
+### SJF
+Processes with shortest next CPU burst are chosen
+### Round Robin
+Similar to FCFS, except we introduce a maximum time quantum. Time quantum is the time a process can run for before we let another process have a turn. 
+
+
+
 
 ## Questions
 
