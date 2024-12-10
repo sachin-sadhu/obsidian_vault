@@ -41,6 +41,8 @@ Device responsible for reporting an interrupt to the CPU. CPU might have to figu
 ### Interrupt Descriptor Table (IDT)
 Configures the behaviour of the processor when an interrupt occurs. Contains 256 entries, means up to 256 interrupts can be handled. Each entry corresponds to an IRQ (Interrupt Request) number. Basically an entry contains a **memory address** to jump to when the interrupt occurs. Job of the ISR to save current state of processor when the interrupt occurs. 
 
+Interrupt controller will tell CPU number of interrupt, that way CPU knows where in IDT to index to. 
+
 ### Sources of Interrupts
 #### Hardware
 * I/O operation complete
@@ -75,7 +77,6 @@ Difference modes are:
 * Long mode
 ### BIOS/UEFI
 Stands for Basic Input/Output System. Firmware that prepares system to load an OS. UEFI is the new BIOS. Will also initialise and creates the ACPI table. RSDP is then placed in a well-defined memory location.
-
 ### POST
 Stands for Power On Self Test. Tests include CPU checks, memory checks, device & BIOS checks.
 ### Bootloader
@@ -189,10 +190,18 @@ Intermediate electronic device that is able to communicate between the OS and th
 Controllers can usually control more than 1 IO device but common to only control 1. Some devices have controllers embedded inside them while some are on motherboard.
 
 Controllers contain registers for data/control signals. OS can read/write to these registers to get the controllers to perform some action. CPU uses special 'in/out' instructions to write to the registers.
-
 #### MMIO
 
 This allows the controller registers to be mapped into some region in memory, then CPU can read write to these registers just like any other memory adddress. 
+
+### Life Cycle of I/O Request
+* User process signal it wants to read from a particular file via a system call
+* Kernels schedules I/O request on a queue. 
+* Device driver interprets request and places instructions to device controller either through port-mapped IO or MMIO
+* Device controller will operate device to perform data transfer. 
+* DMA controller will take over data transfer, send interrupt once transfer is done
+* Interrupt handler signals device driver
+* Device driver will check which I/O request has been completed and alert kernel .
 
 ### Bus
 Method of communication that allows multiple components to speak to each other. 
@@ -255,6 +264,29 @@ We can also increase logical disk by combining multiple physical disks.
 
 Striping is the idea of splitting up data between different disks, to take advantage of both paralleism and increasing storage. i.e store even blocks on physical disk 1, odd blocks on physical disk 2.
 
+### RAID0
+Block level striping. Results in increased performance through parallelism. No redundancy, if one disk breaks, all your data is gone. 
+### RAID1
+Disk mirroring. Results in increased resiliency through redundancy. Can suffer up to $n-1$ disk failures. Requires minimum of 2 disks.
+### RAID2
+Striping at individual bit level. Uses hamming error correction code. Requires data storage and the ECC storage. 
+### RAID3
+Byte level striping with a dedicated parity disk. Any 1 disk can fail. 
+### RAID4
+Block level striping with a dedicated parity disk. Any 1 disk can fail. 
+### RAID5
+Block level striping with a distributed parity. Any 1 disk can fail. Avoids bottleneck of writing to 1 parity disk.
+### RAID6
+Block level striping with a 2  distributed parity calculations. Any 2 disk can fail. Avoids bottleneck of writing to 1 parity disk.
+
+## Disk Scheduling
+* FSCF - Service requests in order they arrive
+* SSTF (Shortest Seek Time First) - Service request closest to where the head currently is
+* SCAN - Head continously scans from 1 end to the other, servicing requests as it goes.
+* CSCAN - Head scans from 1 end to the other end, and then snaps back to initial start. 
+
+
+
 ## File Systems
 
 Mechanism for organising and storing data and programs.
@@ -276,6 +308,13 @@ File usually contain a magic number that specifies the type of file it is, such 
 
 Refers to splitting a storage device into multiple sections that each store a logical file system . Each partition can only have 1 type of file system such as FAT, NFTS. 
 
+## FAT
+
+File Access Table, each entry in the table is a block on disk. Each entry also stores the index of the next block. Sort of a linked list implementation. Directory table will then store the starting block for a particular file name.
+
+## Mounting
+Mounting a file system refers to making that file system accessible. Mount it to a certain entry directory. 
+
 ### System Calls
 System calls are a way for user programs to ask the OS to perform operations on it's behalf that can normally only be executed by kernel code.
 
@@ -291,6 +330,15 @@ Benefits of threads are as follows :
 
 #### Kernel/User Threads
 These are threads created and managed by the OS. User threads are threads created in user-space. The underlying OS has no idea about them. 
+
+## Critical Sections
+A process is in a **critical section** when it is accessing shared data. Our goal is to ensure only 1 process can access shared data at a time.  
+
+## Semaphores
+
+Prevents threads that cannot continue from consuming CPU cycles. 
+
+Non Busy Waiting prevents spin locks by putting a thread to sleep if it cannot continue. CPU will add this thread to a queue and wake up 1 or more threads from this queue when the semphore signals there is resources. 
 
 ### Monitor 
 
