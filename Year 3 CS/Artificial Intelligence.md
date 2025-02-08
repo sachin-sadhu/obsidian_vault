@@ -1,5 +1,3 @@
-## Module Info
-Artificial intelligence: A modern approach S.Russell
 # Search
 Finding a goal solutions amongst a large range of solutions given an instance of a problem. We need to define 
 * State space
@@ -32,6 +30,12 @@ Solves the problem of exhaustive search methods they can be very resource hungry
 Process to find the global maximum/minimum, basically starting at a given node, we check to see if it's neighbours are any higher/lower, if they are we move to that neighbour, else we assume we have reached the maximum. 
 
 Problem that arises is that we may get stuck on a local maximum. Solutions to solve this introduce an element of randomness such as random-restart hill climbing, stochastic hill climbing and first-choice hill climbing.
+## Simulated Annealing
+Solution to hill climbing issue where we get stuck on a local optima. Basically idea is to sometimes take bad moves in the hopes they actually lead to better optimas. Explore vs Exploit. 
+
+If $\delta E = E_{next}-E_{current}>0$;, probability of accepting this move is 1. Always take better moves.    
+If $\delta E=E_{next}-E_{current}<0$; probability of accepting this move is $e^{\delta E/x}$ . Basically, probability of accepting a worse move should exponentially decrease depending on how bad the move is.
+
 
 ### Monte Carlo Game Search
 For each search tree, play each branch you take all the way to the end, make random moves along the way. Once you reach the end result, propagate back up to update win/loss values. Allows for nodes with higher chance of success to be picked more often.
@@ -214,6 +218,10 @@ Concept of how you should update your initial beliefs given some evidence. For e
 
 $$P(H|D)=\frac{P(H)P(D|H)}{P(D)}$$
 Here, H is called the $hypothesis$ and is your initial belief. D is the observation or evidence you recieve 
+
+## Rejection Sampling
+
+Given a bayes net, you want to find out a certain probability. Simply generate enough samples and then find the proportion. Make sure to order the samples you generate in some topological order that allows you to generate the samples. 
 
 ## Look Up
 
