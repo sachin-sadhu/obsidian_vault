@@ -28,3 +28,12 @@ B is partially functionally dependant on A, if B is functinally dependant on a s
 Full dependancy is the opposite, remove any attribute from A results in the relationship breaking.
 ## Transitive Dependencies
 If $A\to B$ and $B\to C$, then we have $A\to C$ 
+## Closure
+Closure of a set of attributes X, is denoted as $X^+$. This is the set of all attributes that can be functionally determined by X. Closure allows us to determine which attributes are possible candidate keys.
+![[Pasted image 20250217103853.png]]
+### Armstrong's Axioms
+Helps us to infer all possible functional dependancies.
+* Reflexivity - If B is a subset of A, then $A\to B$ always holds (An attribute always functionally determines itself)
+* Augmentation - If $A\to B$ holds, then $A\gamma \to B\gamma$ also holds (Adding the same attributes to both sides does not affect validity)
+* Transitivity - If $A\to B$ and $B\to C$, then $A\to C$ must hold
+
