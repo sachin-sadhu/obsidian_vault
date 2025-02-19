@@ -36,11 +36,30 @@ ICMP (Internet Control Message Protocol) is a **network-layer protocol** used fo
 ![[Pasted image 20250209123454.png]]
 ### Spoofing Attack
 A malicious device sends out many ICMP echo requests to different hosts on networks with return address set to a victim host. All the different hosts who received the request will think it came from the victim, and flood them with tons of ICMP responses, overwhelming the target. 
-
 ## Address Resolution Protocol (ARP)
 Used to find a given hardware address (MAC address) for a given IP address. Needs this MAC address for sending ethernet frames, which are used to carry data at link layer. 
 ### ARP Tables
 Stores entries mapping IP addresses to MAC addresses. 
 ### ARP Discover
 Device performing the discovery will send out a broadcast message asking "Who has the IP address 'x'". All nodes on the network will recieve this message, and the device who has the target IP address will respond with it's MAC address. Discoverer will then add this entry to its ARP table. 
+# Reliable Data Transfer
+Physical links are imperfect, can lead to errors and loss in packet flows. Transmissions have bit errors that occur as signals propogate.
 
+* Bit error rate - rate at which errors occur - BER of $10^{-8}$ means on average one error every $10^8$ bits
+* Signalled error rate - Measures errors that are detected
+* Residual error rate - Measures errors that are not detected/corrected
+## Parity Bits
+Extra bit used as error control
+* message : size m bits
+* codeword size c bits
+	* $c=m+r$ (r error control bits)
+
+ Even/odd parity. For even parity, bit is set such there is an even number of 1's in codeword, vice versa for odd parity.
+## Cyclic redundancy check (CRC)
+Makes use of polynomial arithmetic, representing binary data as a polynomial eg 101111000 as
+$M(x)=x^7+x^5+x^4+x^3+x^2$. Goal is to produce a polynomial C(x) that is exactly divisible by some known generator polynomial G(x). Allows the reciever to check remainder upon receiving message, if remainder is 0, should be fine, if remainder is not 0, likely an error has occured.
+![[Pasted image 20250219220746.png]]
+Reason this works is as follows:
+Let D be the message we want to send, we pad D with several bits at the end, effectively multiplying the number by 2. Hence, $R=(D*2^r)modG$, where R is the remainder when divided by the generator polynomial. $D*2^r=QG+R$ for some Q, hence $T=QG+R+R$, as we are dealing with mod 2, 2R = 0 mod 2. Therefore, $T=QG$, and hence the transmitted message is always divisible by the generator polynomial G.
+
+Think of bit errors that might be introduced when travelling as polynomial E(x), receiver will see C(x) + E(x). CRC will fail if E(x) is also divisible by G(x).

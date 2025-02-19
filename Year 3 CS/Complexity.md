@@ -22,6 +22,10 @@ Given 2 regular languages A & B. Their union, concatenation and kleene star are 
 Some languages have no regular expression. Such as $\{a^nb^n | n \geq 0\}$ 
 ![[Pasted image 20250201182434.png]]
 Therefore, the set of languages described by regular expressions, NFA and DFA recognised languages are all the same. 
+### Converting from NFA to Regular Expressions
+* Make sure there is only 1 explicit start state and accept state. If there are currently multiple, add epsilon transitions from them to 1 new accept state.
+* Pick a state to remove and adjust other states transitions based on this deletion.
+* Continue until you are only left with the start state and accept state.
 ## Pumping Lemma
 ![[Pasted image 20250201182537.png]]
 Intuition is that if M reads a word of length p or more, it must enter some state twice. This loop can therefore be repeated an arbriatary number of times. 
@@ -58,9 +62,7 @@ Can only take this transition function if reading 'a' and 'x' is on top of the s
 ![[Pasted image 20250209103158.png]]
 
 PDA's recognise all regular languages, and also some non-regular languages. 
-
 ### Converting CFG to PDA
-
 Assume CFG that generates ${a^nb^n|n\geq 1}$  
 Grammar Rules :
 * $S\to aSb$
