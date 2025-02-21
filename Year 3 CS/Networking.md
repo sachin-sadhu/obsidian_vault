@@ -63,3 +63,23 @@ Reason this works is as follows:
 Let D be the message we want to send, we pad D with several bits at the end, effectively multiplying the number by 2. Hence, $R=(D*2^r)modG$, where R is the remainder when divided by the generator polynomial. $D*2^r=QG+R$ for some Q, hence $T=QG+R+R$, as we are dealing with mod 2, 2R = 0 mod 2. Therefore, $T=QG$, and hence the transmitted message is always divisible by the generator polynomial G.
 
 Think of bit errors that might be introduced when travelling as polynomial E(x), receiver will see C(x) + E(x). CRC will fail if E(x) is also divisible by G(x).
+## Internet Checksum
+![[Pasted image 20250220092721.png]]
+Checksum field is the sum of all 16 bit words in header, followed by taking it's 1's complement. Does not include actual payload data, only the header fields.
+
+Checksum is recomputed at each hop, hop will then recompute the new checksum with new TTL value and update the checksum, before sending it to the next hop on the path. 
+### TCP/UDP Checksum
+Both also use same algorithm as IPv4 checksum. Checksum is optional for UDP, compulsory for TCP. TCP checksum includes both the header and the data.
+## Forward Error Correction
+### Hamming Codes
+Basically strategically placing parity bits throughout the block of bits. Each parity bit will be in charge of a certain section of the block, having multiple parity bits target sections allows you to identify which rows/columns contain the error.
+## Automatic Repeat Request (ARQ)
+Methods to request retransmission of corrupted/lost packets.
+### Idle-RQ
+Transmitter sends a PDU, sets a timeout and retransmits data if acknowledgement isn't received within timeout. If acknowledgement is what is lost, receiver might receive duplicate copies. Therefore, PDUs must contain sequence numbers to allow duplicates to be identified. Poor utilisation of link and only 1 packet is sent and must wait for acknowledgement.
+### Continuous-RQ
+Sender sends a number of PDUs while also waiting for acknowledgement PDU. Must know capacity of pipe (how many packets can be in transit at any point in time)
+### Go-back-N
+Receiver will not send acknowledgement for any out-of-sequence/errored PDUs. Transmitter will then resend all those PDUs. Easy to implement, but inefficient use of network as sender might resend packets receiver already has.
+### Selective retransmission
+Receiver will acknowledge every PDU it receives, while ignoring corrupt/lost PDUs. Sender will then see which packets it did not receive an acknowledgement for, and retransmit only those.

@@ -36,4 +36,20 @@ Helps us to infer all possible functional dependancies.
 * Reflexivity - If B is a subset of A, then $A\to B$ always holds (An attribute always functionally determines itself)
 * Augmentation - If $A\to B$ holds, then $A\gamma \to B\gamma$ also holds (Adding the same attributes to both sides does not affect validity)
 * Transitivity - If $A\to B$ and $B\to C$, then $A\to C$ must hold
+# Normalisation
+Procedure of 'sanitizing'  relations to ensure there is no redundancy in our database.
+## First Normal Form
+* Atomicity: A cell must never contain more than 1 value eg. Column: {skill_id, skill_name}
+* Row uniqueness: Each row in table must be unique, can be achieved by having a primary key
+* Each column name must be unique
+## Second Normal Form
+* Already be in first normal form
+* All non-key attributes must be fully functionally dependant on entire primary key
+![[Pasted image 20250220205320.png]]
+## Third Normal Forma
+* Primary key must define all non-key columns
+* Non-key columns must not depend on any other keys but the primary key
+![[Pasted image 20250220210133.png]]
+Here, emp No is the primary key, but dept name does not depend on it, it depends on Dept No
+
 

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 3 CS/Networking.md",
+                "file": "Year 3 CS/Databases.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Networking"
+              "title": "Databases"
             }
           }
         ],
@@ -180,11 +180,14 @@
   },
   "active": "dc331377bdb80eff",
   "lastOpenFiles": [
+    "images/Pasted image 20250220210133.png",
+    "images/Pasted image 20250220205320.png",
+    "Year 3 CS/Networking.md",
+    "images/Pasted image 20250220092721.png",
     "images/Pasted image 20250219220746.png",
     "Year 3 CS/Databases.md",
     "images/Pasted image 20250217103853.png",
     "Year 3 CS/Complexity.md",
-    "Year 3 CS/Networking.md",
     "Year 3 CS/Artificial Intelligence.md",
     "images/Pasted image 20250216140512.png",
     "images/Pasted image 20250216134359.png",
@@ -192,11 +195,8 @@
     "images/Pasted image 20250216132917.png",
     "images/Pasted image 20250216132748.png",
     "images/Pasted image 20250216132511.png",
-    "images/Pasted image 20250216132455.png",
     "Year 3 CS/Operating Systems.md",
     "Year 3 CS/Logic & Reasoning.md",
-    "images/Pasted image 20250209143809.png",
-    "images/Pasted image 20250209143145.png",
     "Year 3 CS/Software Engineering Principles.md",
     "Quotes.md",
     "things to do.md",
