@@ -83,3 +83,45 @@ Sender sends a number of PDUs while also waiting for acknowledgement PDU. Must k
 Receiver will not send acknowledgement for any out-of-sequence/errored PDUs. Transmitter will then resend all those PDUs. Easy to implement, but inefficient use of network as sender might resend packets receiver already has.
 ### Selective retransmission
 Receiver will acknowledge every PDU it receives, while ignoring corrupt/lost PDUs. Sender will then see which packets it did not receive an acknowledgement for, and retransmit only those.
+
+# TCP 
+Stands for Transmission Control Protocol. 
+* Connection-oriented
+* Bi-directional byte-stream
+* Reliable data transfer
+* Ordered data transfer
+* Flow controlled (prevent sender from overwhelming receiver)
+* Congestion controlled (prevent sender from overwhelming network)
+![[Pasted image 20250226105106.png]]
+TCP segment contains a part of a byte stream being sent. Sequence number numbers bytes, with the 'Sequence Number' field indicating first byte contained in the segment. Every segment is acknowledged, acknowledgements indicate the sequence number of next expected bytes. So ack number field would be sequence number received + length of segment + 1.
+## Triple duplicate acknowledgements
+go-back-N causes unnecessary transmissions. TCP uses something slightly different.
+![[Pasted image 20250226110057.png]]
+Sender uses triple duplicate acknowledgements as a signal to retransmit S2. Can do this before retransmission timeout (RTO) for S2 expires. This is called **fast retransmit** as it allows lost packets to be resent before their RTO expires.
+## RTO estimation
+RTO controls retransmission events. Initial RTO is set to 1s. Minimum RTO is also 1s. Usually a maximum RTO of 60s is also set, but not required.
+
+RTO is a smooth mean of round trip time (RTT) and is a function of
+* measured RTT value (r)
+* variance of r,v
+* smoothed RTT value, s
+![[Pasted image 20250226111530.png]]
+Under normal data transfer
+* RTO timer is start when a segment is sent
+* Timer is reset when acknowledgement is received
+* Timer is halted when all outstanding segments have been acknowledged
+
+Under irregular data transfer
+* Send earliest unacknowledged segment
+* Set RTO to double (to help with congestion control, most lost packets are due to too much traffic in the network. Doubling the RTO helps to reduce congestion in the network)
+* Restart RTO timer
+## Flow control
+Protects receiver from being overwhelmed with too much data at once. Uses sliding window approach to do this. Receiver can vary the window size. TCP acknowledgement from receiver contains sequence number of data being acknowledged, and window size for sender to use (W). Sender can send (W-u) bytes, where u is the number of bytes in-flight (sent but now acknowledged).
+
+Sending a segment shift left of of window to the right. Acknowledging a segment shift right of window to the right. 
+## Congestion control
+Congestion occurs when network contains more traffic than it can handle. Results in higher delays, packet loss, loss of service. Caused by buffer capacity in routers, unpredictable changes in traffic, route changes, time of day traffic variations.
+![[Pasted image 20250226115113.png]]
+Idea is to send as many packets as possible by increasing transmission window (wnd) and seeing how much the path can handle. Signals of packet loss indicate congestion, and sender will reduce wnd.
+wnd = min(rwnd, cwnd), where cwnd is congestion window, and rwnd is flow control window
+
