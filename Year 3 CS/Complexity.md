@@ -104,4 +104,12 @@ Some machines might keep on running forever.  Hard to tell if a machine running 
 ![[Pasted image 20250216134359.png]]
 ### Turing completeness
 A programming language is said to be "Turing-complete" if we can simulate every Turing machine in it.
+# Rice's theorem
+#### Property
+A property of a Turing-recognisable language is any statement about that language that is either true or false.
 
+Examples are this language contains all non-empty words. This language contains only words with the letter a.
+
+A property P is non-trivial if there is at least one Turing machine whose language satisfies P, and at least one that does not. Basically, this property holds for some languages and does not hold for others.
+![[Pasted image 20250304125206.png]]
+Rice's theorem states that there is not a single Turing machine, where if given another turing machine M, you can say definitively if L(M) satisfies P.   

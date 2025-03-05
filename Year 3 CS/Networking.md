@@ -124,4 +124,29 @@ Congestion occurs when network contains more traffic than it can handle. Results
 ![[Pasted image 20250226115113.png]]
 Idea is to send as many packets as possible by increasing transmission window (wnd) and seeing how much the path can handle. Signals of packet loss indicate congestion, and sender will reduce wnd.
 wnd = min(rwnd, cwnd), where cwnd is congestion window, and rwnd is flow control window
+![[Pasted image 20250304111800.png]]
+## Connection Management
+TCP is a stateful protocol. Connection establishment is needed to exchange port numbers and window sizes, and to synchronise start of byte stream.
+### Establishment
+![[Pasted image 20250304111923.png]]
+* Client sends server a TCP segment with SYN flag set, along with a initial sequence number (ISN) which is random.
+* Server responds to client with a segment with SYN and ACK flags set. Also sends its out ISN along with ACK that is clients ISN + 1
+* Client sends back a final ACK equal to servers ISN + 1.
+* Data transfer begins
+### Termination
+There are 2 types of terminations. First type is graceful termination, where each side sends FIN packets and waits for all data to be transferred, before ending the connection. The second type is a abortive termination, where one side ends the connection using a RST packet, indicating that the other side should not send any more data or wait for any more acknowledgements.
+#### Graceful
+1. Either client or server sends a FIN packet. This indicates side has no more data to send
+2. Other side acknowledges this FIN packet by sending a ACK packet. However, this side can still continue to send data
+3. Once second side is also finished sending data, it sends its own FIN packet.
+4. First side acknowledges this FIN with an ACK, and the connection is now closed
 
+Once connection is closed, client enters the time-wait period (2MSL), where MSL is the maximum segment lifetime (how long a TCP packet survives in the network). This is to these old packets do not interfere with any new TCP connections.
+#### Abortive
+A reset packet (RST flag set) can be sent to terminate a connection at any time. Once the receiver gets this RST packet, all unsent/unacknowledged data is discarded. Must not continue to send any more data.
+## Security/Privacy
+TCP has no inherent security/privacy features. Entire header is visible to everyone. 
+Some attacks include forging 
+* RST packets to terminate connections. 
+* Flooding hosts with SYN packets. 
+* Injecting data by forging packets
