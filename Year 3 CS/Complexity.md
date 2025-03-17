@@ -1,21 +1,15 @@
 # Finite Automata
-
 ![[Pasted image 20250201181349.png]]
-
 * Elements of the alphabet $\sum$ are called letters
 * A word is a finite sequence of letters over $\sum$
 * The length of a word is the number of letters it contains
 * Set of all words over $\sum$ is denoted $\sum$* and includes empty word
 * Subset of $\sum$* is called a language
 ![[Pasted image 20250201181624.png]]
-
 ## Nondeterministic finite automaton
 ![[Pasted image 20250201181709.png]]
-
 Every NFA has a cooresponding DFA.
-
 ![[Pasted image 20250201182053.png]]
-
 Given 2 regular languages A & B. Their union, concatenation and kleene star are all also regular languages. Therefore these 3 operations express closure property.
 ## Regular Expressions
 ![[Pasted image 20250201182229.png]]
@@ -104,6 +98,15 @@ Some machines might keep on running forever.  Hard to tell if a machine running 
 ![[Pasted image 20250216134359.png]]
 ### Turing completeness
 A programming language is said to be "Turing-complete" if we can simulate every Turing machine in it.
+## Reduction
+Reduction is the concept of mapping a problem B to a problem A  And if we have a solution to problem A, then we can use that solution to solve problem B.
+
+If problem A can be reduced to problem B, and problem B is decidable. Then so is problem A. 
+
+If problem A can be reduced to problem B, and problem B is undecidable, this does not necessarily mean problem A is also undecidable. As problem A can be reduced to many different problems.
+
+If problem A can be reduced to problem B, and problem A is undecidable, then so is problem B. This makes sense as if B was decidable, we could use that decider to decide problem A, and therefore problem A would also be decidable.
+
 # Rice's theorem
 #### Property
 A property of a Turing-recognisable language is any statement about that language that is either true or false.
@@ -113,3 +116,8 @@ Examples are this language contains all non-empty words. This language contains 
 A property P is non-trivial if there is at least one Turing machine whose language satisfies P, and at least one that does not. Basically, this property holds for some languages and does not hold for others.
 ![[Pasted image 20250304125206.png]]
 Rice's theorem states that there is not a single Turing machine, where if given another turing machine M, you can say definitively if L(M) satisfies P.   
+
+
+assume we have a decider (R) for halting problem. use R to construct a decider (S) for acceptance problem. given a machine M and a word W, S needs to decide whether M will accept/reject W. if R says that M does not halt on W, then S can reject W. However, if R says that M does halt on W, then we can check if M accepts W simply by simulating it. therefore S is able to decide the acceptance problem by assuming R
+
+assume we have a decider R that decides emptiness problem. use R to construct a turing machine S that decides acceptance problem. so given a turing machine M, we need to decide if M accepts/rejects W. first modify M such that M will reject all strings except W, but on W, M will work as normal. only string that M will aceept is now w, so its langugage is non-empty if and only if M accepts w. since we have a decider for emptiness problem R, if R accepts M, it means that L(M) is empty and therefore M does not accept W. however, if R does not accept M, then we know that L(M) is not empty and therefore M accepts W. therefore we have created a machine S that decides the acceptance problem
