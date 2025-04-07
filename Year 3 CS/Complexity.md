@@ -107,6 +107,14 @@ If problem A can be reduced to problem B, and problem B is undecidable, this doe
 
 If problem A can be reduced to problem B, and problem A is undecidable, then so is problem B. This makes sense as if B was decidable, we could use that decider to decide problem A, and therefore problem A would also be decidable.
 
+assume we have a decider (R) for halting problem. use R to construct a decider (S) for acceptance problem. given a machine M and a word W, S needs to decide whether M will accept/reject W. if R says that M does not halt on W, then S can reject W. However, if R says that M does halt on W, then we can check if M accepts W simply by simulating it. therefore S is able to decide the acceptance problem by assuming R
+
+assume we have a decider R that decides emptiness problem. use R to construct a turing machine S that decides acceptance problem. so given a turing machine M, we need to decide if M accepts/rejects W. first modify M such that M will reject all strings except W, but on W, M will work as normal. only string that M will aceept is now w, so its langugage is non-empty if and only if M accepts w. since we have a decider for emptiness problem R, if R accepts M, it means that L(M) is empty and therefore M does not accept W. however, if R does not accept M, then we know that L(M) is not empty and therefore M accepts W. therefore we have created a machine S that decides the acceptance problem
+
+Basic idea is to:
+* Assume some problem is decidable
+* Use the fact that the problem is decidable to make a known undecidable problem decidable
+* Use the contradiction to show our assumption that the problem is decidable is false
 # Rice's theorem
 #### Property
 A property of a Turing-recognisable language is any statement about that language that is either true or false.
@@ -116,8 +124,90 @@ Examples are this language contains all non-empty words. This language contains 
 A property P is non-trivial if there is at least one Turing machine whose language satisfies P, and at least one that does not. Basically, this property holds for some languages and does not hold for others.
 ![[Pasted image 20250304125206.png]]
 Rice's theorem states that there is not a single Turing machine, where if given another turing machine M, you can say definitively if L(M) satisfies P.   
+## Time Complexity
+![[Pasted image 20250317182418.png]]
+- Only defined for TMs that always terminate
+- Worst-case complexity
+### Big-O Notation
+![[Pasted image 20250317182503.png]]
+Big-O is an upperbound, we can say that $f(n)=O(n^4)$ and $f(n)=O(n^{10})$  
+### Small-O Notation
+![[Pasted image 20250317182836.png]]
+Gives a stricter condition, meaning f(n) grows stricly slower than g(n). eg $f(x^2)=o(f(x^3))$ 
+![[Pasted image 20250317183931.png]]
+### Multitape TM time complexity
+Since multitape TM are fast than normal TMs
+![[Pasted image 20250317184036.png]]
+### Nondeterministic TM time complexity
+Since multitape TM are fast than normal TMs
+![[Pasted image 20250317184207.png]]
+TMs can simulate NTMs, but take an exponent of the original time complexity
+![[Pasted image 20250317184251.png]]
+### P Class
+P is the set of languages that be solved in polynomial time by a deterministic Turing machine (including multitape TMs). They are informally thought as 
+- Languages that can be recognised quickly
+- Problems that can be solved quickly
+- Things we can compute in practice (very roughly)
+### NP Class
+Problems for which a solution can be verified by a deterministic TM in polynomial time, and problems that can be solved by a NTM in polynomial time.
 
+Basically, these problems take a very long time to solve, but if given a potential solution to the problem, you can easily check whether the solution is correct or not. 
+### Verifiers
+![[Pasted image 20250317185348.png]]
+Basically a TM that if you give a problem and a potential solution to that problem, the verifier will accept that solution if it is correct, and rejects otherwise
 
-assume we have a decider (R) for halting problem. use R to construct a decider (S) for acceptance problem. given a machine M and a word W, S needs to decide whether M will accept/reject W. if R says that M does not halt on W, then S can reject W. However, if R says that M does halt on W, then we can check if M accepts W simply by simulating it. therefore S is able to decide the acceptance problem by assuming R
+That 'potential solution' is more commonly called a **certificate** or **proof**.
+### NP-Completeness
+![[Pasted image 20250323142207.png]]
+Means that if we have an polynomial time algorithm to solve A, we can use that same algorithm to solve B.
 
-assume we have a decider R that decides emptiness problem. use R to construct a turing machine S that decides acceptance problem. so given a turing machine M, we need to decide if M accepts/rejects W. first modify M such that M will reject all strings except W, but on W, M will work as normal. only string that M will aceept is now w, so its langugage is non-empty if and only if M accepts w. since we have a decider for emptiness problem R, if R accepts M, it means that L(M) is empty and therefore M does not accept W. however, if R does not accept M, then we know that L(M) is not empty and therefore M accepts W. therefore we have created a machine S that decides the acceptance problem
+Hence a language B is NP-complete if: 
+- B is in NP
+- every A in NP is polynomial-time reducible to B (NP-hard)
+
+Essentially means that B is as hard or harder than every other problem in NP, and that if we can solve B, we can solve every problem in NP.
+
+If B is NP-complete and $B\in P$ , then P = NP.
+### SAT Problem
+Problem of determining whether a given formula is satisfiable or not (i.e at least 1 settings of T/F for each variable leads to the formula evaluating to T)
+![[Pasted image 20250323142604.png]]
+#### 3SAT Problem
+A formula is in 3CNF  is all clauses have exactly 3 literals. 3SAT problem is defined as all the 3CNF formulas that are satisfiable.
+
+Turns out that the 3SAT problem is NP-complete, so is Hamiltonian path, vert-cover, subset-sum problems
+## Space complexity
+![[Pasted image 20250407220034.png]]
+f(n) is the number of tape cells we need for input size n.
+
+![[Pasted image 20250407220128.png]]
+Space used by the most "memory-hungry" branch.
+
+![[Pasted image 20250407220228.png]]
+Example: $SPACE(n^2)$  is the set of all languages that are decided by an $O(n^2)$ Turing machine.
+
+The non-deterministic version of the above space class is as follows:
+![[Pasted image 20250407220406.png]]
+### Savitch's Theorem
+Non-deterministic machines improve time complexity exponentially. However non-deterministic machines improve space complexity only by a quadratic factor
+![[Pasted image 20250407220534.png]]
+We can simulate any O(f(n)) NTM with an $O(f^2(n))$ TM.
+### PSPACE / NPSPACE
+
+- PSPACE is the class of all languages that are decidable in polynomial space on a standard Turing machine
+- NPSPACE is the class of all languages that are decidable in polynomial space on a non-deterministic Turing machine.
+
+Since the square of a polynomial is still a polynomial, all $O(n^k)$ space NTM has an equivalent $O(n^{2k})$ space TM. Therefore $$PSPACE = NPSPACE$$
+## Space/Time hierarchy
+#### Space constructible functions
+![[Pasted image 20250407221056.png]]
+Basically means some TM exists that can compute f(n) in O(f(n)) space. 
+Example, some TM exists that can compute $n^2$ using $O(n^2)$ space, therefore $n^2$ is space constructible
+#### Space hierarchy theorem
+![[Pasted image 20250407221235.png]]
+Example: Since $n^2$ is space constructible, there are some languages that are not decidable for o($n^2$) 
+
+This means all space constructibile functions give us new languages we can now decide.
+![[Pasted image 20250407221430.png]]
+Means that every real number exponent space class will give us new problems we could not solve before.
+
+Same exists for time.

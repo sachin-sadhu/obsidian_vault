@@ -150,3 +150,80 @@ Some attacks include forging
 * RST packets to terminate connections. 
 * Flooding hosts with SYN packets. 
 * Injecting data by forging packets
+# Real-time interactive communcication
+## Delay tolerances
+Real time applications for internet need to be adaptive: path characteristics can change
+### Delay elastic applications
+![[Pasted image 20250313091340.png]]
+Delay elastic applications are applications that can handle variances in delay and higher delays. Obviously they prefer low delays, but having higher delays is not world ending. These applications usually prefer guarantee of reliability.
+### Delay inelastic applications
+![[Pasted image 20250313091502.png]]
+Shows how different applications may function. Some cannot handle higher delays, but can handle higher loss rates, and can adapt to changes in delays/rates across the network
+#### Delay Budget
+Total amount of delay that an application can handle
+## Network links and paths
+More demand for higher capacity networks. Optical links are becoming more common, as these links are more reliable. However, they have a higher propagation delays
+$$T_{p\_copper}=2.9\times10^8m/s$$
+$$T_{p\_optical}=2.0\times10^8m/s$$
+
+Radio links are also becoming popular, but they have higher bit error rates than wired links.
+
+Applications can control delay by controlling packet sizes. 
+Smaller packets:
+	- can be 'filled' more quickly (audio packet only need 20ms of audio rather than 40ms)
+	- are transferred more quickly
+	- have lower end-to-end delay
+	- have a smaller impact on application if lost (losing 20ms of audio is better than losing 40ms)
+Smaller packets have higher load on the network, since header to payload ration is higher.
+## IPv4 fragmentation and reassembly
+![[Pasted image 20250313094618.png]]
+A segment or datagram at the transport layer is broken up into many IP packets. Each packet gets its own IP header. Headers are then resassembled at destination link.
+
+Fragmentation introduces some problems:
+- how long should a receiver wait for all fragments?
+- packet loss becomes problematic, error recovery is not present at IP layer, therefore, if a single fragment is lost, entire packet needs to be retransmitted
+
+## RTP/RTCP
+Real-time transport protocol is a general transport encapsulation mechanism for audio and video on the internet. Specifies a framework. RTCP is simple out-of-band control plane for RTP. Senders and receivers transmit information about the progress of a flow using Sender Reports (SRs) and Receiver Reports (RRs)
+![[Pasted image 20250317150235.png]]
+![[Pasted image 20250317150250.png]]
+### Controlling Data Rate
+Application can control its data rate with application-specific changes to media stream. By changing encoding, using compressions schemes. Can also change sampling rate, audio bandwith, pricture sizes, FPS, colour depth
+### Controlling Error/Loss
+* Forward error correction can be used
+* Each packet sends current frame, and also previous frame in a lower quality. If a frame arrives corrupted, use the lower quality version. 
+![[Pasted image 20250314072658.png]]
+## Security
+### Tunnelling
+Allows for a layer to provide an interface for itself. Example IP packets can be 'tunnelled' inside other IP packets, where the inner IP packet contains real data, and the outer IP packet provides a mechanism for transporting the real data.
+
+One flow of layer n is inside another layer n flow
+![[Pasted image 20250321080531.png]]
+Tunnels also need end-points, which allow the tunnel to exist, can be thought of as points of control. Needs to be a mechanism to understand how to interpret data travelling through the tunnel, such as:
+- how to deal with naming, addressing and routing
+- how to 'wrap' and 'unwrap' the inner packet
+- how to deal with errors
+
+Tunnels an provide a protected end to end channel, where the end might be an individual host or another network.
+### IPSec
+Stands for IP Security. Provides 2 main services: packet protection and key/policy management at the IP layer. Authentication is provided based on keys that have been provided out of band, and IPSec uses a key-hashed mechanism for authentication. Privacy is provided using secret key encryption.
+![[Pasted image 20250321080934.png]]
+There are many different security choices 2 hosts might like to use, Security Association (SA) is a unidirectional policy that describes how security communication will take place.
+
+Policy is held at each endpoint, and each packet contains a Security Parameter Index (SPI) which tells the other end what SA to use for the packet. 2 main modes of operation for IPSec are:
+- Encapsulating Security Payload (ESP), which protects whole of IP packet,  also provides encryption
+- Authentication Header (AH), which only provides authentication for the IP packet, ESP in tunnel mode already provides everything AH can, therefore, it is rarely used in practice.
+### AH Services
+- AH mode provides authentication for header and payload, no privacy protection
+- AH can be used in conjunction with IPSec ESP
+###  ESP Services
+- ESP provides data privacy using secret key encryption
+- Can be used in transport or tunnel mode
+#### Transport Mode
+Only provides protection for the payload, none for the IP header
+![[Pasted image 20250321081511.png]]
+#### Tunnel Mode
+Provides protection for the payload and the header
+![[Pasted image 20250321081518.png]]
+
+Link local address is mainly used for bootstrapping device to the network, such as finding routers, neighbour discovery etc. Global unicast address is responsible for communicating with devices across different networks.
