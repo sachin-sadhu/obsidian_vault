@@ -211,3 +211,17 @@ This means all space constructibile functions give us new languages we can now d
 Means that every real number exponent space class will give us new problems we could not solve before.
 
 Same exists for time.
+
+## Different cases
+### Best-case complexity 
+![[Pasted image 20250414212949.png]]
+![[Pasted image 20250414213230.png]]
+![[Pasted image 20250414213243.png]]
+### Average-case complexity 
+![[Pasted image 20250414213013.png]]
+### The OO symbol
+Some notions of big-O can be misleading. For example, $f(n)=3n+10^{100}$, is technically O(n), however this can be misleading for some smaller values of n. Therefore, we can say that $$f(n) = oo(n)$$as it is O(n) but not in a useful way.
+### Equality 
+![[Pasted image 20250414213306.png]]
+### Summary
+![[Pasted image 20250414213313.png]]
