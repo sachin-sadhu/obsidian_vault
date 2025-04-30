@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 3 CS/Complexity.md",
+                "file": "Year 3 CS/Databases.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Complexity"
+              "title": "Databases"
             }
           }
         ],
@@ -194,6 +194,7 @@
   },
   "active": "e9a18e74ed367b81",
   "lastOpenFiles": [
+    "Year 3 CS/Complexity.md",
     "images/Pasted image 20250414213313.png",
     "images/Pasted image 20250414213306.png",
     "images/Pasted image 20250414213243.png",
@@ -201,12 +202,10 @@
     "images/Pasted image 20250414213013.png",
     "images/Pasted image 20250414212949.png",
     "Year 3 CS/Operating Systems.md",
-    "Year 3 CS/Complexity.md",
     "images/Pasted image 20250407221430.png",
     "images/Pasted image 20250407221235.png",
     "images/Pasted image 20250407221056.png",
     "images/Pasted image 20250407220534.png",
-    "images/Pasted image 20250407220406.png",
     "Year 3 CS/Networking.md",
     "Year 3 CS/Databases.md",
     "Year 3 CS/Logic & Reasoning.md",

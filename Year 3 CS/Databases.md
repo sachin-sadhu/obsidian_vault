@@ -51,5 +51,8 @@ Procedure of 'sanitizing'  relations to ensure there is no redundancy in our dat
 * Non-key columns must not depend on any other keys but the primary key
 ![[Pasted image 20250220210133.png]]
 Here, emp No is the primary key, but dept name does not depend on it, it depends on Dept No
+## Indices
+
+For primary index, table must be sorted to whatever the search key is. Not the same for secondary index.
 
 
