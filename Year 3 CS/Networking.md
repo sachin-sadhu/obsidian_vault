@@ -98,6 +98,8 @@ TCP segment contains a part of a byte stream being sent. Sequence number numbers
 go-back-N causes unnecessary transmissions. TCP uses something slightly different.
 ![[Pasted image 20250226110057.png]]
 Sender uses triple duplicate acknowledgements as a signal to retransmit S2. Can do this before retransmission timeout (RTO) for S2 expires. This is called **fast retransmit** as it allows lost packets to be resent before their RTO expires.
+
+Sending a SYN-ACK packet is a form of piggy-backing, where ack for previous SYN message and own SYN packet are sent at the same time.
 ## RTO estimation
 RTO controls retransmission events. Initial RTO is set to 1s. Minimum RTO is also 1s. Usually a maximum RTO of 60s is also set, but not required.
 
