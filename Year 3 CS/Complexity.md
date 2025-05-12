@@ -107,14 +107,30 @@ If problem A can be reduced to problem B, and problem B is undecidable, this doe
 
 If problem A can be reduced to problem B, and problem A is undecidable, then so is problem B. This makes sense as if B was decidable, we could use that decider to decide problem A, and therefore problem A would also be decidable.
 
-assume we have a decider (R) for halting problem. use R to construct a decider (S) for acceptance problem. given a machine M and a word W, S needs to decide whether M will accept/reject W. if R says that M does not halt on W, then S can reject W. However, if R says that M does halt on W, then we can check if M accepts W simply by simulating it. therefore S is able to decide the acceptance problem by assuming R
-
-assume we have a decider R that decides emptiness problem. use R to construct a turing machine S that decides acceptance problem. so given a turing machine M, we need to decide if M accepts/rejects W. first modify M such that M will reject all strings except W, but on W, M will work as normal. only string that M will aceept is now w, so its langugage is non-empty if and only if M accepts w. since we have a decider for emptiness problem R, if R accepts M, it means that L(M) is empty and therefore M does not accept W. however, if R does not accept M, then we know that L(M) is not empty and therefore M accepts W. therefore we have created a machine S that decides the acceptance problem
 
 Basic idea is to:
 * Assume some problem is decidable
 * Use the fact that the problem is decidable to make a known undecidable problem decidable
 * Use the contradiction to show our assumption that the problem is decidable is false
+### Emptiness Problem
+Trying to decide if the language recognised by a TM is empty
+- Assume $E_{TM}$ is decidable, and R be a decider for it
+- Create a TM S that takes <M,w> and attempt to decide if the TM M accepts the word w (acceptance problem)
+- Let $M_w$ be a machine that behaves like M on w, and rejects all other words
+- Use $M_w$ on R to determine if L($M_w$) is empty
+	- If it's empty, means that M did not accept w
+	- If it isn't empty, means that M did accept w
+
+ Hence, we have created a decider for the acceptance problem which we know is undecidable. Therefore, our assumption that $E_{TM}$ is false.
+### Equivalence Problem
+Trying to decide if the 2 languages recognised by 2 Turing Machines are the same. 
+- Assume $EQ_{TM}$ is decidable, and let R be a decider for it
+- Given a TM M, and an equivalent machine $M_i$  that rejects all words
+- Pass M and $M_i$  to R
+	- Which returns true if M and $M_i$ are equivalent, indicating that L(M) is empty
+	- Returns false if M and $M_i$ are not equivalent, indicating that L(M) is not empty
+
+Hence, we have created a decider for the emptiness problem, which we have just shown to be undecidable. Therefore, the equivalence problem cannot be decidable.  
 # Rice's theorem
 #### Property
 A property of a Turing-recognisable language is any statement about that language that is either true or false.
@@ -175,6 +191,9 @@ Problem of determining whether a given formula is satisfiable or not (i.e at lea
 A formula is in 3CNF  is all clauses have exactly 3 literals. 3SAT problem is defined as all the 3CNF formulas that are satisfiable.
 
 Turns out that the 3SAT problem is NP-complete, so is Hamiltonian path, vert-cover, subset-sum problems
+#### Vertex-Cover Problem
+A vertex cover of G is a subset of nodes C such that every edge of G touches a nodes from C.
+Vertex cover problem asks whether a graph contains a vertex cover of a given size.
 ## Space complexity
 ![[Pasted image 20250407220034.png]]
 f(n) is the number of tape cells we need for input size n.
@@ -200,7 +219,7 @@ Since the square of a polynomial is still a polynomial, all $O(n^k)$ space NTM h
 ## Space/Time hierarchy
 #### Space constructible functions
 ![[Pasted image 20250407221056.png]]
-Basically means some TM exists that can compute f(n) in O(f(n)) space. 
+Basically means some TM exists that takes $n$ in unary form and can compute $f(n)$ and convert it to its binary form in $O(f(n))$ space. 
 Example, some TM exists that can compute $n^2$ using $O(n^2)$ space, therefore $n^2$ is space constructible
 #### Space hierarchy theorem
 ![[Pasted image 20250407221235.png]]
@@ -225,3 +244,16 @@ Some notions of big-O can be misleading. For example, $f(n)=3n+10^{100}$, is tec
 ![[Pasted image 20250414213306.png]]
 ### Summary
 ![[Pasted image 20250414213313.png]]
+## Divide and Conquer Algorithm
+- Split a problem into $a$ subproblems
+- Each problem has size $\frac{1}{b}$ of the original problem
+- Algorithm to combine the solutions of all the subproblems runs in time $cn^k$
+Algorithm has time complexity of $$T(n)=aT(\frac{n}{b})+cn^k$$
+## Approximation Algorithms
+Some problems are very difficult to solve. For some, an optimal solution might not be needed, instead we can use a good (but not perfect) solution with a quicker algorithm. 
+##### Optimisation/Decision Problem
+- Decision problems - Ask whether a solution exists (does this graph contain a path of length 10)
+- Optimisation problem - Ask to find a minimum/maximum solution to a given problem (maximum path length in a graph.)
+#### Quantifying approximations
+- An approximation for a minimisation problem is $k-\text{optimal}$ if it always finds a solution no more than $k$ times the size of an optimal solution
+- An approximation for a maximisation problem is $k-\text{optimal}$ if it always finds a solution no less than $k$ times the size of an optimal solution
