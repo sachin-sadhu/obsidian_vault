@@ -258,17 +258,17 @@ Policy is held at each endpoint, and each packet contains a Security Parameter I
 - Authentication Header (AH), which only provides authentication for the IP packet, ESP in tunnel mode already provides everything AH can, therefore, it is rarely used in practice.
 ### AH Services
 - AH mode provides authentication for header and payload, no privacy protection
-- AH can be used in conjunction with IPSec ESP
+- Does not encrypt data 
 ###  ESP Services
 - ESP provides data privacy using secret key encryption
-- Can be used in transport or tunnel mode
 
-ESP header include SPI number so receiver can identify which SA an incoming packet belongs to and hence which algorithms and keys to apply to that packet. 
+ESP header include Security Parameter Index (SPI) number so receiver can identify which SA an incoming packet belongs to and hence which algorithms and keys to apply to that packet. 
 #### Transport Mode
 Only provides protection for the payload, none for the IP header
 ![[Pasted image 20250321081511.png]]
 #### Tunnel Mode
 Provides protection for the payload and the header
+Encrypts entire IP packet and and wraps it in a new one
 ![[Pasted image 20250321081518.png]]
 
 Link local address is mainly used for bootstrapping device to the network, such as finding routers, neighbour discovery etc. Global unicast address is responsible for communicating with devices across different networks.
