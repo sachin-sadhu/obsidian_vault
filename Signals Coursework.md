@@ -24,6 +24,10 @@ Stage where REM takes place, dreaming occurs.  THETA and Beta waves most common.
 EEG (electroencephalogram) is a non-invasive technique that records electrical activity from the brain to be analysed. Involves placing   
 
 Very small amplitidues, require an amplification. Amplification must be performed to allow for decent quantisation. Image a 5V range with 16 bit depth, then each bit has a resolution of $$\frac{5}{2^{16}}=76\micro V$$ Hence if we do not amplify the amplitude, amplitudes below 76 micro volts will get quantised down to 0 and lost.
+
+
+![[Pasted image 20251020155718.png]]
+A review of automated sleep stage based on EEG signals
 ### Spotlight on Sleep Stage Classification Based on EEG
 * In 1968, a group of sleep researchers led by Allan Rechtschaffen and Anthony Kales was created in order to establish a consensus about the way to classify sleep stages based on electrophysiology recordings
 ### ADVANCES IN QUANTITATIVE ELECTROENCEPHALOGRAM ANALYSIS METHODS
@@ -63,5 +67,25 @@ Hence Short-Time Fourier Transform is required (STFT). Produces a time-frequency
 Time Resolution - How precise you can measure when an event occured. Shorter time windows gives better time resolution because you are measuring a smaller window of time.
 
 Frequency Resolution - How precisely you can measure the frequency of a wave. Eg (12 Hz vs 14 Hz). Longer time windows give better frequency resolution since you have more cycles to measure.  
-
 With STFT, trade off between time and frequency resolution, impossible to get a high amount of both.
+
+Works by choosing a time window (epoch) to perform a FFT on, epoch size is a hyperparameter
+Also can choose how much of each epoch overlaps with 1 another
+To counter the time frequency resolution trade off, can choose different epoch sizes for different frequencies
+
+Ideally want to use low time windows for high freq, and long time windows for low freq.
+![[Pasted image 20251020140604.png]]
+### Wavelet Transform 
+Overcomes limitation of fixed window resolution of STFT. In many real life scenarios, high freq waves often are short bursts, low freq are gradual changes. 
+
+High freq -> Use short time window, allows us to pin point exactly where high freq occurs
+Low freq -> Use long time window, exact point in time isnt crtitical, distiniguisinhg between 5 vs 6 hz might be
+#### Mother wavelet
+Basic idea is to have a mother wavelet, and then either squish/expand it. 
+
+- Expanded wavelets cover a longer time window, and the have oscilliations at a less frequency, more closely matching those low freq components
+- Compressed wavelets cover a shorter time window, and the have oscilliations at a high frequency, more closely matching those high freq components
+
+when portion of signal closely mathces wavelet, get high output
+
+Start at high freq, shift wavelet across the wave, then decrease freq and shift wavelet across again
