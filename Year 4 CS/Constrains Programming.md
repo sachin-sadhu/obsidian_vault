@@ -107,4 +107,110 @@ Not necessary to assign all variables in order to get a solution. Variables we b
 
 Logical consequences that can be derived from existing constraints but the solver is not smart enough to deduce them.
 
-Therefore, we manually add them. Constraints that are implied but dont reduce search space are called redundant constraints (which are bad)
+Therefore, we manually add them. Constraints that are implied but dont reduce search space are called redundant constraints (which are bad)sign 
+
+## Forward Checking (FC)
+
+After every assignment to a variable $x_i$, revise arc that point to $x_i$ once. Enforces local consistency
+
+1. Assign a value to $X_i$, look at all unassigned variables $X_j$ that are connected to $X_i$ by a constraint. 
+2. Eliminate values from $X_j$ domain that violate the constraint with $X_i$ assignment. 
+3. If any unassignment variables are left with an empty domain, immediately backtrack and pick a different value for $X_i$ .
+
+In simple words, after I make this assingment, does an unassigned variables no longer have any valid values. If yes, don't bother going down this path
+
+FC does NOT need to check backwards. As when a variable is assigned, all previously assigned variables would already have pruned the current varaibles domains, meaning that whichever value the current variable is assigned is guaranteed to be consistent with previous variables constraints. 
+
+FC is guaranteed to find a solution if one exists and to explore a search tree smaller than or equal to that of backtrack. 
+
+```
+Procedure ForwardChecking(depth) 
+	For each value in Domain(depth) 
+		assign(x_d, value)
+		consistent = true
+		
+		for each future = depth + 1 : end while consistent
+			consistent = revise(arc(x_future, x_d))
+		if (consistent)
+			if (depth = end) 
+				showsolution
+			else
+				ForwardChecking(depth+1)
+		undoPruning()
+		
+```
+
+### AC1
+
+Simple iterative algorithm for achieving global arc consistency (GAC). Basically every time we revise an arc, we pass over all arcs again. Obviously extremely inefficient as we are checking over arcs that might have nothing to do with the previous arc revision.
+
+### AC3
+
+Widely used algorithm for achieving GAC. Much more efficient then AC1 as instead of blindly checking all arcs again, it only checks those that might be inconsistent after an assignment. Does this through the use of a queue. 
+
+Basic idea is that if you modify a variable, you want to add all the arcs that point to that variable to a queue. Keep on revising arcs until the queue is empty, at that point, should be in GAC. 
+
+1. Initalise queue with arcs (X,Y), (Y,X), (Z,Y), (Y,Z)
+2. Dequeue an arc from the queue. 
+3. Revise (X,Y) and remove any values from X's domain if they have no support in Y
+4. If X's domain changes, then add all arcs (neighbours of X) back to the queue
+5. Continue 
+
+### Forward Checking with 2-way branching
+
+Combines search with forward checking. Basic idea is that after each assignment, we perform forward checking, if an unassigned variable has an empty domain, we backtrack. 
+
+In 2 way branching, the left branch always assumes that we are assigning a variable a particular value ($x=1$), while the right branch assumes that we are not assigning a variable a particular value ($x\neq 1$)   
+
+So when search, what we do is we have a function for branching left, which assigns the variable a value and performs forward checking. 
+
+We also have a function for branching right, which removes the value from that variables domain, if it becomes empty we backtrack, else we perform forward checking and continue with the search
+
+### Heuristics
+
+General rule of thumbs that the CSP should follow to try and reduce the search space. Examples include which variables to try to assign first, or which values to assign to variables first. 
+
+Dynamic heuristics involve examining the state of the problem after each timestep, and then making a decision based on some computation
+
+#### Smallest Domain Variable Ordering
+
+Idea is that whenever chosing a new variable to assign, always choose the variable with the domain of the smallest cardinality. Basic idea is that if a variable has few options, more likely to cause a conflict. When we assign it first, we can fail faster if assignment is impossible, avoid deep search. 
+
+### MAC
+
+Stands for maintaining arc consistency. Combines search with constraint progopogation, simliar to 2-way branching with FC, except that its STRONGER. FC just checks arcs that involve the current variable being assigned MAC uses ARC3 to ensure that alls constraints across all variables are maintained.  
+
+Important that before the search commences, make 1 pass to ensure initial global arc consistency
+
+Basically, every time a variable is assigned, run ARC3 to ensure that the CSP always stays arc consistent at each step of the search.  
+
+```
+procedure MAC3(varList)
+
+	// Select variable and values to assign
+	var = selectVar(varList)
+	val = selectVal(domain(var))
+	
+	assign(var, val)
+	
+	if (completeAssignment()) showSolution()
+	// After assigning, ensure arc consistecy
+	else if (AC3())
+		// Remove variable from list once its been assigned
+		MAC3(varList - var)
+	
+	// Failed AC3, undo pruning of domain 
+	undoPruning()
+	undoAssign()
+	
+	// Remove value for right branch
+	remove val from domain(var)
+	if (domain(var) is not empty) 
+		if (AC3())
+			MAC3(varList)
+		undoPruning()
+		
+	replace val in domain(var)
+
+```
+Basic idea is to make sure you run ARC3 every time a variable is assigned a value
