@@ -107,88 +107,110 @@ Not necessary to assign all variables in order to get a solution. Variables we b
 
 Logical consequences that can be derived from existing constraints but the solver is not smart enough to deduce them.
 
-Therefore, we manually add them. Constraints that are implied but dont reduce search space are called redundant constraints (which are bad)
+Therefore, we manually add them. Constraints that are implied but dont reduce search space are called redundant constraints (which are bad)sign 
 
-## Search
+## Forward Checking (FC)
 
-Systematic search results in a guarantee that is a solution exists, it will be found, and if there is no solution, then the search space will be exhausted and the search will report that no solution exists. 
+After every assignment to a variable $x_i$, revise arc that point to $x_i$ once. Enforces local consistency
 
-Will use a backtracking approach, where a variable is assigned a value from its domain and a solution is attempted to be found using this value. If this value results in no solution being found, we backtrack and try a different value, continuing this until the domain has been exhausted, or a solution is found. 
+1. Assign a value to $X_i$, look at all unassigned variables $X_j$ that are connected to $X_i$ by a constraint. 
+2. Eliminate values from $X_j$ domain that violate the constraint with $X_i$ assignment. 
+3. If any unassignment variables are left with an empty domain, immediately backtrack and pick a different value for $X_i$ .
 
-### d-way branching
+In simple words, after I make this assingment, does an unassigned variables no longer have any valid values. If yes, don't bother going down this path
 
-Common way of branching. Each branch under a parent node represents assignment of one of d domain values from the domain of a variable. For example if the domain of x is {1,2,3}, then 
-![[Pasted image 20251101221404.png]]
-### Binary branching
+FC does NOT need to check backwards. As when a variable is assigned, all previously assigned variables would already have pruned the current varaibles domains, meaning that whichever value the current variable is assigned is guaranteed to be consistent with previous variables constraints. 
 
-Create 2 branches, one where x = v, and one where x is not equal to v
-![[Pasted image 20251101221455.png]]
-Most modern constraint solvers use binary branching
-### Generate and Test
+FC is guaranteed to find a solution if one exists and to explore a search tree smaller than or equal to that of backtrack. 
 
-Very simple method for solving a CSP, however, very inefficient. Works by generating a complete assignment of the problem, and then testing to see if it satisfies all the constraints. 
+```
+Procedure ForwardChecking(depth) 
+	For each value in Domain(depth) 
+		assign(x_d, value)
+		consistent = true
+		
+		for each future = depth + 1 : end while consistent
+			consistent = revise(arc(x_future, x_d))
+		if (consistent)
+			if (depth = end) 
+				showsolution
+			else
+				ForwardChecking(depth+1)
+		undoPruning()
+		
+```
 
-For example, if we were trying to solve sudoku, we would generate a complete board and then test. 
-### Backtracking
+### AC1
 
-Incrementally extends partial solutions, every time an assignment is made, we check to see if a constraint has been violated. If it has, we continue to assign the next variable a value, otherwise, we either try a different value or backtrack.
+Simple iterative algorithm for achieving global arc consistency (GAC). Basically every time we revise an arc, we pass over all arcs again. Obviously extremely inefficient as we are checking over arcs that might have nothing to do with the previous arc revision.
 
-### Branch and Bound
+### AC3
 
-Augments backtrack where we can track what the current best solution is. Therefore, if our current search path will be guaranteed to be worse than the current best solution, we can terminate exploring this branch
-## Binary Constraint Graphs
+Widely used algorithm for achieving GAC. Much more efficient then AC1 as instead of blindly checking all arcs again, it only checks those that might be inconsistent after an assignment. Does this through the use of a queue. 
 
-Method of modelling a CSP, where nodes represent variables, and constraints are represented by edges
-![[Pasted image 20251101222931.png]]
-Can have a 'hyper-edge' if many variables all are involved in the same constraint. 
+Basic idea is that if you modify a variable, you want to add all the arcs that point to that variable to a queue. Keep on revising arcs until the queue is empty, at that point, should be in GAC. 
 
-A binary constraint CSP is a model where every constraint involves at most 2 variables. A non binary constraint CSP is a model where a constraint can have more than 2 variables. 
+1. Initalise queue with arcs (X,Y), (Y,X), (Z,Y), (Y,Z)
+2. Dequeue an arc from the queue. 
+3. Revise (X,Y) and remove any values from X's domain if they have no support in Y
+4. If X's domain changes, then add all arcs (neighbours of X) back to the queue
+5. Continue 
 
-Often, non-binary CSP are converted to binary CSP, as algorithms are better suited to working on them.  
+### Forward Checking with 2-way branching
 
-Usually involves introducing auxillary variables. For example, for the constraint $X_1+X_2+X_3=10$, we can introduce an auxillary variable A for partial sums. Then we can create binary constraints like $$X_1+X_2=A,\text{   } A+X_3=10$$
-Usually involves increasing variable count
+Combines search with forward checking. Basic idea is that after each assignment, we perform forward checking, if an unassigned variable has an empty domain, we backtrack. 
 
-### Dual Representation
+In 2 way branching, the left branch always assumes that we are assigning a variable a particular value ($x=1$), while the right branch assumes that we are not assigning a variable a particular value ($x\neq 1$)   
 
-another way of converting non-binary CSP to a binary CSP. Every non-binary constraint becomes a new variable. The domain of those variables are the tuple of values that satisfy the original constraint. 
+So when search, what we do is we have a function for branching left, which assigns the variable a value and performs forward checking. 
 
-if constraint A involves variables x,y,z, and constraint B involves variables x,t,u, then we can introduce a new varaible c representing constraint A, and a varaible d representing constraint B. So if A allows {{1,2,3}, {2,3,4}, {3,4,5}}, then the domain of c will be that same set. 
+We also have a function for branching right, which removes the value from that variables domain, if it becomes empty we backtrack, else we perform forward checking and continue with the search
 
-Since constraint A and constraint B both invovle variable x, we need to add a constraint between c and d to ensure that consistency is maintained. Example, here the constrain would be that the value of x must be the same. 
+### Heuristics
 
-### Constraint Propogation
+General rule of thumbs that the CSP should follow to try and reduce the search space. Examples include which variables to try to assign first, or which values to assign to variables first. 
 
-Pruning values from domains to reduce search space. 
-![[Pasted image 20251101225449.png]]
+Dynamic heuristics involve examining the state of the problem after each timestep, and then making a decision based on some computation
 
-If we have this constraint graph and we remove a value from $X_1$, then we might also be able to remove a value from $X_2$ since there is a constraint between the 2. This could potentially propogate all the way to $X_5$
+#### Smallest Domain Variable Ordering
 
-#### Local Node Consistency
+Idea is that whenever chosing a new variable to assign, always choose the variable with the domain of the smallest cardinality. Basic idea is that if a variable has few options, more likely to cause a conflict. When we assign it first, we can fail faster if assignment is impossible, avoid deep search. 
 
-Local node consistency refers to the fact that given a unary constraint, every value in the domain satisfies the constraint when the varaible is assigned that value. 
+### MAC
 
-For example, if given the constraint $X_1\lt 5$ , when $D_1=\{3,4,5,6\}$ , this node is inconsistent. But when $D_1=\{3,4\}$ then it is.
+Stands for maintaining arc consistency. Combines search with constraint progopogation, simliar to 2-way branching with FC, except that its STRONGER. FC just checks arcs that involve the current variable being assigned MAC uses ARC3 to ensure that alls constraints across all variables are maintained.  
 
-Called local because we are only thinking of this variable in the context of a single constraint, when it might be involved in many others. 
+Important that before the search commences, make 1 pass to ensure initial global arc consistency
 
-#### Global Node Consistency
+Basically, every time a variable is assigned, run ARC3 to ensure that the CSP always stays arc consistent at each step of the search.  
 
-Refers to the fact that every variable in the CSP satisfies ALL unary constraints it participates in. This can be enfoced by encforcing node consistency for each unary constraint once. 
+```
+procedure MAC3(varList)
 
-#### Arc Consistency
+	// Select variable and values to assign
+	var = selectVar(varList)
+	val = selectVal(domain(var))
+	
+	assign(var, val)
+	
+	if (completeAssignment()) showSolution()
+	// After assigning, ensure arc consistecy
+	else if (AC3())
+		// Remove variable from list once its been assigned
+		MAC3(varList - var)
+	
+	// Failed AC3, undo pruning of domain 
+	undoPruning()
+	undoAssign()
+	
+	// Remove value for right branch
+	remove val from domain(var)
+	if (domain(var) is not empty) 
+		if (AC3())
+			MAC3(varList)
+		undoPruning()
+		
+	replace val in domain(var)
 
-Constraint graph can have each constraitn be a directional edge, instead of undirected. Invovles splitting a undirected edge into 2 seperate directed edges. 
-![[Pasted image 20251101230231.png]]
-
-For example, if we have the binary constraint $X\neq Y$ , the arcs are $X\rightarrow Y$ and $Y\rightarrow X$. 
-
-A variable X is arc consistent with respect to variable Y if for every value in X's domain, there exists a value in Y's domain such that the constraint is satisfied.  
-#### Global Arc Consistency
-
-Hodls if local arcs are all consistent. However, this cannot be enforced simply by enfocing local arc consistency for all arcs once. 
-![[Pasted image 20251101230627.png]]
-
-For example, here, when we revise the arc between $X_1$ and $X_3$, the domains remain as {5,6,7} for both. However, when we revise the arc between $X_1$ and $X_2$, the domain of $X_1$ now becomes {6,7}. 
-
-Now, if we don't revise the arc between $X_1$ and $X_3$  again, then there will clearly be an inconsistency 
+```
+Basic idea is to make sure you run ARC3 every time a variable is assigned a value
