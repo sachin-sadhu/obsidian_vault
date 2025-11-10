@@ -135,6 +135,83 @@ Each frequency coefficient is then divided by some integer, and rounded to the n
 
 Huffman encoding is then applied.
 ## Convolutions
+
+Operation that combiens 2 functions to poduce a third one. Basically measures how much one function overlaps with another as you slide it across
+$$(f*g)(t)=\int_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau$$
+Here 
+- f is the signal or image
+- g is the kernel or filter
+- f*g is the convolved result
+
+In signal procecessing, usually involves sliding a filter over some image. At each step, we take pairwise multiplication of the values and sum them all up. These are our new output values
+![[Pasted image 20251101185853.png]]
+### Padding
+If we have a 5 by 5 matrix, and a 3 by 3 kernel, then since the kernel must fit fully over the section, we will not be able to perform the calculation on some of the edge rows/columns. To fix this issue we introduce padding.
+
+- Zero padding - Introduce a matrix with additional rows and columns with values all set to 0
+- Replicate padding - Extend values at edge rows columns all the way out
+- Reflect padding
+
+Convolutions allow us to do multiple things with images, such as blurring/sharpening etc. 
+## Segmentation
+
+Dividing an image into meaningful parts/regions. Each region could coorespond to a object or an area of interest. For example, with medical imaging, we might want to segment each of the different organs in the image. 
+
+- Semantic Segmentation - Assigning each pixel in the image to a class. Example all blue pixels get assigned 'sky' class. 
+- Object Detection - Comes with bounding box showing the object's location, along with a label of what the object is and a confidence score. 
+- Instance Segmentation - Combines object and semantic segmentation. Example for an image with 2 cars and a person, instance segmentation would be able to label car 1 and car 2 pixels seperately, along with labelling person pixels. 
+- Panoptic Segmentation - Combines semantic and instance segmentation. Is able to assign pixels individually, and for things that are uncoutable (backgroud, sky, grass), will only give it a class label.
+
+## Thresholding
+
+Used to segment an image by turning it into a binary image based on pixel intensity. Basically decides which pixels belong to an object and which belong to the background. 
+
+1. Choose a threshold value T
+2. For each pixel in the image, compare its intensity I to T:
+	- If I > T, assign it white
+	- If I < T, assign it black
+
+Otsu's method is a way of automatically finding optimal threshold value by minisiming the intra-class intensity variance. 
+
+Thresholding on its own usually isn't enough to segment multiple different objects (unless they have very distinct intensity ranges)
+
+## Watershed Segmentation Algorithm
+
+Essentially we want to segment different areas according to their different pixel intensities. Can think of very low pixel intentisy values as valleys 
+![[Pasted image 20251101200141.png]]
+
+Essentialy how it works is
+ 1. Find lowest pixel value
+ 2. Repeat
+	 * Store all pixels with that pixel value in a queue
+	 * For every pixel in the queue
+		 * If its not in a segment, assign it to a new segment
+		 * Add its immediate neighbours to that segment
+		 * Remove pixel from queue
+		If no pixels in queue, move onto next lowest pixel value
+
+We want to add neighbours to simulate the idea of water flowing. When you drop a drop of water at the valley, it wont just stay at that exact point, it will slowly spread around. 
 ## Machine Learning
 Having testing set unseen is extremely important. Should only be evaludated model once on testing set. Otherwise, if you use testing set to retrain model, chance you are overfitting to testing set. 
 
+Unsupervised Learning : Uses unlabelled datasets
+
+### K-means clustering
+![[Pasted image 20251109215511.png]]
+
+Works by placing k centroids randomly among the dataset, and then for each data point, we calculate which centroid it is closest to. Iteratively move each centroid to the mean of the cluster until we reach a conclusion. 
+
+### CNN
+
+Stands for convolution neural networks, involves using convolution layers that look at small regions of the input at a time. Good at capturing spatial patterns. 
+
+convolutional Layer applies filters that convolve over the input pixels to detect local features. 
+
+Features maps are the output of a convolutional layer. Represents where and how strongly certain features appear in the input, like edges, corner, textures etc. 
+
+#### Sub-sampling
+
+Downsampling operation that reduces spatial dimensions of features maps. Basic idea is the make the representation smaller and more manageable, while preserving the key features that matter most. Instead of remembering every pixel, just note where the strongest features are - edges, corners, textures - reducing detail but keeping what's important. 
+
+- Max Pooling : Within each filter, take the maximum value
+- Average Pooling : Within each filter, take the average value

@@ -257,3 +257,10 @@ Some problems are very difficult to solve. For some, an optimal solution might n
 #### Quantifying approximations
 - An approximation for a minimisation problem is $k-\text{optimal}$ if it always finds a solution no more than $k$ times the size of an optimal solution
 - An approximation for a maximisation problem is $k-\text{optimal}$ if it always finds a solution no less than $k$ times the size of an optimal solution
+## Insertion  Sort
+Gradually sorts array by comparing unsorted element with items to the left of it and swapping as necessary
+## Selection Sort
+Selects the smallest element from unsorted partition, and swaps it with first unsorted element.
+Good way to remember is that selection sort 'selects' the smallest element
+## Bucket Sort
+Split the items into individual buckets, use a sorting algorithm on each bucket, recombine buckets.

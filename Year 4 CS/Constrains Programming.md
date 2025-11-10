@@ -156,6 +156,27 @@ Basic idea is that if you modify a variable, you want to add all the arcs that p
 4. If X's domain changes, then add all arcs (neighbours of X) back to the queue
 5. Continue 
 
+### AC3 Revision
+
+Algorithm for altering domain of variable depending on whether it has a support or not. Basic idea is to just loop through the domain and check whether it has a support
+
+```
+Procedue ReviseARC(arc(x_i,x_j))
+	changed = false // Flag to check whether the domain has been adjusted
+	
+	for value in domain(x_i):
+		supported = false
+		for support in domain(x_j) while not supported:
+			if (satisfies constraint(value, support))
+				supported = true
+			
+		if not supported
+			remove value from domain(x_i)
+			changed = true
+	if empty(domain(x_i)) fail()
+	return changed
+```
+
 ### Forward Checking with 2-way branching
 
 Combines search with forward checking. Basic idea is that after each assignment, we perform forward checking, if an unassigned variable has an empty domain, we backtrack. 
@@ -165,6 +186,13 @@ In 2 way branching, the left branch always assumes that we are assigning a varia
 So when search, what we do is we have a function for branching left, which assigns the variable a value and performs forward checking. 
 
 We also have a function for branching right, which removes the value from that variables domain, if it becomes empty we backtrack, else we perform forward checking and continue with the search
+
+```
+Procedure reviseFutureArcs(varList, var):
+	for each futureVar in varList where var != futureVar:
+		if  !revise(arc(futureVar, var)) return False // Returns false when the futureVar has an empty domain after the revision
+	return True
+```
 
 ### Heuristics
 

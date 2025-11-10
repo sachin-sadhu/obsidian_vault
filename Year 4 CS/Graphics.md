@@ -280,6 +280,39 @@ Analogous to how painters paint their potraits, start by painting stuff at the b
 
 So this requires us to sort the polygons then render objects back to front. Since sorting is required, only makes sense when the number of objects is small. 
 
+## Hierarchical models
+
+Representing an object in term of a collection of parts. Example, a car containing a chassis, and in turn the chassis containing four wheels
+
+Can use graphs such as DAGs to model this. Where nodes are the object parts, and edges represent the relationship between the parts.
+
+### Scene Graphs
+
+A blueprint on how to draw the entire scene, contains lighting, camera, object, transformation information
+
+### Constructive Solid Geometry
+
+Technique for building complex 3D shapes by combining smaller similar ones using boolean operations. Start with simple primitive shapes such as cubes shperes etc. Then can use set operations to combine them to make more complex shapes. 
+![[Pasted image 20251108230354.png]]
+
+### Binary Space Partition Tree
+
+Method of describing the spatial relationships between different objects
+
+Method of describing the spatial relationships between different objects. Can be used to quickly decide which objects are visible by the camera. Concept is that you can choose an object to be a plane, and then all objects in front of that will go in the left sub-tree, and all objects behind it will go in the right sub-tree. 
+
+### Quad/Oct Trees
+
+Quadtree is used for 2D space partitioning, where each node represents a square region, node is then subdividied into 4 equal quadrants
+- top-left
+- top-right
+- bottom-left
+- bottom-right
+
+Keep on recursively dividing until each reigion is simple enough, such as only containing 1 object
+
+Octtree is an extension of a Quadtree but it is used for 3D space partitioning.
+
 ### File Formats
 
 .obj format 
