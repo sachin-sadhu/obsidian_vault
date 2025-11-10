@@ -279,3 +279,13 @@ Alternative to z-buffer.
 Analogous to how painters paint their potraits, start by painting stuff at the back first, like background, sky etc. 
 
 So this requires us to sort the polygons then render objects back to front. Since sorting is required, only makes sense when the number of objects is small. 
+
+### File Formats
+
+.obj format 
+![[Screenshot 2025-11-09 at 6.17.01 PM.png]]
+
+Mtl (material template library)
+
+
+
