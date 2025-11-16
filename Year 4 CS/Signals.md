@@ -215,3 +215,63 @@ Downsampling operation that reduces spatial dimensions of features maps. Basic i
 
 - Max Pooling : Within each filter, take the maximum value
 - Average Pooling : Within each filter, take the average value
+
+## Medical Imaging
+
+### X-rays
+
+Works by sending EM waves thorugh body and measuring how much different tissues absorb them. Different types of tissues absorb different amounts of the EM energy, which allows us to create an image of the internal structure. 
+
+Because they are high energy, they can pass through soft tissue, but are absorbed strongly by dense materials like bone
+
+1. Electrons are fired at a metal target, when they hit the metal, the sudden deceleration releases energy in the form of x-ray photons
+2. A beam of these photons are directed at the body, where different tissues absorb the x-ray different (attenuation)
+3. Detector on the opposite side of the emitter that records which rays pass through and which were absorbed, producing a 2D grayscale image based on intensity of X-rays that reach the sensor. The more rays that reach the detector -> darker pixel, the fewer rays -> whiter pixels 
+
+### Ultrasound
+
+Works by sending high-frequency sound waves (2-15 MHz), these waves travel through the body and reflect off different tissues, where these echoes are then returned to a detector
+
+1. Probe sends out sound waves
+2. As they travel through the body, part of the wave is reflected wave
+3. Probe them detects these echoes and converts them back to electrical signals
+
+By measuring the time taken it took to detect the reflected sound wave, the machine can calculate how deep the boundary was $$\text{distance}=\frac{c\times \text{echo time}}{2}$$
+where c is the speed of sound in tissue and is approximately 1540 m/s. We dvidie by 2 since the pulse has to travel to the boundary and back. 
+
+Different tissues also refelect a different amount of the sound wave
+- fluid doesn't reflect much -> black
+- muslce gives medium reflections -> grey
+- bone and air reflect strongly -> very bright
+#### Limitations
+
+- Doesn't work well with bones since sound can't penetrate
+- Doesn't work with air (lungs, bowel gas block sound)
+- Lower resolution than CT or MRI
+
+### MRI
+
+Stands for Magnetic Resonance Imaging. Works by aligning hydrogen atoms in our bodies using a strong magnet and then measuring how they respond to radio waves.
+
+Each nucles behaves like a tiny magnet that spins, normally, these spins point in random directions. When the MRI's super strong magnet is turned on, it causes all of these spins to align in a particular direction. 
+
+Next the machine sounds out a radio wave, which knocks these spins out of alignement, when the pusle stops, the atoms go back to their algined state, when they do, they emit radio waves, which the scanner then measures. 
+
+Different tissues return to equilibrium at differen rates, 
+
+### PET/SPECT
+
+PET stands for Positron Emission Tomography. Works by detecting pairs of gamma rays
+
+1. Works by injecting a radioactive tracer that emits positrons into the bloodstream
+2. When a positron meets an electron in the body, they annihilate each other
+3. This annihilation releases 2 gamma photons that are emitted in opposite directions
+4. Detectors detect these coincident photons at the same time
+
+PETS are good for 
+- Cancer detection (tumours use lots of glucose)
+- Brain activity mapping
+
+SPECT stands for Single Photon Emission Computed Tomography
+
+Detects single gamma photons emitted from a radioactive tracer
