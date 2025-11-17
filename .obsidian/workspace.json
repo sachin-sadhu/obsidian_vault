@@ -1,70 +1,14 @@
 {
   "main": {
-    "id": "9dcc8903b16d241e",
+    "id": "00cf74cb5a25e21e",
     "type": "split",
     "children": [
       {
-        "id": "3dc0b7e8e55d8da2",
+        "id": "6ee890b90c8dcbbb",
         "type": "tabs",
         "children": [
           {
-            "id": "004cfeecf278b8cd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 4 CS/Graphics.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Complexity"
-            }
-          },
-          {
-            "id": "dc331377bdb80eff",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 3 CS/Networking.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Networking"
-            }
-          },
-          {
-            "id": "e9a18e74ed367b81",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 3 CS/Databases.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Databases"
-            }
-          },
-          {
-            "id": "997f915dfc7596e1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 3 CS/Networking.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Networking"
-            }
-          },
-          {
-            "id": "d1d689bee830615e",
+            "id": "16df03515f6b4d95",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -77,22 +21,21 @@
               "title": "Signals"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "9fafbfaf061e2718",
+    "id": "d1e4b273db087b71",
     "type": "split",
     "children": [
       {
-        "id": "b8d51ff89d6dae74",
+        "id": "e945da6ba22ada27",
         "type": "tabs",
         "children": [
           {
-            "id": "3e3e3536c0328138",
+            "id": "69fcd59c93136d2a",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -105,7 +48,7 @@
             }
           },
           {
-            "id": "bce184748399d805",
+            "id": "b572946ff1a100ef",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -122,7 +65,7 @@
             }
           },
           {
-            "id": "d4d10a36284f61e8",
+            "id": "14ce505ea9ca5379",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -138,20 +81,20 @@
     "width": 300
   },
   "right": {
-    "id": "eb7fe17849e7b120",
+    "id": "b4286af5a118bc55",
     "type": "split",
     "children": [
       {
-        "id": "7af5aead51450cc4",
+        "id": "6888b17b3124b6e5",
         "type": "tabs",
         "children": [
           {
-            "id": "2d279ee30ed2ecd9",
+            "id": "777a151e55d6407d",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Year 4 CS/Graphics.md",
+                "file": "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,25 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Graphics"
+              "title": "Backlinks for Prep for W9 Meeting"
             }
           },
           {
-            "id": "1accf2f424dbc12c",
+            "id": "aa12da851cb362b1",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Year 4 CS/Graphics.md",
+                "file": "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Graphics"
+              "title": "Outgoing links from Prep for W9 Meeting"
             }
           },
           {
-            "id": "a2ad8a50f799be6b",
+            "id": "d4b42ac86321c4f5",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -194,18 +137,32 @@
             }
           },
           {
-            "id": "1732d3735f67a15a",
+            "id": "87ed901b50ef99b5",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-ghost",
+              "title": "all-properties"
+            }
+          },
+          {
+            "id": "ad1dc2330cb426ea",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "Year 4 CS/Graphics.md",
+                "file": "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Graphics"
+              "title": "Outline of Prep for W9 Meeting"
             }
           }
         ]
@@ -217,7 +174,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -227,52 +183,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "d1d689bee830615e",
+  "active": "16df03515f6b4d95",
   "lastOpenFiles": [
-    "images/Pasted image 20251109215511.png",
-    "Year 4 CS/Graphics.md",
-    "images/Pasted image 20251108230354.png",
-    "Year 4 CS/Constrains Programming.md",
-    "Year 4 CS/Test.java",
-    "images/Pasted image 20251101230627.png",
-    "images/Pasted image 20251101230231.png",
-    "images/Pasted image 20251101225449.png",
-    "images/Pasted image 20251101222931.png",
-    "images/Pasted image 20251101221455.png",
-    "images/Pasted image 20251101221404.png",
-    "images/Pasted image 20251101215148.png",
-    "images/Pasted image 20251101214932.png",
-    "images/Pasted image 20251101204602.png",
-    "Year 4 CS/Signals.md",
-    "Quotes.md",
-    "Signals Coursework.md",
-    "Year 3 CS/Artificial Intelligence.md",
-    "Year 3 CS/Databases.md",
-    "Year 3 CS/Complexity.md",
-    "Year 3 CS/Networking.md",
-    "Year 3 CS/Operating Systems.md",
-    "Year 3 CS/Logic & Reasoning.md",
-    "Year 3 CS/Software Engineering Principles.md",
-    "things to do.md",
-    "2024-10-11.md",
-    "images",
-    "ComputerScience/Misc/BashCommands.md",
-    "Blockchain Technology.md",
-    "LaTeX/BracketsTablesArrays.md",
-    "ComputerScience/FrontEndMeta/React.md",
-    "LaTeX.md",
-    "test.md",
-    "Year 3 CS",
-    "LaTeX/Packages.md",
-    "LaTeX/MathematicalSymbols.md",
-    "LaTeX/Formatting.md",
-    "LaTeX/Compiling.md",
-    "LaTeX",
-    "ComputerScience/Misc/Testing",
-    "ComputerScience/Misc/Octal.md",
-    "ComputerScience/Misc",
-    "ComputerScience/FrontEndMeta",
-    "ComputerScience/CS1003",
-    "ComputerScience"
+    "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
+    "Misc/Blockchain Technology.md",
+    "Year 4 CS/Dissertation",
+    "Year 4 CS/Untitled.md",
+    "Misc/Year 4 Module Choices.md",
+    "Misc/Report Good Practices.md",
+    "Year 4 CS/Signals.md"
   ]
 }
