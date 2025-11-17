@@ -242,3 +242,26 @@ procedure MAC3(varList)
 
 ```
 Basic idea is to make sure you run ARC3 every time a variable is assigned a value
+
+### Static Variable Heuristics
+
+### Primal Graph
+
+Has an edge between 2 variables iff they are in a constraint together. 
+
+#### Maximum Degree
+
+Order variables in decreasing order of their degrees in the graph, break ties arbitrarily. Idea is that variable with more constraint are more likely to cause conflicts, and by attempting to assign these first, you detect these earlier in the search tree. 
+
+#### Maximum Cardinality
+
+Pick the variable that is connected to the largest number of already assigned variables. Variables that share constraints with loads of already assigned variables, again helps to fail fast.  
+
+#### Minimum Width
+
+Order the nodes in some order, then the width of each node defines how many edges there are linking it to a previous variable in the ordering
+![[Pasted image 20251116205655.png]]
+For each ordering, we take the maximum width at any ordered nodes.
+
+We then iterate through all the different orderings, for each one getting the maximum width, and we pick the ordering with the minimum width.  
+![[Pasted image 20251116205802.png]]

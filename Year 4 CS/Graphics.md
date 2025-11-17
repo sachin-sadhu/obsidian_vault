@@ -321,3 +321,33 @@ Octtree is an extension of a Quadtree but it is used for 3D space partitioning.
 Mtl (material template library)
 
 ### Particle Systems
+
+Common to model particle obeying Newtonian physics, where f = ma and force and acceleration and 3D vectors. The state of each particle is described by its position and velocity, where velocity can be though of as the derivative of position with respect to time. 
+
+### Particle Interactions
+
+Particles are not usually entirely indepedent. They usually depend on the state of other particles, moddeling all pairwise interactions is $O(n^2)$ time complexity. 
+
+Therefore, we usually only consider the effect of closest neighbours
+![[Pasted image 20251116194747.png]]
+
+A particle is usually acted on by many foces
+- independent forces e.g. Earth's gravity
+- local forces extered by a mesh (e.g. elastic fabric stretching)
+- distant forced exerted by other particles (e.g. magnetic replusion)
+
+Sum of all these forces will determine the force on the particle
+
+Therefore to calculate the state we need
+- Positions of all points $P_i=[x_i y_i z_i]^T$ 
+- Velocities of all points $V_i=[v_{xi} v_{yi} v_{zi}]^T$   
+- Forces of all points $f_i=[f_{xi} f_{yi} f_{zi}]^T$ 
+- Masses of all points $m_i$  
+
+### Solving particle systems
+
+Solving a system of n particles requires solving 6n equations. The 6 parameters are the position and velocity of a particle $$\dot{u}=g(u,t)$$
+where u is the initial state of the particle, t is some time delta, and g is a function that outputs $\dot{u}$, which is the new state of the particle. 
+
+u(t+h) can be approximated using Euler's method: $$u(t+h)\approx u(t)+h(g(u(t),t))$$
+![[Pasted image 20251116195602.png]]
