@@ -76,9 +76,23 @@
               "icon": "lucide-file",
               "title": "Constrains Programming"
             }
+          },
+          {
+            "id": "6ec314281e2c80d0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Year 4 CS/Graphics.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Graphics"
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -226,23 +240,23 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d1d689bee830615e",
+  "active": "6ec314281e2c80d0",
   "lastOpenFiles": [
+    "images/Pasted image 20251123223335.png",
+    "images/Pasted image 20251123222743.png",
+    "images/Pasted image 20251123222216.png",
+    "images/Pasted image 20251123220651.png",
+    "Year 4 CS/Graphics.md",
+    "images/Pasted image 20251123220204.png",
+    "images/Pasted image 20251123220201.png",
     "images/Pasted image 20251116205802.png",
     "images/Pasted image 20251116205655.png",
     "Year 4 CS/Signals.md",
-    "Year 4 CS/Graphics.md",
     "images/Pasted image 20251116195602.png",
     "images/Pasted image 20251116194747.png",
     "images/Pasted image 20251109215511.png",
-    "images/Pasted image 20251108230354.png",
     "Year 4 CS/Constrains Programming.md",
     "Year 4 CS/Test.java",
-    "images/Pasted image 20251101230627.png",
-    "images/Pasted image 20251101230231.png",
-    "images/Pasted image 20251101225449.png",
-    "images/Pasted image 20251101222931.png",
-    "images/Pasted image 20251101221455.png",
     "Quotes.md",
     "Signals Coursework.md",
     "Year 3 CS/Artificial Intelligence.md",

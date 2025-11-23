@@ -350,4 +350,50 @@ Solving a system of n particles requires solving 6n equations. The 6 parameters 
 where u is the initial state of the particle, t is some time delta, and g is a function that outputs $\dot{u}$, which is the new state of the particle. 
 
 u(t+h) can be approximated using Euler's method: $$u(t+h)\approx u(t)+h(g(u(t),t))$$
-![[Pasted image 20251116195602.png]]
+	![[Pasted image 20251116195602.png]]
+## Curves
+
+In graphics, usually represented using parametric representation. The parameter is called $u$ by convention, or $u,v$ for surfaces. $$x=x(u), y=y(u), z=z(u)$$
+The parameter $u$ determines position in curve segment. 
+In our curve, we want it to be 
+- Differentiable at all points
+- Smooth
+- Easy to specify
+
+### Parametric cubic polynomial curves
+
+Usually use an order of 3 when defining curves as they give desirable properties.
+![[Pasted image 20251123220204.png]]
+
+Since the curve has 12 free parameters (elements of c), we can define the curve using 4 3D points.
+
+Best approach is to make the curve pass through 4 points. Place 4 equally spaced points along u (0 to 1)
+
+![[Pasted image 20251123220651.png]]
+
+### Joining interpolating segments
+
+To get more complex curves, will have more than 4 control points. Normally done by joining together smaller cubic segments. Use last point of segment as starting point of next. Guarantees continuity of curves at join points, however, does not guarantee continuity of the derivatives.
+
+Could result in sharp corners, which we do not want
+
+### Hermite Curves
+
+Defined by 2 points and 2 derivatives. Usuually smoother since the derivative must match at joins
+
+Ensure continuty between segments. Model the first segment by 2 points p(0) and p(1), second segment by q(0) and q(1). Ensure that curve passes through  start and end points p(0) and p(1). Fix derivatives such that the deriviative of p(1) = q(0)
+
+![[Pasted image 20251123222216.png]]
+![[Pasted image 20251123222743.png]]
+
+### Bezier Curve
+
+Type of hermite curve
+- fix direction of the deriviative, but not necessarily the magnitude
+- define the derivate at start and end points by a straight line between 2 points
+![[Pasted image 20251123223335.png]]
+Defined by 4 control points
+- $P_0$ is the start point
+- $P_1$ is the first interior control
+- $P_2$ is the second interior control
+- $P_3$ is the end point
