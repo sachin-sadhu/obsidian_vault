@@ -5,6 +5,12 @@ With regards to signals, this mean that any signal can be represented as loads o
 
 ## Frequency Filters  
 Once a signal has been broken down to its cooresponding frequencies, one can apply different filters to get rid of certain frequencies.
+
+High pass filter lets through only high frequencies
+
+Bandpass filter lets frequencies of a certain range 'pass' through
+
+Bandstop filters stops frequencies of a certain range from passing through
 ### Bandwidth
 Range of frequencies a given signal contains.
 ## Continous vs Discrete Signals
@@ -12,14 +18,15 @@ Range of frequencies a given signal contains.
 Signal waves are continous sine waves, but computer can only deal with discrete values. Therefore, we need to sample the continous wave at specific intervals to convert it into a discrete representation. 
 ### Aliasing
 Problem of sampling at too low a frequency, therefore low frequency waves that do not exist appear![[Screenshot 2025-09-27 at 3.09.15 PM.png]]
+High frequencies get lost if not sampled at high enough rate. Reconstructed signal becomes distorted
 ### Nyquist-Shannon Sampling Theorem
-To avoid the problme of aliasing, make sure you sample the signal at a frequency at least twice the maximum frequency present in the signal.
+To avoid the problem of aliasing, make sure you sample the signal at a frequency at least twice the maximum frequency present in the signal.
 ## Sound
 Propogation of particles through a medium. Energy is transferred, not the individual particles themselves
 
 Human ear can hear frequencies from 20Hz - 20000Hz
 ### Phons
-Measures perceived soundness by humans. Humans are more senstive to different frequencies of sound (most sensitive to 2-5kHZ). At very low/high frequencies, human ear is much less sensitive. Therefore, a 3kHZ sound wave of 20 dB might have a perceived loudness of 100 phons, while a 20kHZ sound wave of 100 dB might also have a  perceived loudness of 100 phons.
+Measures perceived soundness by humans. Humans are more sensitive to different frequencies of sound (most sensitive to 2-5kHZ). At very low/high frequencies, human ear is much less sensitive. Therefore, a 3kHZ sound wave of 20 dB might have a perceived loudness of 100 phons, while a 20kHZ sound wave of 100 dB might also have a  perceived loudness of 100 phons.
 ### Spectral Masking
 Phenomenoen where the present of a sound of a certain frequency might make it impossible to hear another sound at a nearby frequency. Happens because human ear groups very similar frequencies together. 
 ### Temporal Masking
@@ -31,15 +38,42 @@ Since theres only a discrete amount of levels we can record, quantising a sound 
 ![[Screenshot 2025-09-27 at 4.25.40 PM.png]]
 
 Having a higher bit depth leads to less noise, but an increase in the bit rate.
+
+Quantisation always add some noise. 
+## Analog to Digital Conversion
+![[Screenshot 2025-11-30 at 3.40.37 PM.png]]
+
+Filtering is crucial to remove very high frequency components that you do not care about. Otherwise, when aliasing, they will be present in a malformed condition.
+
+Sampling is then required to convert to discrete time instants.
+
+Quantisation then converts time values from a continuous range into a number of discrete values that can then be represented as bits.
+## Companding (Compression + Exapanding)
+Human ear is more sensitive to noise at low amplitudes, and less sensitive to noise at higher amplitudes.
+
+### Compression 
+
+Non-linear function bends the amplitude scale so that
+- Small amplitudes get amplified
+- Large amplitudes are compressed
+
+Quantiser can now allocate more levels to low-amplitude sections. 
+### Expanding
+
+Apply inverse of non-linear function to restore signal to original levels. Quiet sections that were amplified get quitened again. Loud section that were quietened get reamplified. 
+
+Idea is to compress dynamic range of signal before quantisation. Low amplitudes get boosted, loud parts get squashed, means that low amplitude sounds have most quantifiable steps between them, reducing noise.
 ## Audio Compression
-### Differential PCM
-   Instead of recording the amplitude level at each sample, record the difference from the previous level. Allows fewer bits to be used at a similar level of quality
+### Differential PCM (Pulse Code Modulation)
+   Instead of recording the amplitude level at each sample, record the difference from the previous level. Allows fewer bits to be used at a similar level of quality. Reason fewer bits are needed is because values of difference are likely to be much smaller. Only need enough bits to encode a small number of values now.
 ### Predictive differential PCM
-Predict the next sample value based on previous samples, encode only the difference between the actual and predicted values. Leads to a smaller range of values to be transmitted, reducing bit depth.
-### Adaptive differential PCM
+Predict the next sample value based on previous samples, encode only the difference between the actual and predicted values. Leads to a smaller range of values to be transmitted, reducing bit depth. Since we can always recalculate predicate value and difference, we can calculte what the actual value is.
+### Adaptive differential PCM (ADPCM)
 Predictive differential PCM with an improved predictor
 ### Sub-band coded  ADPCM
-Splits the signal into separate frequencies, then applies ADPCM on these invidciaul bands. 
+Split the signal into upper band and lower band. Then perform regular ADPCM on these indivudal bands. 
+
+Now we can apply different sampling and quanitisation techinques for each band according to its frequency and perceptual importance (higher frequencies less important) 
 ### Linear predictive coding
 Analyse the signal, extract features, transmit features, not values. Receiver then converts these features back into the signal through a synthesiser.
 Examples of features:
@@ -47,13 +81,9 @@ Examples of features:
 * Pitch
 * Voiced vs automated sound
 ### Perceptual coding
-Dont bother encoding parts of the signal that the human ear can't hear anyway. Examples includes temporal/spectral masking
+Don't bother encoding parts of the signal that the human ear can't hear anyway. Examples includes temporal/spectral masking
 ### MPEG
 Stands for Motion Picture Expert Group. Standard for encoding audio and video.
-## Companding
-Human ear is more sensitive to noise at low amplitudes, and less sensitive to noise at higher amplitudes.
-
-Idea is to compress dynamic range of signal before quantisation. Low amplitudes get boosted, loud parts get squashed, means that low amplitude sounds have most quantifiable steps between them, reducing noise.
 ## Vision
  * Rods - Highly sensitive to light. Cannot detect colour. Important in low light environments. Roughly 90 million 
  * Cones - Highly sensitive to colour. Works best in bright light. Mostly in the fovea, roughly 4.5 million.
@@ -107,7 +137,7 @@ However, not ideal for real life images. eg. image of a class of people.
 Made up of a grid of individual pixels, which each hold a colour and intensity. Fixed resolution, they come with a fixed number of pixels (eg 1920 x 1080 pixels). Zooming in will result in pixels becoming visible (called pixelation.)
 
 Can be quite large in size, best for real life photographs
-### PNG
+### PNG (Portable Network Graphics)
 Stands for portable network graphics. Standard for lossless image compression
 ### Pre-Filtering
 Essentially, want to replace each pixel value with the difference between a neighbouring cell. Can use different filters for different lines, for example, if an image has a vertical line with similar pixels, then instead of storing each pixel value, we can store the difference of the actual pixel value with the pixel above it.
@@ -119,7 +149,7 @@ Can take it a step further and use neighbouring cells to make a prediction on wh
 When recomputing the pixel value, we can always recompute what the predicted value was with the neighbouring cell values, and then apply the difference. 
 #### Deflate
 Form of compression technique. Kind of like huffman coded compressions. Finds reptitions
-### JPEG
+### JPEG (Joint Photographic Expert Group)
 Form of lossy image compression. Uses a discrete cosine transform (same as DFT but using cosine waves)
 
 High spatial frequency refers to rapid changes in pixel values (sharp edges, fine details)
@@ -134,6 +164,10 @@ An image is divided into 8x8 pixel block. A DCT then is run over this, which sep
 Each frequency coefficient is then divided by some integer, and rounded to the nearest integer. Low freq components are typically quantised less aggresively, while high freq components are quantised more (more data is discarded for fine details). This quantisation is where the lossy component is introduced. Once the value is rounded, even if we multiply by that divisor integer, there's no way to get exactly the same number back.
 
 Huffman encoding is then applied.
+### Image Aliasing
+
+Happens when trying to rasterise polygons onto pixels. For example a curve with infinite precision trying to be drawn onto a pixel. Impossible to capture exact curvature
+
 ## Convolutions
 
 Operation that combiens 2 functions to poduce a third one. Basically measures how much one function overlaps with another as you slide it across
