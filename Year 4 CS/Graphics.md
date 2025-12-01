@@ -397,3 +397,9 @@ Defined by 4 control points
 - $P_1$ is the first interior control
 - $P_2$ is the second interior control
 - $P_3$ is the end point
+
+## Ray Tracing
+
+For each pixel, send out ray, see what object it hits. Once it hits an object, send out shadow rays to each light source, see if it actually reaches the light source or is locked by a different object
+
+For transuluct surfaces, cast ray gets split into reflected and transmitted ray

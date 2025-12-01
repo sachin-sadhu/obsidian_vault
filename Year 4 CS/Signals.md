@@ -252,15 +252,30 @@ Downsampling operation that reduces spatial dimensions of features maps. Basic i
 
 ## Medical Imaging
 
+Useful for
+- Diagnosing
+- Treatment Plan
+- Evaluating response to treatment
+- Hypothesis testing
+
+### Frequency Trade Off
+
+For medical imaging, attenuation increases with frequency. 
+Higher frequency -> more attenuation -> less depth penetration 
+
+However, higher frequencies are desirable because they allow for greater image resolution as they have shorter wavelengths. 
+
 ### X-rays
 
-Works by sending EM waves thorugh body and measuring how much different tissues absorb them. Different types of tissues absorb different amounts of the EM energy, which allows us to create an image of the internal structure. 
+Works by sending EM waves through body and measuring how much different tissues absorb them. Different types of tissues absorb different amounts of the EM energy, which allows us to create an image of the internal structure. 
 
 Because they are high energy, they can pass through soft tissue, but are absorbed strongly by dense materials like bone
 
 1. Electrons are fired at a metal target, when they hit the metal, the sudden deceleration releases energy in the form of x-ray photons
 2. A beam of these photons are directed at the body, where different tissues absorb the x-ray different (attenuation)
-3. Detector on the opposite side of the emitter that records which rays pass through and which were absorbed, producing a 2D grayscale image based on intensity of X-rays that reach the sensor. The more rays that reach the detector -> darker pixel, the fewer rays -> whiter pixels 
+3. Detector on the opposite side of the emitter that records which rays pass through and which were absorbed, producing a 2D grayscale image based on intensity of X-rays that reach the sensor. The more rays that reach the detector -> darker pixel, the fewer rays -> whiter pixels
+
+Phenomenon of emission of energy due to deceleration of electrons.
 
 ### Ultrasound
 
@@ -277,6 +292,13 @@ Different tissues also refelect a different amount of the sound wave
 - fluid doesn't reflect much -> black
 - muslce gives medium reflections -> grey
 - bone and air reflect strongly -> very bright
+
+### Movement-mode (M-Mode)
+Fires along a single line. Displays movement of structures with respect to time. Good for scans such as heartbeats etc.  
+
+### Brightness-mode (B-Mode)
+
+Standard 2D grayscale image. Echo's amplitude is converted into brightness level
 #### Limitations
 
 - Doesn't work well with bones since sound can't penetrate
@@ -293,9 +315,29 @@ Next the machine sounds out a radio wave, which knocks these spins out of aligne
 
 Different tissues return to equilibrium at differen rates, 
 
+Magnet used is typically 1.5 to 7 Teslas. 
+
+- Repitition Time - Amount of time between successive pulse sequences applied to same slice
+- Echo Time - Amount of time between the delivery of the RF pulse and receipt of echo signal 
+
+### T1 and T2 weighting
+T1 is time constant which determines how fast spinning protons realign with the external magnetic field.
+
+T2 is time constant that determines how fast excited protons go out of phase with each other. 
+
+- Short TR and TE result in T1-weighted images. 
+- Long TR and TE result in T2-weighted images
+- Very long TR and TE result in Flair
+
+All 3 images look slightly different
+
 ### PET/SPECT
 
 PET stands for Positron Emission Tomography. Works by detecting pairs of gamma rays
+
+Uses a molecule called fluorodeoxyglucose F18 (aka FDG). FDG mimics glucose and is uptaken by cells. FDG however cannot be broken down so we can track how much build up in a cell.
+
+Since cancer cells use up a lot more glucose, much more FDG accumulates in them .
 
 1. Works by injecting a radioactive tracer that emits positrons into the bloodstream
 2. When a positron meets an electron in the body, they annihilate each other
@@ -309,3 +351,49 @@ PETS are good for
 SPECT stands for Single Photon Emission Computed Tomography
 
 Detects single gamma photons emitted from a radioactive tracer
+
+## Video Compression
+
+Basially, for each frame we split it into multiply macroblocks.
+
+Use bigger 16x16 blocks for luminance (brightness)
+Use smaller 8x8 blocks for chromaticities (colour)
+
+Can use smaller blocks for colour because human eye is less sensitivie to colour then brightness
+
+Compare macroblock with same macroblock in the reference frame.
+If similar -> encode the small differences
+
+Else , try to find the same pattern in a close macroblock. 
+
+Example, a ball moving won't be in the exact same macroblock, however it'll be close by, so we search for that block.
+
+### Motion Vector + Prediction Error
+
+#### Motion Vector
+Records the movement of a marcoblock from previous reference frame to curent frame. 
+So instead of recording entire marcoblock, we can just store the motion vecotr and use previous frame to recreate current frame.
+
+#### Prediction Error
+Even after applying motion vector, blocks rarely perfectly align, prediction error is a matrix outlines differences.
+
+### Temporal Redundancy
+
+Most successive frames within a video are very similar. Can just encode difference between successive frames
+
+#### Intracoded frames (I-frames) 
+
+Basically just aJPEG image. Used as starting point.
+
+#### P-frames
+
+Needs previous information to reconstruct. So basically looks at a previous frame, checks what the differences are, then builds the current frame. Issue is that if a single frame gets corrupted, then all following frames will also be wrong.  Also occasionally, entire scene will change
+
+P-frames assume small movement
+
+#### B-frames
+
+Predict backwards and forwards. Essentially looks and a previous I/P-frame and a following I/P-frame. Interpolates between them and encodes the difference.
+
+## Optic Flow
+Assume lighting is constant
