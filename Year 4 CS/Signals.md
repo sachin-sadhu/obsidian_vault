@@ -352,9 +352,31 @@ SPECT stands for Single Photon Emission Computed Tomography
 
 Detects single gamma photons emitted from a radioactive tracer
 
+## Motion Video
+
+Brain can only process less than roughly 20 images per second.
+
+### Cathode Ray Tubes
+
+Technique used in old TVs to created images. Used electron beams, magnetic deflection and phosphors
+
+1. Electron gun fires electrons at a metal cathode, which emits electrons. These are then focused into a narrow electron beam
+2. Magnetic deflection steers the beam
+3. Screen is coated in phosphors. When struck by these electrons, these phosphors glow
+
+#### Interlacing
+
+CRT phosphors decay very quickly. One might think that a solution to this would to just be increase the refresh rate, however, this was not possible with early technology.
+
+Therefore, a 'hack' was to instead split the screen into 2 fields
+- Odd fields - Only draw odd-numbered horizontal lines
+- Even fields - Only draw even-numbered horizontal lines
+
+This doubles the perceived refresh rate.  Helping with the flickering issue
+
 ## Video Compression
 
-Basially, for each frame we split it into multiply macroblocks.
+Basically, for each frame we split it into multiply macroblocks.
 
 Use bigger 16x16 blocks for luminance (brightness)
 Use smaller 8x8 blocks for chromaticities (colour)
@@ -383,7 +405,7 @@ Most successive frames within a video are very similar. Can just encode differen
 
 #### Intracoded frames (I-frames) 
 
-Basically just aJPEG image. Used as starting point.
+Basically just a JPEG image. Used as starting point.
 
 #### P-frames
 
