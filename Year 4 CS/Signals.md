@@ -124,6 +124,12 @@ Primary colours are:
 - Cyan
 - Magenta
 - Yellow
+
+### Indexed Images
+
+Instead of storing full RGB value for each pixel. Each image stores
+- A colour palette (a list of colours)
+- An index into the colour palette for each pixel. 
 ### Posterisation
 Happens when we try to represent colours of an image using fewer bits. Therefore, we map more colours to the same one, can lead to images looking weird.
 ## Vector vs Bitmap Images
@@ -251,6 +257,8 @@ Features maps are the output of a convolutional layer. Represents where and how 
 
 #### Sub-sampling
 
+Helps the learning of features
+
 Downsampling operation that reduces spatial dimensions of features maps. Basic idea is the make the representation smaller and more manageable, while preserving the key features that matter most. Instead of remembering every pixel, just note where the strongest features are - edges, corners, textures - reducing detail but keeping what's important. 
 
 - Max Pooling : Within each filter, take the maximum value
@@ -282,6 +290,24 @@ Because they are high energy, they can pass through soft tissue, but are absorbe
 3. Detector on the opposite side of the emitter that records which rays pass through and which were absorbed, producing a 2D grayscale image based on intensity of X-rays that reach the sensor. The more rays that reach the detector -> darker pixel, the fewer rays -> whiter pixels
 
 Phenomenon of emission of energy due to deceleration of electrons.
+
+### CT (Computed Tomography)
+
+Take many different x-rays at different angles and positions and combine them with computer processing to produce a 3D image. 
+
+### Simple back projection
+
+If you have a 1D projection along a 45 degree angle, you then spread these intensitivty values along each pixels of the image at a 45 degree angle. Do this for each line of sight and add the intensities to get an esitmate of attenutation at the x,y position.
+
+However, since its just a summed average, the image is quite blurry
+
+### Filtered back projection
+
+Similar to back projection but trying to reduce blurring. 
+
+Want to enhance the high frequency components (usually edges) while dimming low frequency components. 
+
+Then we apply back projection as per normal
 
 ### Ultrasound
 
@@ -382,6 +408,44 @@ This doubles the perceived refresh rate.  Helping with the flickering issue
 
 ## Video Compression
 
+### YCbCr
+
+Encoding scheme for represeting colour. 
+
+Y: Luminance, brightness of each pixel
+Cb : Chrominance blue difference, represents difference between blue channel compared to luminance
+Cr : Chrominance red difference, represents difference between red channel compared to luminance
+
+Don't need a Cg since Y already accounts for green information, and Cb and Cr allow for sufficient levels of colour detail.
+
+### Spatial Frequency Sampling Schemes
+
+Uses a X:Y:Z style of encoding on 2 rows of 4 pixels each. Where X is how many values each row has. Y is the number of chrominance values the top row has, and Z is the number of chrominance values the second row has.
+
+X is always 4 since each pixel has its own luminance value.
+
+### 4:4:4
+![[Screenshot 2025-12-02 at 7.23.26 PM.png]]
+As you can see, both rows have their own chrominance values.
+
+### 4:2:2
+![[Screenshot 2025-12-02 at 7.24.33 PM.png]]
+Both rows only have 2 chrominance values for all 4 pixels, therefore pairs of pixels get same colour
+
+### 4:2:0
+![[Screenshot 2025-12-02 at 7.25.20 PM.png]]
+Bottom row has no chrominance values, so it just takes the chrominance value of the pixel on top
+
+### Intraframe compression
+
+Compressing the same frame.
+
+Human eye not good at detecting colours. Use less data to store colour. 
+
+### Interframe compression
+
+Compression algorithm across multiple frames, eliminate temporal redundancy
+
 Basically, for each frame we split it into multiply macroblocks.
 
 Use bigger 16x16 blocks for luminance (brightness)
@@ -425,3 +489,10 @@ Predict backwards and forwards. Essentially looks and a previous I/P-frame and a
 
 ## Optic Flow
 Assume lighting is constant
+
+## Data Science
+
+1. Get data
+2. Explore data (cleaning etc)
+3. Modelling data 
+4. Finding 
