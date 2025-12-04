@@ -265,3 +265,39 @@ For each ordering, we take the maximum width at any ordered nodes.
 
 We then iterate through all the different orderings, for each one getting the maximum width, and we pick the ordering with the minimum width.  
 ![[Pasted image 20251116205802.png]]
+
+## Backjumping
+
+Basic idea is to replace chronological backtracking with a jump back to the variable that is actually causing the dead-end.
+
+maxCheckLevel is the deepest level that a check is mae against when assigning a domain 
+
+returnDepth is the depest maxCheckLevel for all the values of the domain
+
+Intution is that basically if you exhaust a domain checking up to a certain depth, then you know that variables below that depth cannot be causing the problem, as we exhausted it before we even reached those.
+
+If we assign a variable a value that fails some constraints, go down in order and find out the maxCheckLevel for this assignment.  
+
+Only do backjumping once domain for variable has been exhausted. That is then we go through each domain value and identify the maximum maxCheckLevel for each domain value, and identify return depth. 
+
+backjumping resorts back to backtracking after a single jump
+
+### Max-fail backjumping
+
+Doesnt work because incomplete, could skip over valid solutions
+
+### Conflicted-directed backjumping
+
+When making an assignment to $x_k$, maintain the set of assignments failed against. 
+
+When jumping back from $x_k$ to $x_i$, combine their conflict sets. Now can do multiple backwards jumps
+
+Everytime rreach a conflict add the variable number that we just conflicted with
+
+CBJ isn't very effective since it relies on backtracking. MAC doesn't worrry about backtracking as it doesn't enter any bad branches
+
+## Conflict Recording
+
+Adds new constraints to prevent same conflicts from reoccuring 
+
+When dead-end is encountered, identify reason for the dead-end. Add a new constraint to stop that dead-end from reocurring 
