@@ -266,6 +266,46 @@ For each ordering, we take the maximum width at any ordered nodes.
 We then iterate through all the different orderings, for each one getting the maximum width, and we pick the ordering with the minimum width.  
 ![[Pasted image 20251116205802.png]]
 
+## AC3.1
+
+In AC3, we would check for supports, by looping through the domain of the variable every time. This is naive, no need to do a full search through the domain every time. 
+
+Instead, we now just track what the last value that provided support that we found. Now when we revise the arc, we just check if that last value is still present in the domain, if it is all is good. If it's not then instead of searching from the start of the domain, we just start search from the last value + 1. 
+
+
+## AC4
+
+AC3 sometimes go over arcs that won't even result in any further pruning, therefore, revising these arcs are useless.
+
+Idea behind AC4 is that we store how many elements of a variable's domain support another variable value. Also, we store the assignements for which a value in a domain supports.   
+
+### Initilisation 
+
+Process of building up the table of how many supports an element has and which elements support it.
+
+For example, the counter for {arc<$x_1,x_2$,>,2}  represents the number of supports that the variable $x_1$ with a value 2 has from the variable $x_2$. If these support values are 2,3
+
+then we also add
+- $S[x_2,9]=<x_1,2>$
+- $S[x_2,3]=<x_1,2>$
+indicating the list of values of variables that $x_2,9$  support.
+
+If a value has no supports, we add it to the deleted table. Repeat until L is empty
+
+#### AC4 vs AC3
+
+AC4 has a worst case time complexity better than AC3, however it always reaches this time complexity. Therefore, people generally prefer to just use AC3. 
+
+### Propogation 
+
+Once all counters and supports have been initalised, we pop a deletion value off the list, iterate over all values that were supported by this value, and decreement their num_support counter. If the counter reaches 0, then we delete it 
+
+
+Now, for each element, we know how many supports it has, and for which elements it provides a support for. 
+
+Now we also maintain 
+- a table of deleted domain values
+- a list of deleted domain values that still need to be propogated. 
 ## Backjumping
 
 Basic idea is to replace chronological backtracking with a jump back to the variable that is actually causing the dead-end.
@@ -301,3 +341,132 @@ CBJ isn't very effective since it relies on backtracking. MAC doesn't worrry abo
 Adds new constraints to prevent same conflicts from reoccuring 
 
 When dead-end is encountered, identify reason for the dead-end. Add a new constraint to stop that dead-end from reocurring 
+
+## Non-Binary Forward Checking 
+
+Forward checking usually only works on binary constraints. However, we can extend it to work on non-binary constraints.
+
+### nFC0
+
+Type of non-binary forward checking that is only activated when all but 1 variable involved in a constraint are assigned. 
+
+For example, if a constraint C(X,Y,Z) exists. Then forward checking will only begin when 2 out of the 3 variables are assigned, and then prune the domain of the final unassigned variable.
+
+### Local Path Consistency
+
+A constraint C($x_i,x_j$) is path conssitent with respect to a third variable $x_k$ iff for every pair $d_i,d_j$ that satisties the constraint C($x_i,x_j$), there exists a variable in the domain of $d_k$ that satisfies the constraint connecting both  C($x_i,x_k$) and C($x_j,x_k$). 
+
+Basically, find if a certain tuple of variables $x_i$ and $x_j$ has a support through $x_k$ 
+
+If there is no support, remove that tuple from the set of satisfiable tuples. Now, instead of removing values from domains, we are removing binary tuples from a set of binary tuples. 
+
+### Global Path Consistency
+
+Consiering each pair of variables, checks it against ALL POSSIBLE third variable Y. Usually requires generating implicit constraints between variable pairs that were not originally connected
+
+Path consistency does not necessarily imply arc consistency.
+
+
+### K-Consistency
+
+#### Strong Consistency
+
+Refers to the fact that we can enforce k-consistency, and every lower level of consistency as well
+
+### 3-consistency example
+
+CSP with 3 variables, all with domains {1,2,3} and one constraint:
+- c($x_1,x_2,x_3$) = {<1,1,1>, <2,2,2>, <3,3,3>}
+
+Since the binary tuple between $x_1,x_2$  (1,2) has no support in the constraint. This CSP is not 3-consistent.
+
+So, need to add some constraints that forbid this kind of pairing
+
+In general, enforcing k-consistency makes 'nogoods' of k-1 explicit. 
+
+For example, for 2-consistency, we create unary constraints that prune values from domains. that eliminate binary tuples that cannot be found in any solution.
+
+### Backtrack-free Search
+
+A variable ordering is backtrack free if level of strong consistency exceeds width of cooresponding ordered constraint graph. 
+
+![[Screenshot 2025-12-05 at 1.55.51 PM.png]]
+
+For exammple, for this graph, a strong 2-consistency is sufficient (arc consistency). All elements in $D_1$'s pruned domain will have some support in $D_2$. All elements of $D_2$ have some support in $D_1$ and $D_3$. All elements of $D_3$ have some support in $D_2$. 
+
+## Generalised Arc Consistency
+
+Constraint-centric view of encforcing consisteny. Global Arc Consistency only worked on binary constraints, this works on non-binary constraints. 
+
+Like global arc consistency, whenever a variable's domain is pruned, we must revisit all other constraints that involve that variable and reestablish GAC. 
+
+A constraint c($x_1,...x_k$) is generalised arc consistent iff
+- For every variable $x_i$ involved in the constraint, for every element d of $d_i$ , there exits a supporting tuple.
+
+Example:
+![[Screenshot 2025-12-05 at 2.14.36 PM.png]]
+
+### GAC2001/3.1
+
+Algorithm for enforcing generalised arc consistency. 
+
+Basic idea is to for each variable of every constraint, and for every domain value of that variable. Use a data structure that stores for that value of the variable in the domain, store something called LastSupport, which is the last current tuple that supported this value. 
+
+When checking if that value of the variable still has a support, check the last stored support, it still valid, move on. If it's invalid, try to find a new support. If no support can be found, then prune that value from the variable and all all constraints involved the variable back onto the queue. 
+
+### GAC-Schema
+
+Uses the idea of multi-directionality as an optimisation technique.
+
+For example, if the constraint C(A,B,C) = {<1,1,2>,<2,2,1>}
+
+Then instead of rechecking a tuple every time we want to see if A,B,C has a certain support. We just check each tuple once, and note which variable's values it provides a support for.
+
+With multidirectionality, the tuple <1,1,2> provides support for 
+- A: 1
+- B: 1
+- C: 2
+
+and we do this all in one swoop
+
+### Special-Purpose Algorithms
+
+Can enforce GAC via special-purpose algorithms if we understand the mathematics behind the constraint and what it is enforcing. 
+
+For example, for the constraint $12x_1+5x_2+x_3=30$ , finding all sets of tuples that satisfy this constraint is an NP-complete problem. 
+
+Solution is to settle weaker propogation, here we could split the constraint into finding sets of tuples for sum adding to $\leq30$  and sum adding to $\geq30$, then enforce GAC on each. 
+
+## Triggers
+
+In modern CSPs, constraints ask to be notified of events (triggers) such as
+- Upper/Lower bound changing on a variable
+- Value $a$ being removed from a domain $D_i$
+- Any change to $D_i$
+
+## Bound Consistency
+
+Only ever prune the minimum/maximum of a domain. 
+
+GAP never weaker than Bound-Consistency
+
+Stuff that is bound consistent might not be globally arc consistent (GAC),
+however, everything that is GAC is bound consistent
+
+### Bound(D) Consistency
+
+Constraint is bound consistent if for every variable in the constraint, there exists a tuple that satisfies the constraint that contains both the minimum and maximum value of that variables domain, and the other values in the tuple are still valid for the other variables. 
+
+### Bound(Z) Consistency
+
+Same as bound(D) consistency, except that now we check if each value within the tuple is an INTEGER between the minimum and maximum of that variables domain.
+
+So now, instead of checking if the other variables in the tuple actually exist in that variables domain, we just check if they are in the range. 
+
+### Bound(R) Consistency
+
+Same as Bound(Z) consistency, except that now each value in the tuple is a REAL NUMBER between the min and max of that variables domain 
+
+Therefore, no longer requires an integer solution to some constraints.  
+
+Example, if we have a constraint $5x_1+3x_2+10x_3=10$, then to find the maximum value of $x_1$, we can rearrange to make $x_1$ the subject: $\frac{10-3x_2-10x_3}{5}$. To maximise $x_1$, we should maximise $x_2$ and $x_3$. 
