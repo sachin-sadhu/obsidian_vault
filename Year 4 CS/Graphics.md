@@ -444,10 +444,60 @@ Want to avoid long, thin triangles.
 
 Uses the Delaunay Triangulation algorithm to perform this. Basically, connect 3 points, draw the circle that goes through all 3 points, if this circle contains any other vertices, need to choose differently. Basically see which vertex is included in that triangle, choose that vertex as your new triangle, kick out other one. 
 
-
-
 ## Ray Tracing
 
-For each pixel, send out ray, see what object it hits. Once it hits an object, send out shadow rays to each light source, see if it actually reaches the light source or is locked by a different object
+Send out a ray that goes through a pixel, see what it hits. do this until the ray hits a light source or leaves the clipping volume.
 
-For transuluct surfaces, cast ray gets split into reflected and transmitted ray
+#### Opaque Surfaces
+
+Send out a ray, if it hits an opaque surface, then send out shadow rays where each one leads straight to a light source. If the shadow ray hits another object, drop it. If it hits a light source, calculate illumination from this source.
+
+#### Translucent Surfaces
+
+Surfaces that let light pass through, such as glass and water. 
+
+- Cast ray gets split into 2 components - reflected ray and transmitted ray (light that goes through object)
+
+Transmitted ray may change direction due to refraction of light
+
+### Ray Tree
+
+A single ray can produce many rays. We need to track all of them and see if they are traced to a light source or blocked by a surface. Represent them using a tree that we can traverse 
+![[Pasted image 20251209193428.png]]
+
+### Calculating Intersections
+
+Ray tracking requires many intersecting calculations to identify which objects the ray hits. 
+
+Ray can usually be defined as $p(t)=p_0+td$, where $p_0$  is the starting point, and $d$ is some direction vector.
+
+Implicit definition of a surface is very useful here, where $f(x,y,z)=f(p)=0$, therefore, $f(p_0+td)=0$ defines all the intersections between the ray and the surface. Solving this equation involves finding the roots of the equation
+
+Unfortunately, no analytical solution the polynomial surface has a degree of 3. Therefore, ray tracers often use polynomials of degree < 3
+
+### Cubic Polynomial Surface Patches
+
+We want to do ray tracing with these shapes, but they use a polynomial degree >= 3. Therefore, we must use numerical methods to approximate the solutions. 
+
+### Diffuse Surfaces
+
+Ray tracing does not work with diffuse surfaces, because as soon as a ray hits a diffuse surface, there will be loads of feeler rays we will need to send out
+
+### Energy-based model
+
+![[Pasted image 20251209202100.png]]
+We can calculate the intensity of light that comes from the point P' at P. The total light emitted from P' might be light if it is a light source, but it could also be reflections from P'
+
+- Attenuation function $v(p,p')$ based on distance
+- Emission function $\in(p,p')$ if $p'$ is a light-emitting surface
+- Bidirectional reflection distribution function $\rho(p,p',p'')$ 
+	- models the light reflected from point $p''$ by $p'$ towards p
+	- characterises material surfce properties at p'
+
+Basically, the BRDF tells us how how much light is emitted from P' towards P, where P' includes all the light from other sources
+
+### Radiosity
+
+Instead of looking at each point individually and trying to figure out how much light reaches that point from every other point.
+
+We divide the scene into $n$ diffuse patches, and claculate how much one patch receives from all the other patches. 
