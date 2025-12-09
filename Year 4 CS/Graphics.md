@@ -101,7 +101,7 @@ where $\phi$ is the angle between the viewer and the angle of reflection. $\alph
 ## Shading 
 Determining how the light a point receives changes its colour.
 ### Flat Shading
-Simplest type of shading. Caclulate illumination once per polygon (middle of polygon), all pixels on the polygon will have the same colour. Gets better as we increase the number of polygons
+Simplest type of shading. Calculate illumination once per polygon (middle of polygon), all pixels on the polygon will have the same colour. Gets better as we increase the number of polygons
 ### Smooth Shading (Gouraud)
 Illumination at each vertex is calculated (so is the final colour). All other points are then interpolated from those vertex colours. No need to recompute illumination. If colour at each vertex is the same, then flat shading is performed.  Normals at each vertex must be calculated
 
@@ -228,7 +228,7 @@ Need to draw pixels that are inside a polygon, so we need a way to figure out wh
 
 #### Odd Even Test
 
-Method of determing which pixels are inside by counting how many times a line from the pixel to infitnity cross a polygon edge. 
+Method of determing which pixels are inside by counting how many times a line from the pixel to infinity cross a polygon edge. 
 
 - Odd number of crossings - pixel is inside (fill it)
 - Even number of crossings - pixel is outside (don't fill it)
@@ -320,6 +320,10 @@ Octtree is an extension of a Quadtree but it is used for 3D space partitioning.
 
 Mtl (material template library)
 
+## Fractals
+
+Fractal Dimensions: Measures how detail a fractal is 
+
 ### Particle Systems
 
 Common to model particle obeying Newtonian physics, where f = ma and force and acceleration and 3D vectors. The state of each particle is described by its position and velocity, where velocity can be though of as the derivative of position with respect to time. 
@@ -371,6 +375,7 @@ Best approach is to make the curve pass through 4 points. Place 4 equally spaced
 
 ![[Pasted image 20251123220651.png]]
 
+The interpolating geometry matrix is the matrix that describes the curve that will go through the 4 control points. The interpoloating geometry matrix is the same depending on what type of curve we want. So all we need to do is change which control points we use, and using the same interpoloating geomdtry matrix, it will compute the curve.  
 ### Joining interpolating segments
 
 To get more complex curves, will have more than 4 control points. Normally done by joining together smaller cubic segments. Use last point of segment as starting point of next. Guarantees continuity of curves at join points, however, does not guarantee continuity of the derivatives.
@@ -386,6 +391,12 @@ Ensure continuty between segments. Model the first segment by 2 points p(0) and 
 ![[Pasted image 20251123222216.png]]
 ![[Pasted image 20251123222743.png]]
 
+Conditions:
+
+![[Screenshot 2025-12-09 at 3.25.42 PM.png]]
+
+Hermite geometry matrix is something different.
+
 ### Bezier Curve
 
 Type of hermite curve
@@ -397,6 +408,43 @@ Defined by 4 control points
 - $P_1$ is the first interior control
 - $P_2$ is the second interior control
 - $P_3$ is the end point
+
+## Surfaces
+
+Since surfaces are 2D, to define them parametrically, we now are required to use 2 parameters
+- u 
+- v
+
+All cubic patches (component of a surface) need 48 parameters, as this cooresponds to 16 3D control points.
+
+### Bezier Surface Patch
+
+Similar to bezier curves. However, now we want to approximate the derivatives at each of the 4 corners of a patch.
+![[Screenshot 2025-12-09 at 3.49.50 PM.png]]
+For each corner, we need to calculate 3 partial derivatives, one going in the $u$ direction, one going in the $v$ direction, and then the final one going in both directions.
+
+Similar to bezier curve, patch will be enclosed by the convex hull defined by the control points. 
+![[Screenshot 2025-12-09 at 3.53.48 PM.png]]
+
+### Rendering Curves & Surfaces
+
+Evaludate the curve at some points, calculate the (x,y,z) coordaintes for each of these points. Use these as vertices and build triangles between them 
+
+#### Non-Uniform Rational B-spline (NURBS)
+
+B-spline that has an added 4th w coordinate, w(u,v), taking us into homogenous coordinates. Allows you to now perform perspective matrices without deforming the surfaces
+
+### Creating Surfaces from Data
+
+Scan real objects. Use a depth sensor, where for each x,y coordinate, we get a height data, which represents distance from camera 
+
+### Triangulation
+
+Want to avoid long, thin triangles. 
+
+Uses the Delaunay Triangulation algorithm to perform this. Basically, connect 3 points, draw the circle that goes through all 3 points, if this circle contains any other vertices, need to choose differently. Basically see which vertex is included in that triangle, choose that vertex as your new triangle, kick out other one. 
+
+
 
 ## Ray Tracing
 
