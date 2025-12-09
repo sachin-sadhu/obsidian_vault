@@ -464,3 +464,20 @@ Same as Bound(Z) consistency, except that now each value in the tuple is a REAL 
 Therefore, no longer requires an integer solution to some constraints.  
 
 Example, if we have a constraint $5x_1+3x_2+10x_3=10$, then to find the maximum value of $x_1$, we can rearrange to make $x_1$ the subject: $\frac{10-3x_2-10x_3}{5}$. To maximise $x_1$, we should maximise $x_2$ and $x_3$. 
+
+## GACLex
+
+GAC for enforcing lexicographical ordering. 
+
+- x <= lex y: For the first position where x and y differ, x must be less than y. Fine if they are the same word throughout.
+- x < lex y: At the first index that x and y differ, x must be less than y. Not fine if they are the same word
+
+GACLex works by maintaining 2 pointers
+- alpha: index such that all variables at more significant indices are assigned and equal. Here, most significant index is usually the lower indices
+- beta: most significant index from which the vectors tails necessarily violate the constraint.
+
+Also note that once we have found an index where x < y, then all further indices can be whatever they want. This is where the beta pointer comes in handy, if we know later on down the line that there is an index where x will be greater than y, then we better make x < y before that point. 
+
+![[Pasted image 20251206214342.png]]
+
+In the above example, at index 4, no value of x is smaller than y, therefore we check if at index 3 a value of x is smaller than y. Since this is not true as well we check index 2, here at index 2, a value of x can be smaller than y, therefore we set beta to index 3. Now we know that at some index before beta, x MUST be smaller than y in order for this constraint to be satisfied. 

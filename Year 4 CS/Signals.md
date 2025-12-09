@@ -176,7 +176,13 @@ Happens when trying to rasterise polygons onto pixels. For example a curve with 
 
 ## Convolutions
 
-Operation that combiens 2 functions to poduce a third one. Basically measures how much one function overlaps with another as you slide it across
+### Splitting Data
+
+- Training (used to train model)
+- Validation (see how well model performs on unseen data - can still tweak hyperparameters)
+- Test (Only test once at the very end. Not allowed to go back and tweak model after this)
+
+Operation that combines 2 functions to poduce a third one. Basically measures how much one function overlaps with another as you slide it across
 $$(f*g)(t)=\int_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau$$
 Here 
 - f is the signal or image
