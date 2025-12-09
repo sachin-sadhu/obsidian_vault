@@ -310,17 +310,13 @@ Now we also maintain
 
 Basic idea is to replace chronological backtracking with a jump back to the variable that is actually causing the dead-end.
 
-maxCheckLevel is the deepest level that a check is mae against when assigning a domain 
+maxCheckLevel is the deepest level that a check is made against, compute this for every time as assign a variable a domain value.
 
-returnDepth is the depest maxCheckLevel for all the values of the domain
+When all values of a domain have been exhausted, then we calculate returnDepth, which is the maximum (deepest) value of all values in the domain.
 
-Intution is that basically if you exhaust a domain checking up to a certain depth, then you know that variables below that depth cannot be causing the problem, as we exhausted it before we even reached those.
-
-If we assign a variable a value that fails some constraints, go down in order and find out the maxCheckLevel for this assignment.  
+Intuition is that if we exhaust a domain only checking constraints up to a certain depth, then we know that variables deeper than this cannot be causing the issue. 
 
 Only do backjumping once domain for variable has been exhausted. That is then we go through each domain value and identify the maximum maxCheckLevel for each domain value, and identify return depth. 
-
-backjumping resorts back to backtracking after a single jump
 
 ### Max-fail backjumping
 
@@ -328,13 +324,11 @@ Doesnt work because incomplete, could skip over valid solutions
 
 ### Conflicted-directed backjumping
 
-When making an assignment to $x_k$, maintain the set of assignments failed against. 
+When making an assignment to $x_k$, maintain the set of assignments failed against. So if $x_3$ fails against $x_1$, we also see if it fails against $x_2$, if it does, then we add both $x_1$ and $x_2$ to the conflict set. 
 
-When jumping back from $x_k$ to $x_i$, combine their conflict sets. Now can do multiple backwards jumps
+When we exhaust a domain, we then jump back to the maximum value in the conflict set. So in this case, we would jump back to $x_2$. 
 
-Everytime rreach a conflict add the variable number that we just conflicted with
-
-CBJ isn't very effective since it relies on backtracking. MAC doesn't worrry about backtracking as it doesn't enter any bad branches
+However, when we jump back, we merge the conflict sets, so now we do not forget that we were also failing against $x_1$
 
 ## Conflict Recording
 

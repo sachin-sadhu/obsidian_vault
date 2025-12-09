@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 4 CS/Constrains Programming.md",
+                "file": "Year 4 CS/Graphics.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Constrains Programming"
+              "title": "Graphics"
             }
           },
           {
@@ -83,16 +83,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 4 CS/Signals.md",
+                "file": "Year 4 CS/Graphics.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Signals"
+              "title": "Graphics"
+            }
+          },
+          {
+            "id": "b4996e2f3b00279b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Year 3 CS/Artificial Intelligence.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Artificial Intelligence"
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -254,23 +268,29 @@
       "bases:Create new base": false
     }
   },
-  "active": "6ec314281e2c80d0",
+  "active": "d1d689bee830615e",
   "lastOpenFiles": [
     "Year 4 CS/Graphics.md",
     "Year 4 CS/Constrains Programming.md",
     "images/Pasted image 20251206214342.png",
     "images/Pasted image 20251206214332.png",
+    "images/Screenshot 2025-12-09 at 3.53.48 PM.png",
+    "images/Screenshot 2025-12-09 at 3.49.50 PM.png",
+    "images/Screenshot 2025-12-09 at 3.25.42 PM.png",
+    "Year 4 CS/Constrains Programming.md",
+    "Year 3 CS/Complexity.md",
     "Year 4 CS/Signals.md",
-    "Year 3 CS/Networking.md",
-    "images/Pasted image 20251123223335.png",
-    "images/Pasted image 20251123222743.png",
-    "images/Pasted image 20251123222216.png",
-    "images/Pasted image 20251123220651.png",
-    "images/Pasted image 20251123220204.png",
-    "images/Pasted image 20251123220201.png",
-    "images/Pasted image 20251116205802.png",
-    "images/Pasted image 20251116205655.png",
+    "notes.txt",
+    "images/Screenshot 2025-12-05 at 2.14.36 PM.png",
+    "images/Screenshot 2025-12-05 at 1.55.51 PM.png",
+    "Year 4 CS/Graphics.md",
+    "Year 3 CS/Artificial Intelligence.md",
+    "images/Screenshot 2025-12-02 at 7.25.20 PM.png",
+    "images/Screenshot 2025-12-02 at 7.24.33 PM.png",
+    "images/Screenshot 2025-12-02 at 7.23.26 PM.png",
     "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
+    "Year 4 CS/Dissertation/W11 Meeting.md",
+    "images/Screenshot 2025-11-30 at 3.40.37 PM.png",
     "Misc/Blockchain Technology.md",
     "Year 4 CS/Dissertation",
     "Year 4 CS/Untitled.md",
