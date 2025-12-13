@@ -109,6 +109,11 @@ Logical consequences that can be derived from existing constraints but the solve
 
 Therefore, we manually add them. Constraints that are implied but dont reduce search space are called redundant constraints (which are bad)sign 
 
+## Dual Representation
+
+Used when converted non-binary constraints to binary constraints. Replace each constraint with a variable, domain of each variable is then the allowed tuple for previous constraint. Add constraitns between these new variable to ensure that solutions remain consistent. 
+![[Pasted image 20251213214820.png]]
+
 ## Forward Checking (FC)
 
 After every assignment to a variable $x_i$, revise arc that point to $x_i$ once. Enforces local consistency
@@ -266,6 +271,36 @@ For each ordering, we take the maximum width at any ordered nodes.
 We then iterate through all the different orderings, for each one getting the maximum width, and we pick the ordering with the minimum width.  
 ![[Pasted image 20251116205802.png]]
 
+## Dynamic Variable 
+
+### Smallest Domain
+Pick the variable with the fewest domain size to assign next
+### Brelaz
+
+Same as smallest domain, but we break ties by selecting the variable with max degree in constraint subgraph of future variables. Basically the variable that is most constraint with unassigned variables.
+
+### Domain/Degree 
+
+Wants to minimise the ration between domain size and degree (unassigned vars connected to). 
+- In graphs with few constraints, domain size is less important since constraints don't propagate much. Here, want to choose a highly connected variable
+- In graphs with many constraints, domain size becomes crucial since constraints can propagate much more heavily.
+
+## Dynamic Value
+
+### Min-conflicts
+
+After a variable has been chosen, look at each of its domain elements and count the number of incompatible values in domains of future variables. Pick the least constraining value first. 
+### Geelen's Promise
+
+After choosing the most constraint variable, choose the value promising the best chance of finding a solution. 
+
+Given an assignment to a variable. For each future domain, partition its domain into 2: those consistent with assignment, and those inconsistent. 
+
+Three different heuristics:
+- Minimise the total number of inconsistent values in each future variables domain (min-conflicts)
+- Minimise the ratio between total number of lost values to its initial size. For example, if a variable has very few elements in its domain initially, then removing a couple could be very impactful. This is called cruciality
+- Maximise the total number of elements left in the domain of each future variable. 
+
 ## AC3.1
 
 In AC3, we would check for supports, by looping through the domain of the variable every time. This is naive, no need to do a full search through the domain every time. 
@@ -318,9 +353,12 @@ Intuition is that if we exhaust a domain only checking constraints up to a certa
 
 Only do backjumping once domain for variable has been exhausted. That is then we go through each domain value and identify the maximum maxCheckLevel for each domain value, and identify return depth. 
 
-### Max-fail backjumping
 
-Doesnt work because incomplete, could skip over valid solutions
+### Maxcheck vs Max-fail backjumping
+
+With maxcheck, every time we assign a variable a value, we check what the deepest variable it passes constraint checks for. If a variable assignment is consistent with all previous variable values, then the maxcheck value will just be the previous variable. This is why after 1 back jump, it just resorts to normal backtracking.
+
+However, with maxfail backjumping, we only record it if a variable FAILS against a check. Which is why we sometimes might jump back too far and skip a valid solution.
 
 ### Conflicted-directed backjumping
 
@@ -329,6 +367,8 @@ When making an assignment to $x_k$, maintain the set of assignments failed again
 When we exhaust a domain, we then jump back to the maximum value in the conflict set. So in this case, we would jump back to $x_2$. 
 
 However, when we jump back, we merge the conflict sets, so now we do not forget that we were also failing against $x_1$
+
+Basically, lets say that $d_4=\{4,5\}$, and the assignment of $d_4=4$ fails against variables $x_0\text{ and }x_1$, then now the conflict set is $\{x_0,x_1\}$. If the assignment of $d_4=5$ fails against variables $x_3$, then now the conflict set is $\{x_0,x_1,x_3\}$. So now that the domain of $d_4$ is exhausted, we choose to backjump to $x_3$. And when we jumpback to $x_3$, we add the variables $x_0\text{ and }x_1$ to its conflict set. 
 
 ## Conflict Recording
 
