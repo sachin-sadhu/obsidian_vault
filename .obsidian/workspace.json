@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 4 CS/Constrains Programming.md",
+                "file": "Year 4 CS/Graphics.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Constrains Programming"
+              "title": "Graphics"
             }
           },
           {
@@ -270,8 +270,11 @@
   },
   "active": "6ec314281e2c80d0",
   "lastOpenFiles": [
-    "Year 4 CS/Graphics.md",
+    "images/Pasted image 20251215001354.png",
+    "images/Pasted image 20251214205111.png",
+    "images/Pasted image 20251214204511.png",
     "Year 4 CS/Constrains Programming.md",
+    "Year 4 CS/Graphics.md",
     "images/Pasted image 20251213214820.png",
     "Year 4 CS/Signals.md",
     "images/Pasted image 20251209202100.png",
@@ -283,8 +286,6 @@
     "images/Screenshot 2025-12-09 at 3.25.42 PM.png",
     "Year 3 CS/Complexity.md",
     "notes.txt",
-    "images/Screenshot 2025-12-05 at 2.14.36 PM.png",
-    "images/Screenshot 2025-12-05 at 1.55.51 PM.png",
     "Year 3 CS/Artificial Intelligence.md",
     "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
     "Year 4 CS/Dissertation/W11 Meeting.md",
