@@ -5,6 +5,10 @@ https://www.youtube.com/watch?v=YLHjX2bIOYc&list=PL2935W76vRNHFpPUuqmLoGCzwx_8eq
 * Points are combined into primitive shapes (always triangles)
 * Light and other surface textures are then applied onto these triangle faces
 * Need to decide which pixels should represent which triangle face
+
+## Homogenous Coordinates
+
+Add a fourth coordinate to our 3D world coordinates. For points, we usually add $w=1$, as the fourth point. For directions/vectors we usually add $w=0$ as the fourth point. 
 ## Pipeline
 
 ![[Screenshot 2025-09-20 at 3.47.43 PM.png]]
@@ -32,6 +36,11 @@ In practice, this just involves dropping the z-coordinate.
 Projectors still perpendicular to projection plane
 ### Perspective Projections
 Parallel lines may not remain parallel after projection. COP is located at a finite distance from the projection plane.
+
+Want objects further away to appear smaller. 
+![[Pasted image 20251215001354.png]]
+
+The further away an object is from the camera (greater D), then the closer it will be to the center.
 ### Camera Matrix
 Camera is just another object in the world, with its own coordinate system. Camera matrix defines camera's position and orientation in world space. For example, position the camera at the origin and look at (1,2,3)
 
@@ -93,6 +102,7 @@ Need 4 vectors:
 r and v are need to caculate the specular reflection. if r and v are algined, then the camera should get a lot of specular reflection, however, if they are not aligned, then the camera should not get any specular reflection
 ### Diffuse reflection
 Rough surfaces exhibit diffuse reflection, where light is scattered in multiple directions. Therefore, intensity of reflected light is uniform across surface, and there is no distinct reflection of the light source
+![[Pasted image 20251214205111.png]]
 #### Lambert's law
 $$R_d\propto cos\theta$$
 Reflection intensity varies with incidence angle. Strongest when light source is perpendicular to surface, zero when parallel 
@@ -136,7 +146,7 @@ A texture map associates a texel with a cooresponding vertex on the object
 
 ### Linear Texture Mapping
 
-Only vertex have a cooresponding texel. So pixels within a triangle have their textures interpolated using the 3 vertexes. In linear mapping, this is done smoothly across the triangle
+Only vertex have a cooresponding texel. So pixels within a triangle have their textures interpolated using the 3 vertexes. In linear mapping, this is done smoothly across the triangle. Let the hardware figure out when performing the rasteriser how points inbetween should be interpolated
 
 ### Magnification/Minification
 
@@ -158,6 +168,20 @@ Similar to bump mapping, except each pixel of the 2D images encodes a normal vec
 - Red represents X-axis
 - Green represents Y-axis
 - Blue represents Z-axis
+
+### Static Shadows
+
+Can perform something called Texture Baking, which is where we pre calculated shadows for only static lights/objects. We can then bake these shadows into something like a texture mapping
+
+### Dynamic Shadows / Shadow Mapping
+
+Essentially, we place a camera at the source of light and point it in the direction it faces. We then figure out what that light source sees. And basically, we store the depth of each surface to figure out which surfaces are closest to the light. We store this as a 2D shadow map. EACH SOURCE OF LIGHT GETS ITS OWN SHADOW MAP
+
+Now when we render the scene from the actual camera, we transform the fragment into light space coords and check what its depth is in the shadow map. If the current fragment depth is greater than the stored depth, means its in a shadow, is its less, it should get lit. 
+
+Multipass rendering as the first pass renders from the light's perspective, and the second pass renders from the camera's perspective. 
+
+If there are multiple light sources, we go into each shadow map and perform this depth comparison individually, summing up the individual contributions to get the overall fragment colour.
 
 ## Clipping
 
@@ -305,6 +329,11 @@ Technique for building complex 3D shapes by combining smaller similar ones using
 Method of describing the spatial relationships between different objects
 
 Method of describing the spatial relationships between different objects. Can be used to quickly decide which objects are visible by the camera. Concept is that you can choose an object to be a plane, and then all objects in front of that will go in the left sub-tree, and all objects behind it will go in the right sub-tree. 
+![[Pasted image 20251214204511.png]]
+
+Basic idea is that if we are in front of the node, then stuff behind the node should be rendered first, followed by the subtree in front of the current node. Since stuff behind is rendered first, stuff rendered in front will appropriately cover anything. 
+
+Similarly if the viewing location is behind the current node, we render stuff infront first, followed by stuff behind. 
 
 ### Quad/Oct Trees
 
