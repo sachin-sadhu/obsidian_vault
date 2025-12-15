@@ -348,7 +348,7 @@ For example, if a constraint C(X,Y,Z) exists. Then forward checking will only be
 
 ### Local Path Consistency
 
-A constraint C($x_i,x_j$) is path conssitent with respect to a third variable $x_k$ iff for every pair $d_i,d_j$ that satisties the constraint C($x_i,x_j$), there exists a variable in the domain of $d_k$ that satisfies the constraint connecting both  C($x_i,x_k$) and C($x_j,x_k$). 
+A constraint C($x_i,x_j$) is path consistent with respect to a third variable $x_k$ iff for every pair $d_i,d_j$ that satisties the constraint C($x_i,x_j$), there exists a variable in the domain of $d_k$ that satisfies the constraint connecting both  C($x_i,x_k$) and C($x_j,x_k$). 
 
 Basically, find if a certain tuple of variables $x_i$ and $x_j$ has a support through $x_k$ 
 
@@ -359,6 +359,8 @@ If there is no support, remove that tuple from the set of satisfiable tuples. No
 Consiering each pair of variables, checks it against ALL POSSIBLE third variable Y. Usually requires generating implicit constraints between variable pairs that were not originally connected
 
 Path consistency does not necessarily imply arc consistency.
+
+In order to enfornce
 
 
 ### K-Consistency

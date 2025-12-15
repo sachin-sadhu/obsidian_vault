@@ -1,0 +1,1 @@
+Initially there are 3 doors, so there is a 33% chance that you picked the door with the car. Therefore there is a 66.67% chance car is in other 2 doors. When game show host reveals one of those 2 doors to have goat, there is now a 0% chance the car is in that door. Therefore, other door now has a 66.67% chance of containing the car.

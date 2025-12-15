@@ -25,15 +25,20 @@ Projection is the idea of dispalying a 3D image on a 2D plane. This 2D plane we 
 ### Parallel Projections
 Parallel lines remain parallel even after projection. COP is infinitely far from the projection plane.
 #### Orthographic Projections
-Projectors are perpendicular to projection pla![[Screenshot 2025-10-04 at 6.09.26 PM.png]]ne.
+Projectors are perpendicular to projection plane.![[Screenshot 2025-10-04 at 6.09.26 PM.png]]
+In practice, this just involves dropping the z-coordinate.
+![[Screenshot 2025-12-11 at 4.53.22 PM.png]]
 #### Axonometric Projections
 Projectors still perpendicular to projection plane
 ### Perspective Projections
 Parallel lines may not remain parallel after projection. COP is located at a finite distance from the projection plane.
 ### Camera Matrix
 Camera is just another object in the world, with its own coordinate system. Camera matrix defines camera's position and orientation in world space. For example, position the camera at the origin and look at (1,2,3)
+
+Camera Matrix transforms points from camera coordinates to world coordinates.
 ### View Matrix
 Transforms world coordinates into camera space. Inverse of the camera matrix, fixes the camera at the origin and moves the world with respect to it.$$V=C^{-1}$$ 
+Transforms points from world coordinates to camera coordinates. Renders the scene from the camera's perspective.
 ## WebGL
 ### Coordinates
 Uses (x,y,z) coordinate system. Centre of clipping space has coords :(0,0,0). 
@@ -501,3 +506,5 @@ Basically, the BRDF tells us how how much light is emitted from P' towards P, wh
 Instead of looking at each point individually and trying to figure out how much light reaches that point from every other point.
 
 We divide the scene into $n$ diffuse patches, and claculate how much one patch receives from all the other patches. 
+
+### Path Tracing

@@ -1,0 +1,5 @@
+Chain of blocks, where each block will contain a hash value, the actual data, and also the has of a previous block. When the data of a block is changed, this causes the hash to also change. This therefore allows security as if 1 person changes their hash, the next block that points to it will detect an error as the hash it points to does not match.
+
+For cypto, each block is made up of a number of transactions, such as Person A paying Person B 20 coins, along with a proof of work value. This proof of work value is a number that is added to all the other transactions in that block, and when put in some cryptographic hash function, it satisfies a certain condition.
+## Smart contracts
+Just like an actual contract, except it is a program that is stored using blockchain technology. This means it is distributed and P2P verified.
