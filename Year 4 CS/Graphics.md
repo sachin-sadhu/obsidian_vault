@@ -443,6 +443,12 @@ Defined by 4 control points
 - $P_2$ is the second interior control
 - $P_3$ is the end point
 
+Like Hermite curves, we want to fix the derivatives at the start $(p_0)$ and end $(p_3)$ end points. However, instead of explictly specifying what those points will be we provide 2 additional control points $p_1$ and $p_2$.  
+
+Now, the deriatives for $p'(0)$ and $p'(1)$ can be approximated by
+- $p'(0)\approx 3(p_1-p_0)$    
+- $p'(1)\approx 3(p_3-p_2)$    
+
 ## Surfaces
 
 Since surfaces are 2D, to define them parametrically, we now are required to use 2 parameters
