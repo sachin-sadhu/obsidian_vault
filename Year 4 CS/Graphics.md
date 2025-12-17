@@ -123,6 +123,8 @@ Illumination at each vertex is calculated (so is the final colour). All other po
 Smooth shading is default way of shading in WebGL
 ### Phong Shading
 Normals at each vertex are calculated, and then normals across the entire polygon are interpolated. Once normals are interpolated, then the colour of each pixel is calculated. 
+
+Since normals at each fragment are interpolated, shading calcluation must now happen per-fragment in the fragment shader. 
 ## Buffers 
 2D array consisting of $n\times m$ elements of k bits each.
 
@@ -169,6 +171,12 @@ Similar to bump mapping, except each pixel of the 2D images encodes a normal vec
 - Green represents Y-axis
 - Blue represents Z-axis
 
+### Parallax mapping
+![[Pasted image 20251216223909.png]]
+![[Pasted image 20251216223937.png]]
+
+Then we get the direction of the fragment to viewer, and scale it to the length d(A). See which texture coordinate this intersects with and use this instead. 
+
 ### Static Shadows
 
 Can perform something called Texture Baking, which is where we pre calculated shadows for only static lights/objects. We can then bake these shadows into something like a texture mapping
@@ -199,6 +207,8 @@ The first 2 scenarios are simple to deal with. However, the partial case require
 
 Calculating interesections requires floating point division, when grahpics technqieus were devised, computers were slow at performing this. A much faster appraoch is to use bit operations and FP subtraction
 
+Remember which bits coorespond to which edge with TOP BOTTOM RIGHT LEFT
+
 Can do this by dividing viewpoint coords into 9 different regions
 ![[Pasted image 20251101202428.png]]
 The middle section (0000) represents the viewbox, and the regions left/right, above/below that represent what part of the image is outside the region. Example top left corner (1001) means that the line is left of the $x_{min}$ and above $y_{max}$ 
@@ -209,6 +219,20 @@ The middle section (0000) represents the viewbox, and the regions left/right, ab
 4. Fourth case is where both endpoints are outsdie of different edges, therefore a portion of the line is still in the box. Therefore, we need to either reject the line or shorten it.
 ![[Pasted image 20251101202938.png]]
 
+### Clipping Lines
+
+If we have some straight line defined by 2 points, then we want to figure out at what point of the line hits some boundary that we need to clip off. Can model this parameterically with $$P(\alpha)=(1-\alpha)P_1+\alpha P_2$$ where $P_1$ is the start point at $P_2$ is the end point. Basically, now we can find points that are 80% of the way towards $P_2$ by setting $\alpha$ to 0.8. 
+
+Can now easily find intersections, for example, if we want to find what at proportion of the line intersects with the top edge, we want to find 
+![[Pasted image 20251216232450.png]]
+
+### Pipeline Clipping
+
+Done on the hardware.
+Have a pipeline of essentially 4 clipping boxes that each clip against one of the 4 edges.
+
+Can do this with polygons as well
+![[Pasted image 20251216233517.png]]
 ### Polygons
 
 Much easier to perform clipping with triangles, so complex non-triangle polygons are usually tesselated into triangles first. 
