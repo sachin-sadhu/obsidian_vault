@@ -115,6 +115,8 @@ where $\phi$ is the angle between the viewer and the angle of reflection. $\alph
 - values < 100 for broad highlights
 ## Shading 
 Determining how the light a point receives changes its colour.
+
+Normal matrix is the matrix that converts all normals calculated when in object space to world space. Defined as $(M^T)^{-1}$ 
 ### Flat Shading
 Simplest type of shading. Calculate illumination once per polygon (middle of polygon), all pixels on the polygon will have the same colour. Gets better as we increase the number of polygons
 ### Smooth Shading (Gouraud)
@@ -288,6 +290,13 @@ Method of determing which pixels are inside by counting how many times a line fr
 
 Usually for each row of pixels, go pixel by pixel, with a flag of whether we have crossed an even or odd number of edges. Every time we cross an edge, switch between inside and outside
 
+### Scan-line
+
+Care needs to be taken care when crossing through a vertex of a polygon. All vertex coordinates are rounded to the nearest integer
+
+Fill pixels in horizontally, a scan line is a horizontal line that tracks where the line intersects with edges along that horizontal line. 
+
+For example, if a scan line intersects with 2 pairs of edges miles apart. Then that scan line would contain some array such as \[1,2,3,4]. Then when rasterising, we know once we cross 1 to fill in pixels, cross 2 stop filling, cross 3 start filling, cross 4 stop filling
 ### Winding Number Test
 
 Counts how many times a point is encircled, point is consider inside when number of encirclements is non-zero. 
