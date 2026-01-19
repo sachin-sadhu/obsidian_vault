@@ -161,6 +161,8 @@ where $\phi$ is the angle between the viewer and the angle of reflection. $\alph
 - values < 100 for broad highlights
 ## Shading 
 Determining how the light a point receives changes its colour.
+
+Normal matrix is the matrix that converts all normals calculated when in object space to world space. Defined as $(M^T)^{-1}$ 
 ### Flat Shading
 Simplest type of shading. Calculate illumination once per polygon (middle of polygon), all pixels on the polygon will have the same colour. Gets better as we increase the number of polygons
 ### Smooth Shading (Gouraud)
@@ -169,6 +171,8 @@ Illumination at each vertex is calculated (so is the final colour). All other po
 Smooth shading is default way of shading in WebGL
 ### Phong Shading
 Normals at each vertex are calculated, and then normals across the entire polygon are interpolated. Once normals are interpolated, then the colour of each pixel is calculated. 
+
+Since normals at each fragment are interpolated, shading calcluation must now happen per-fragment in the fragment shader. 
 ## Buffers 
 2D array consisting of $n\times m$ elements of k bits each.
 
@@ -223,6 +227,12 @@ Similar to bump mapping, except each pixel of the 2D images encodes a normal vec
 - Green represents Y-axis
 - Blue represents Z-axis
 
+### Parallax mapping
+![[Pasted image 20251216223909.png]]
+![[Pasted image 20251216223937.png]]
+
+Then we get the direction of the fragment to viewer, and scale it to the length d(A). See which texture coordinate this intersects with and use this instead. 
+
 ### Static Shadows
 
 Can perform something called Texture Baking, which is where we pre calculated shadows for only static lights/objects. We can then bake these shadows into something like a texture mapping
@@ -253,6 +263,8 @@ The first 2 scenarios are simple to deal with. However, the partial case require
 
 Calculating interesections requires floating point division, when grahpics technqieus were devised, computers were slow at performing this. A much faster appraoch is to use bit operations and FP subtraction
 
+Remember which bits coorespond to which edge with TOP BOTTOM RIGHT LEFT
+
 Can do this by dividing viewpoint coords into 9 different regions
 ![[Pasted image 20251101202428.png]]
 The middle section (0000) represents the viewbox, and the regions left/right, above/below that represent what part of the image is outside the region. Example top left corner (1001) means that the line is left of the $x_{min}$ and above $y_{max}$ 
@@ -263,6 +275,20 @@ The middle section (0000) represents the viewbox, and the regions left/right, ab
 4. Fourth case is where both endpoints are outsdie of different edges, therefore a portion of the line is still in the box. Therefore, we need to either reject the line or shorten it.
 ![[Pasted image 20251101202938.png]]
 
+### Clipping Lines
+
+If we have some straight line defined by 2 points, then we want to figure out at what point of the line hits some boundary that we need to clip off. Can model this parameterically with $$P(\alpha)=(1-\alpha)P_1+\alpha P_2$$ where $P_1$ is the start point at $P_2$ is the end point. Basically, now we can find points that are 80% of the way towards $P_2$ by setting $\alpha$ to 0.8. 
+
+Can now easily find intersections, for example, if we want to find what at proportion of the line intersects with the top edge, we want to find 
+![[Pasted image 20251216232450.png]]
+
+### Pipeline Clipping
+
+Done on the hardware.
+Have a pipeline of essentially 4 clipping boxes that each clip against one of the 4 edges.
+
+Can do this with polygons as well
+![[Pasted image 20251216233517.png]]
 ### Polygons
 
 Much easier to perform clipping with triangles, so complex non-triangle polygons are usually tesselated into triangles first. 
@@ -318,6 +344,13 @@ Method of determing which pixels are inside by counting how many times a line fr
 
 Usually for each row of pixels, go pixel by pixel, with a flag of whether we have crossed an even or odd number of edges. Every time we cross an edge, switch between inside and outside
 
+### Scan-line
+
+Care needs to be taken care when crossing through a vertex of a polygon. All vertex coordinates are rounded to the nearest integer
+
+Fill pixels in horizontally, a scan line is a horizontal line that tracks where the line intersects with edges along that horizontal line. 
+
+For example, if a scan line intersects with 2 pairs of edges miles apart. Then that scan line would contain some array such as \[1,2,3,4]. Then when rasterising, we know once we cross 1 to fill in pixels, cross 2 stop filling, cross 3 start filling, cross 4 stop filling
 ### Winding Number Test
 
 Counts how many times a point is encircled, point is consider inside when number of encirclements is non-zero. 
@@ -503,6 +536,12 @@ Defined by 4 control points
 - $P_1$ is the first interior control
 - $P_2$ is the second interior control
 - $P_3$ is the end point
+
+Like Hermite curves, we want to fix the derivatives at the start $(p_0)$ and end $(p_3)$ end points. However, instead of explictly specifying what those points will be we provide 2 additional control points $p_1$ and $p_2$.  
+
+Now, the deriatives for $p'(0)$ and $p'(1)$ can be approximated by
+- $p'(0)\approx 3(p_1-p_0)$    
+- $p'(1)\approx 3(p_3-p_2)$    
 
 ## Surfaces
 
