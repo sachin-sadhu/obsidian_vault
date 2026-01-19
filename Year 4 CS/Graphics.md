@@ -32,6 +32,7 @@ Parallel lines remain parallel even after projection. COP is infinitely far from
 Projectors are perpendicular to projection plane.![[Screenshot 2025-10-04 at 6.09.26 PM.png]]
 In practice, this just involves dropping the z-coordinate.
 ![[Screenshot 2025-12-11 at 4.53.22 PM.png]]
+Projections points along parallel lines. 
 #### Axonometric Projections
 Projectors still perpendicular to projection plane
 ### Perspective Projections
@@ -41,6 +42,51 @@ Want objects further away to appear smaller.
 ![[Pasted image 20251215001354.png]]
 
 The further away an object is from the camera (greater D), then the closer it will be to the center.
+
+For all projections we want to perform some sort of normalisation (shearing), and then apply an orthographic projection.
+![[Screenshot 2025-12-15 at 1.55.48 PM.png]]
+### Clipping Planes
+
+Defines the boundaries of what the camera can see. Anything inside the clipping plane is kept and potentially rasterises, anything outside the clipping plane is clipped. 
+
+Clipping planes are 
+- Near Plane
+- Far Plane
+- Left Plane
+- Right Plane
+- Bottom Plane
+- Top Plane
+
+For orthographic projection, the view volume remains as a box. 
+For perspective projection, the view volume becomes a frustrum.
+
+WebGL expects everything inside a normal cubic volume (1,1,1). So esentiall, what the normalisation matrix is doing is mapping whatever shape out view volumne is (cube, frustrum) into this normal cubic volume
+![[Screenshot 2025-12-15 at 2.08.25 PM.png]]
+![[Screenshot 2025-12-15 at 2.10.06 PM.png]]
+After it gets multiplied out, this is the equivalent NSH matrix. 
+
+The NSH is a general matrix for ALL projections.
+- N - Performs perspective normalisation 
+	- for parallel projections, set to $I$
+- S - Performs scaling to normalised device coordinates
+- H - Transforms frustrum to symmetric form 
+	- If the projection is not oblique, set to $I$
+
+### Culling
+
+Discarding whole objects/primitives early as they will not contribute to the final scene.
+For example, with most normal objects, there is a side that points away from the camera, can cull these as they will most likely be obscured. 
+
+### Hidden Surface Removal
+
+Multiple fragments can be competing for the same pixel value. We don't want to rasterise fragments that are blocked by other fragments. Classic approach is to use a Z-buffer (depth buffer) 
+
+1. Store closest depth value for each pixel
+2. When new fragment arrives, compares its depth to the stored one
+3. If closer -> draw fragment and update depth buffer
+4. If farther, discard it
+
+
 ### Camera Matrix
 Camera is just another object in the world, with its own coordinate system. Camera matrix defines camera's position and orientation in world space. For example, position the camera at the origin and look at (1,2,3)
 
@@ -147,6 +193,14 @@ A texture map associates a texel with a cooresponding vertex on the object
 ### Linear Texture Mapping
 
 Only vertex have a cooresponding texel. So pixels within a triangle have their textures interpolated using the 3 vertexes. In linear mapping, this is done smoothly across the triangle. Let the hardware figure out when performing the rasteriser how points inbetween should be interpolated
+
+### Bilinear Filtering
+
+Each object coordinate might map to a fractional texture coordinate. However, texture data is stored at integer texel positions.
+
+One approach is to just use the nearest neighbour, but this results in bad looking, blocky, pixelated results. 
+
+A better appraoch is to instead use the 4 nearest texels surrounding (u,v) and interpolate how much of each to use in the final colour. For example, if we are 30% away from the left texel and 70% away from the right texel, then horizontally, we will want to use 70% weighting from the left texel and 30% from the right texel. 
 
 ### Magnification/Minification
 
@@ -407,7 +461,12 @@ Since the curve has 12 free parameters (elements of c), we can define the curve 
 
 Best approach is to make the curve pass through 4 points. Place 4 equally spaced points along u (0 to 1)
 
+
 ![[Pasted image 20251123220651.png]]
+
+Basic idea is that given the interpolating matrix $M_I$, along with the set of control points, we can cacluate $c$ , which is the matrix that gives the coefficients for the cubic polynomial curve. Since $x,y,z$ points all have their own curve equation, this will be a $4\times 3$ matrix
+
+Basically, $c$ tells us what coefficients we need to get the control points to given the $u$ coordinates. 
 
 The interpolating geometry matrix is the matrix that describes the curve that will go through the 4 control points. The interpoloating geometry matrix is the same depending on what type of curve we want. So all we need to do is change which control points we use, and using the same interpoloating geomdtry matrix, it will compute the curve.  
 ### Joining interpolating segments
@@ -421,6 +480,8 @@ Could result in sharp corners, which we do not want
 Defined by 2 points and 2 derivatives. Usuually smoother since the derivative must match at joins
 
 Ensure continuty between segments. Model the first segment by 2 points p(0) and p(1), second segment by q(0) and q(1). Ensure that curve passes through  start and end points p(0) and p(1). Fix derivatives such that the deriviative of p(1) = q(0)
+
+Basically curve passes through $p(0)$ and $p(1)$, and derivatives at $p(0)$ and $p(1)$ are fixed. 
 
 ![[Pasted image 20251123222216.png]]
 ![[Pasted image 20251123222743.png]]
