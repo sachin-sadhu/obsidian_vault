@@ -430,3 +430,7 @@ Use an active notes data structure. When a note is being played add it here, whe
 
 Once all notes have been processed, sort by start_tick time.
 
+## Identifying chord present while bar is being played
+
+Look at when bar starts playing and when it ends, look at which chord is presetn at that time. If multiple chords are present use the chord that is present for the greatest amount of time
+
