@@ -4,109 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "6ee890b90c8dcbbb",
+        "id": "b9c7d565f9824b55",
         "type": "tabs",
         "children": [
           {
-            "id": "16df03515f6b4d95",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 4 CS/Signals.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Complexity"
-            }
-          },
-          {
-            "id": "dc331377bdb80eff",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 3 CS/Networking.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Networking"
-            }
-          },
-          {
-            "id": "e9a18e74ed367b81",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 3 CS/Databases.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Databases"
-            }
-          },
-          {
-            "id": "997f915dfc7596e1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 3 CS/Networking.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Networking"
-            }
-          },
-          {
-            "id": "d1d689bee830615e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 4 CS/Constrains Programming.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Constrains Programming"
-            }
-          },
-          {
-            "id": "6ec314281e2c80d0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Dissertation/Hidden Markov Models.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Hidden Markov Models"
-            }
-          },
-          {
-            "id": "187b5725b3c79e20",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Year 4 CS/Uncertainty.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Uncertainty"
-            }
-          },
-          {
-            "id": "b4996e2f3b00279b",
+            "id": "ba3a7c27c623033d",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -119,8 +21,7 @@
               "title": "Machine Learning"
             }
           }
-        ],
-        "currentTab": 7
+        ]
       }
     ],
     "direction": "vertical"
@@ -177,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "b4286af5a118bc55",
@@ -282,23 +184,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "b4996e2f3b00279b",
+  "active": "ba3a7c27c623033d",
   "lastOpenFiles": [
+    "Pasted image 20260209231450.png",
+    "Pasted image 20260209231421.png",
+    "Pasted image 20260209230447.png",
+    "Pasted image 20260209225320.png",
+    "Pasted image 20260209225048.png",
+    "Pasted image 20260209224344.png",
+    "Year 4 CS/Constrains Programming.md",
+    "Year 3 CS/Networking.md",
+    "Dissertation/Hidden Markov Models.md",
     "Year 4 CS/Information Visualisation.md",
+    "Year 4 CS/Uncertainty.md",
+    "Year 4 CS/Machine Learning.md",
     "Screenshot 2026-02-08 at 4.33.00 PM.png",
     "Screenshot 2026-02-08 at 4.29.24 PM.png",
     "Screenshot 2026-02-08 at 4.00.56 PM.png",
     "Screenshot 2026-02-08 at 3.38.46 PM.png",
     "Screenshot 2026-02-08 at 3.05.34 PM.png",
-    "Screenshot 2026-02-08 at 3.03.07 PM.png",
-    "Screenshot 2026-02-08 at 2.52.59 PM.png",
-    "Screenshot 2026-02-08 at 1.56.13 PM.png",
-    "Screenshot 2026-02-08 at 1.45.23 PM.png",
-    "Screenshot 2026-02-08 at 1.32.03 PM.png",
-    "Year 4 CS/Uncertainty.md",
     "Year 3 CS/Artificial Intelligence.md",
-    "Year 4 CS/Machine Learning.md",
-    "Dissertation/Hidden Markov Models.md",
     "Year 4 CS/Dissertation/W11 Meeting.md",
     "Year 4 CS/Graphics.md",
     "Dissertation/Plan.md",
@@ -306,7 +211,6 @@
     "Dissertation/30 Dec.md",
     "Dissertation/29 Dec.md",
     "Dissertation",
-    "Year 4 CS/Constrains Programming.md",
     "Year 4 CS/Signals.md",
     "Untitled.md",
     "Misc/Report Good Practices.md",
@@ -321,9 +225,7 @@
     "Data Structures & Algorithms/Counting Islands.md",
     "Data Structures & Algorithms/Data Structures & Algorithms.md",
     "Data Structures & Algorithms",
-    "Year 3 CS/Complexity.md",
     "notes.txt",
-    "Year 4 CS/Dissertation/Prep for W9 Meeting.md",
     "Year 4 CS/Dissertation"
   ]
 }
