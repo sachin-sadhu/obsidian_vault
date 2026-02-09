@@ -434,3 +434,44 @@ Once all notes have been processed, sort by start_tick time.
 
 Look at when bar starts playing and when it ends, look at which chord is presetn at that time. If multiple chords are present use the chord that is present for the greatest amount of time
 
+## new idea
+
+Generate one anchor note per chord or per bar. Your HMM could have chords as observed states and skeleton notes as hidden states. The skeleton notes would typically be chord tones—the root, third, or fifth of the current chord.
+
+From your data, you'd learn that when the chord is C major, the melody anchor is often C, E, or G, and you'd also learn transition patterns between anchors—how the melody tends to move when the harmony moves from C to Am, for example.
+
+Given the skeleton, fill in the gaps. Your observed states would be the motion between skeleton notes (e.g., "need to go from E up to G"), and the hidden states would describe how to execute that motion at finer time resolution.
+
+Just like the paper's "0,0,2,2" representation, you could encode the path taken between anchor notes. Moving from E to G might be filled in as "E, E, F#, G" (stepwise approach) or "E, G, G, G" (leap then hold) or various other patterns learned from Bach's—or in your case, pop music's—tendencies.
+
+### Genearting chords
+
+Use simple Markov chain to generate chord progressions.
+
+Then having chords as the hidden observed states, use viterbi to infer likely most melody notes 
+
+### Identifying skeleton notes
+
+For each chord, find cooresponding strong beat. Identify which note is being played at that time 
+
+For each downbeat, identify which chord is present, then identify which skeleton notes are being played at that chord. store notes as relative to the current chord.  
+
+### 
+
+So now I would generate a list of chords, and i run Viterbi to identify the most probable melody notes that emitted those chords.  
+
+This also allows the hdiden states to model melodic progression of notes, and having a generated chord progression will also allow for the chord progression to be sensibel.
+
+So for each strong beat note, identify which relative chord is being played at that point. Then  
+
+### Bass clef HMM
+
+Hidden states: (melody_relative_to_chord, chord_function) eg (-12)
+Observed states: bass clef emitted interval
+
+#### Training
+
+In order to train, we have the melodic notes along with the chord function, so can calculate transition matrix between these. also have the bass clef interval, so can calculate the emission matrix for this as well.
+#### Generating
+
+After sampling melodic notes, we can use this along with chord function to sample bass clef interval
