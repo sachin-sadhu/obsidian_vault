@@ -111,12 +111,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Year 4 CS/Uncertainty.md",
+                "file": "Year 4 CS/Machine Learning.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Uncertainty"
+              "title": "Machine Learning"
             }
           }
         ],
@@ -284,8 +284,11 @@
   },
   "active": "b4996e2f3b00279b",
   "lastOpenFiles": [
-    "Year 3 CS/Artificial Intelligence.md",
+    "images/Pasted image 20260209223149.png",
+    "images/Pasted image 20260209222825.png",
+    "images/Pasted image 20260209222708.png",
     "Year 4 CS/Uncertainty.md",
+    "Year 3 CS/Artificial Intelligence.md",
     "images/Pasted image 20260201212303.png",
     "images/Pasted image 20260201212217.png",
     "images/Pasted image 20260201211926.png",
@@ -298,8 +301,6 @@
     "Dissertation/Hidden Markov Models.md",
     "Year 4 CS/Dissertation/W11 Meeting.md",
     "Year 4 CS/Graphics.md",
-    "images/Screenshot 2026-01-13 at 5.15.38 PM.png",
-    "images/Screenshot 2026-01-03 at 10.01.42 PM.png",
     "Dissertation/Plan.md",
     "Dissertation/7 Jan.md",
     "Dissertation/30 Dec.md",
