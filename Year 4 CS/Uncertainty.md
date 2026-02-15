@@ -106,3 +106,78 @@ KL is not symmetric. $KL(P||Q)\neq KL(Q||P)$
 - $q(x)$ is the learnable approximation distribution 
 
 KL(P||Q) is always non-negative
+
+## Logistic Regression
+
+Used for classification problems, usually binary. Uses a function such as sigmoid to convert inputs into a probability value between 0 - 1. 
+
+1. Given a dataset of n observations and m features
+2. For each observation, we apply $z=w\cdot X+b$ , where each feature is multiplied by some weight and bias term is added.
+3. We then use this output $z$ as the input to the sigmoid function that converts it into a value between 0 and 1.
+![[Pasted image 20260213222514.png]]
+
+#### Sigmoid Function
+
+$$\sigma (x)=\frac{1}{1+e^{-x}}$$
+![[Pasted image 20260213222416.png]]
+#### Loss function
+
+We CANNOT use sum squared error as the loss function for logistic regression. Reason is that when we use the sigmoid function to in SSE, the resulting function is non-convex and has many local minima. 
+
+However, cross-entropy loss function is convex with respect to the sigmoid function and is therefore gradient descent is guaranteed to converge to the global minimum. 
+
+### Cross entropy Loss
+
+Since logistic regression is usually a binary classification task, it lends well to Bernoulli. Where
+![[Pasted image 20260213223847.png]]
+Basically, the probability of $y^{(i)}$ given the weights and feature vector is equal to the sigmoid function.
+![[Pasted image 20260213224034.png]]
+Since we want to minimise the loss function. We times the log-likelihood by minus 1. log
+
+We then take the average of $l^{(i)}(w)$ over all the different data points. 
+
+### Gradient Descent
+![[Pasted image 20260213224933.png]]
+However, this equation has to closed form solution, therefore must resort to gradient descent.  
+![[Pasted image 20260213225004.png]]
+
+### Multi-class classification
+
+Wanting to split outputs into more than 2 classes. Can no longer use logistic regression.  
+
+#### Softmax function
+
+Given a a bunch of outputs Z (logits), it converts all of them into some probability, where the probablity of each class is between 0 and 1 and the sum of all the probabilities over all the classes is equal to 1. Basically, makes it a valid probability distribution.
+
+Hardmax: Assigns 1 to the highest score and 0 to everything else
+Softmax: Returns a probability distribution
+
+Softmax is better than hardmax because it has a useful gradient. Hardmax has a flat gradient everything, therefore gradient descent cant learn from it. Softmax also gives you confidence information. 
+
+## Backpropogation
+
+### Addition Gate
+![[Pasted image 20260215200748.png]]
+
+So we have $\frac{\partial l}{\partial t}$ and we want to calculate $\frac{\partial l}{\partial {t_1}}$. From the chain rule we know that $$\frac{\partial l}{\partial t_1}=\frac{\partial t}{\partial t_1}\times \frac{\partial l}{\partial t}$$
+Since we know that $$t=t_1+t_2,\frac{\partial t}{\partial t_1}=1$$
+Therefore $$\frac{\partial l}{\partial t_1}=\frac{\partial l}{\partial t}$$
+So addition gate, we just propogate the current gradient to all connected nodes. 
+
+### Multiplication Gate
+![[Pasted image 20260215201234.png]]
+So we have $\frac{\partial l}{\partial t}$ and we want to calculate $\frac{\partial l}{\partial {t_1}}$. From the chain rule we know that $$\frac{\partial l}{\partial t_1}=\frac{\partial t}{\partial t_1}\times \frac{\partial l}{\partial t}$$
+Since we know that $$t=t_1\times t_2,\frac{\partial t}{\partial t_1}=t_2$$
+Therefore $$\frac{\partial l}{\partial t_1}=t_2\times\frac{\partial l}{\partial t}$$
+So for multiplciation gate, we just exchange the graidnets to all connected nodes. 
+### Max Gate
+For example, ReLu function.
+![[Pasted image 20260215201709.png]]
+So we have $\frac{\partial l}{\partial t}$ and we want to calculate $\frac{\partial l}{\partial {t_1}}$. From the chain rule we know that $$\frac{\partial l}{\partial t_1}=\frac{\partial t}{\partial t_1}\times \frac{\partial l}{\partial t}$$
+Since we know that if $t_1>t_2$ , then $t=t_1$, therefore, $\frac{\partial t}{\partial t_1}=1$ and $\frac{\partial t}{\partial t_2}=0$ 
+
+Therefore $$\frac{\partial l}{\partial t_1}=\frac{\partial l}{\partial t}$$ and $$\frac{\partial l}{\partial t_2}=0$$
+So for max gate, its a bit like a router, where the max one receives the previous gradient. 
+### Max Gate
+For example, ReLu function.
+![[Pasted image 20260215201709.png]]
