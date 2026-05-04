@@ -181,3 +181,51 @@ So for max gate, its a bit like a router, where the max one receives the previou
 ### Max Gate
 For example, ReLu function.
 ![[Pasted image 20260215201709.png]]
+
+### Finite Mixture Models
+ A model where can have multiple different fixed states, where each state has its own probability distribution
+
+Alot of times, just using one guassian model, which has one mean and a variance, is not complicated enough to model more comlicated real world models. 
+
+For example, if we want to model heights, of people in a class, we might want to use 2 different guassian curves, 1 for men and one for woman. 
+
+However, if we have a mixture model and we make an obversation x, now the output x could have been produced by one of the 2 classes, we don't know which as that is hidden from the observer. 
+
+In supervised learning, the labels are observed, so we are essentially trying to learn P(X|Y), where we know Y. However, in unsupervised learning, we don't even know what Y is. 
+
+So if we have k different states that each could have produced a certain observation, we can just some out the k different states. 
+![[Pasted image 20260222153737.png]]
+
+Basically its saying, where $x^{(i)}$ is the observed data and Θ are the model parameters. So now, we to figure out the probability of a certain observation under a set of model parameters, we first calculate the product of being in a state $k$ and then the probability of that state producing the observation, and we some over this. 
+![[Pasted image 20260222154514.png]]
+### EM Algorithm
+
+Called the expectation maximisation algorithm. Used to learn the parameters $\theta$ . Basically, we to find the model parameters that give the maximum chance of observing the data.  
+![[Pasted image 20260222155019.png]]
+
+### Egg chicken dilema
+![[Pasted image 20260222201920.png]]
+
+Basic idea behind EM algorithm, is that it is an iterive algorithm
+
+We start with an inital guess of the parameters of $\theta$  o
+Then for each, class k, we calculate the proability of P(z=k|x)
+Then, given these new probabilites. We update $\theta$
+
+Example,
+
+Given a class of students, we want to train an unsupervised learning approach. If there are 2 classes, we might first to guess the mean and variance for each gaussian model. Using these guessed parameters, we would calculate the chances of being a guy or girl
+
+For example, if we get a height of 195cm, we would give it a 99% chance of being a guy and a 1% chance of being a girl. Using these probabilities of beign in a class, we would then update the parameters of $\theta$.  
+
+### Responsibility matrix
+
+Matrix of probabilities of being in a certain class given a data point. 
+
+Each row is a data point observation, each column is the probability of being in a clusster 
+![[Pasted image 20260222203110.png]]
+
+### Choosing K 
+
+Hyperparamter, as $K\rightarrow \inf$   , likelihood will increase. However, choosing to big of a K is bad as it is overfitting.
+![[Pasted image 20260222204151.png]]
